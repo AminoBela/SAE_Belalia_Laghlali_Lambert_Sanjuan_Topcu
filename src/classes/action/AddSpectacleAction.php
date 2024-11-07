@@ -5,17 +5,20 @@ namespace iutnc\nrv\action;
 use iutnc\nrv\repository\SpectacleRepository;
 use iutnc\nrv\bd\ConnectionBD;
 
-class AddSpectacleAction {
+class AddSpectacleAction
+{
 
     private SpectacleRepository $spectacleRepository;
     private string $http_method;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->spectacleRepository = new SpectacleRepository();
         $this->http_method = $_SERVER['REQUEST_METHOD'];
     }
 
-    public function execute() : string {
+    public function execute(): string
+    {
         $res = "";
 
         if ($this->http_method == "GET") {
