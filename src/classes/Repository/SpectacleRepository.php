@@ -26,7 +26,7 @@ class SpectacleRepository {
     }
 
     public function obtenirSpectacleParId($idSpectacle) {
-        $query = "SELECT * FROM Spectacles WHERE idSpectacle = :idSpectacle";
+        $query = "SELECT titre, FROM Spectacles JOIN SoireeToSpectacle ON Spectacles.idSpectacle WHERE idSpectacle = :idSpectacle";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(":idSpectacle", $idSpectacle);
         $stmt->execute();
