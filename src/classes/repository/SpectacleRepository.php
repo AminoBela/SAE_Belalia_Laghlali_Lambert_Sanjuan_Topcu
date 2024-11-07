@@ -26,10 +26,21 @@ class SpectacleRepository {
     }
 
     public function obtenirSpectacleParId($idSpectacle) {
-        $query = "SELECT titre, FROM Spectacles JOIN SoireeToSpectacle ON Spectacles.idSpectacle WHERE idSpectacle = :idSpectacle";
+        $query = "SELECT titre,date,horairePrevisionnel,images FROM Spectacles JOIN SoireeToSpectacle ON Spectacles.idSpectacle=SoireeToSpectacle.idSpectacle JOIN Soirees ON SoireeToSpectale.idSoiree=Soirees.idSoiree JOIN Image ON Spectacles.idImage=Image.idImages WHERE idSpectacle = :idSpectacle";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(":idSpectacle", $idSpectacle);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function obtenirListeSpectacles() {
+        $query = "
+        SELECT Spectacles.idSpectacle, Spectacles.titre, Spectacles.horairePrevisionnel, Image.images
+        FROM Spectacles
+        JOIN Image ON Spectacles.idImage = Image.idImage
+    ";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
