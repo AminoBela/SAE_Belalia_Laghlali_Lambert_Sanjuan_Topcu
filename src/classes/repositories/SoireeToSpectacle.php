@@ -9,7 +9,7 @@ class SoireeToSpectacle {
     private PDO $db;
 
     public function __construct() {
-        $this->db = ConnectionBD::seConnecterBD();
+        $this->db = ConnectionBD::obtenirBD();
     }
 
     public function lierSoireeSpectacle($idSoiree, $idSpectacle) {

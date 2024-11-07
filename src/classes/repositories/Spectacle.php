@@ -9,7 +9,7 @@ class Spectacle {
     private PDO $db;
 
     public function __construct() {
-        $this->db = ConnectionBD::seConnecterBD();
+        $this->db = ConnectionBD::obtenirBD();
     }
 
     public function ajouterSpectacle($titre, $artistes, $description, $idImage, $urlVideo, $horairePrevisionnel, $styleMusique) {

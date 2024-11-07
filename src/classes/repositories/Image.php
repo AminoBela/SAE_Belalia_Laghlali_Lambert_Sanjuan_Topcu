@@ -9,7 +9,7 @@ class Image {
     private PDO $db;
 
     public function __construct() {
-        $this->db = ConnectionBD::seConnecterBD();
+        $this->db = ConnectionBD::obtenirBD();
     }
 
     public function ajouterImage($images) {

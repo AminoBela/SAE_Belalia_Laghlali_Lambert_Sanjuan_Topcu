@@ -9,7 +9,7 @@ class Soiree {
     private PDO $db;
 
     public function __construct() {
-        $this->db = ConnectionBD::seConnecterBD();
+        $this->db = ConnectionBD::obtenirBD();
     }
 
     public function ajouterSoiree($nom, $thematique, $date, $horaireDebut, $idLieu) {

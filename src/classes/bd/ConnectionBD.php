@@ -3,6 +3,7 @@
 namespace iutnc\nrv\bd;
 
 use PDO;
+use PDOException;
 
 class ConnectionBD
 {
@@ -15,7 +16,7 @@ class ConnectionBD
         self::$tab = parse_ini_file($file);
     }
 
-    public static function seConnecterBD(): ?PDO
+    public static function obtenirBD(): ?PDO
     {
         if(is_null(self::$pdo)){
             try {

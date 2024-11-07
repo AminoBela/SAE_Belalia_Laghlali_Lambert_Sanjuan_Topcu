@@ -9,7 +9,7 @@ class Lieu {
     private PDO $db;
 
     public function __construct() {
-        $this->db = ConnectionBD::seConnecterBD();
+        $this->db = ConnectionBD::obtenirBD();
     }
 
     public function ajouterLieu($nom, $adresse, $placesAssises, $placesDebout, $idImage) {
