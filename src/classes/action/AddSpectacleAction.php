@@ -2,18 +2,18 @@
 
 namespace iutnc\nrv\action;
 
-use iutnc\nrv\repository\SpectacleRepository;
+use iutnc\nrv\repository\Spectacle;
 use iutnc\nrv\bd\ConnectionBD;
 
 class AddSpectacleAction
 {
 
-    private SpectacleRepository $spectacleRepository;
+    private Spectacle $spectacleRepository;
     private string $http_method;
 
     public function __construct()
     {
-        $this->spectacleRepository = new SpectacleRepository();
+        $this->spectacleRepository = new Spectacle();
         $this->http_method = $_SERVER['REQUEST_METHOD'];
     }
 

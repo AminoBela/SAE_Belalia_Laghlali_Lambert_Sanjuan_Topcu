@@ -5,7 +5,7 @@ namespace iutnc\nrv\repository;
 use iutnc\nrv\bd\ConnectionBD;
 use PDO;
 
-class LieuxRepository {
+class Lieu {
     private PDO $db;
 
     public function __construct() {

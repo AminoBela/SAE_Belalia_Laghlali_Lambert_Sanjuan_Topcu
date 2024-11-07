@@ -5,7 +5,7 @@ namespace iutnc\nrv\repository;
 use iutnc\nrv\bd\ConnectionBD;
 use PDO;
 
-class SpectacleRepository {
+class Spectacle {
     private PDO $db;
 
     public function __construct() {
