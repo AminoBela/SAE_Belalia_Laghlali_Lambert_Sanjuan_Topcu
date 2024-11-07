@@ -1,11 +1,11 @@
 <?php
 
-namespace iutnc\nrv\security;
+namespace iutnc\nrv\auth;
 
 use iutnc\nrv\repository\Repository;
 use iutnc\nrv\exception\AuthException;
 
-class Authentication
+class Authentification
 {
     private $repository;
 
