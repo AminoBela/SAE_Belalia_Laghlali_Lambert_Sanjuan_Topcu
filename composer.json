@@ -1,0 +1,17 @@
+{
+    "name": "iutnc/nrv",
+    "description": "loader",
+    "type": "project",
+
+    "autoload": {
+        "psr-4": {
+            "iutnc\\nrv\\": "./src/classes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "cemquo"
+        }
+    ],
+    "require": {}
+}
