@@ -29,7 +29,7 @@ class ObtenirSpectacleAction
             FORM;
         } else {
             $idSpectacle = filter_var($_POST['idSpectacle'], FILTER_SANITIZE_NUMBER_INT);
-            $spectacle = $this->spectacleRepository->obtenirSpectacleParId($idSpectacle);
+            $spectacle = $this->spectacleRepository->obtenirListeSpectacles($idSpectacle);
 
             if ($spectacle) {
                 $res = "<h2>Spectacle : {$spectacle['titre']}</h2>";
