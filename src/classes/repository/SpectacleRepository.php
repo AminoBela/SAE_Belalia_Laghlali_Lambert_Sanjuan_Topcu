@@ -8,7 +8,7 @@ class SpectacleRepository {
     private PDO $pdo;
 
     public function __construct() {
-        $this->pdo = ConnectionBD::getInstance()->getConnection();
+        $this->pdo = ConnectionBD::obtenirBD();
     }
 
     public function getListeSpectacles(): array {
@@ -24,5 +24,22 @@ class SpectacleRepository {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function ajouterSpectacle(string $titre, string $description, string $urlVideo, string $urlAudio, string $horairePrevuSpectacle, string $genre, int $dureeSpectacle, int $estAnnule): void {
+        $sql = "INSERT INTO spectacle 
+                (titre, description, urlVideo, urlAudio, horairePrevuSpectacle, genre, dureeSpectacle, estAnnule) 
+                VALUES (:titre, :description, :urlVideo, :urlAudio, :horairePrevuSpectacle, :genre, :dureeSpectacle, :estAnnule)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':titre' => $titre,
+            ':description' => $description,
+            ':urlVideo' => $urlVideo,
+            ':urlAudio' => $urlAudio,
+            ':horairePrevuSpectacle' => $horairePrevuSpectacle,
+            ':genre' => $genre,
+            ':dureeSpectacle' => $dureeSpectacle,
+            ':estAnnule' => $estAnnule
+        ]);
+    }
 }
-?>
+

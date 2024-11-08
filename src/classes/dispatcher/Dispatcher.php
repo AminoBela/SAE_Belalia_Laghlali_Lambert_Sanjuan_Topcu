@@ -5,6 +5,7 @@ namespace iutnc\nrv\dispatcher;
 use iutnc\nrv\action\HomeAction;
 use iutnc\nrv\action\LoginAction;
 use iutnc\nrv\action\RegisterAction;
+use iutnc\nrv\action\AddSpectacleAction;
 
 class Dispatcher
 {
@@ -34,6 +35,10 @@ class Dispatcher
             case 'logout':
                 session_destroy();
                 header('Location: ?action=home');
+                break;
+            case 'createSpectacle':
+                $action = new AddSpectacleAction();
+                echo $action->execute();
                 break;
         }
     }
