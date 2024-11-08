@@ -7,6 +7,8 @@ use iutnc\nrv\models\User;
 use iutnc\nrv\repository\SpectacleRepository;
 use iutnc\nrv\renderer\RendererAddSpectacle;
 use iutnc\nrv\exception\ValidationException;
+use Exception;
+
 
 class AddSpectacleAction extends Action
 {
@@ -20,9 +22,8 @@ class AddSpectacleAction extends Action
     {
         if (!isset($_SESSION['user_role']) || !in_array($_SESSION['user_role'], [User::ROLE_ADMIN, User::ROLE_STAFF])) {
             header('Location: ?action=login');
-            exit();
+            return "";
         }
-
         $error = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -40,8 +41,6 @@ class AddSpectacleAction extends Action
                 $repository = new SpectacleRepository();
                 $repository->ajouterSpectacle($spectacle);
 
-                header('Location: ?action=home');
-                exit();
 
             } catch (ValidationException $e) {
                 $error = $e->getMessage();

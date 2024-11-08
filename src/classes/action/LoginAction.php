@@ -6,6 +6,7 @@ use iutnc\nrv\auth\Authentification;
 use iutnc\nrv\renderer\RendererLogin;
 use iutnc\nrv\repository\UserRepository;
 use iutnc\nrv\exception\AuthException;
+use iutnc\nrv\models\User;
 
 class LoginAction extends Action
 {
@@ -33,12 +34,8 @@ class LoginAction extends Action
             try {
                 if ($this->auth->login($email, $password)) {
                     $_SESSION['email'] = $email;
-                    $role = Authentification::getRole($email);
-                    if ($role === 'Admin') {
-                        $_SESSION['role'] = 'Admin';
-                    } else {
-                        $_SESSION['role'] = 'staff';
-                    }
+                    // etablir le role de l'utilisateur
+                    $_SESSION['role'] = $this->auth->getRole($email);
 
                     header('Location: ?action=home');
                     exit();

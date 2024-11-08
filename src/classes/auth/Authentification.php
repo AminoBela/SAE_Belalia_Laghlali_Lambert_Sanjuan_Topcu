@@ -60,9 +60,9 @@ class Authentification
         session_destroy();
     }
 
-    public static function getRole(string $email): ?int {
+    public static function getRole(string $email): ?string {
         $repository = new UserRepository();
         $user = $repository->chercherParEmailUser($email);
-        return $user ? $user['rôle'] : null;
+        return $user ? $user['role'] : null;
     }
 }

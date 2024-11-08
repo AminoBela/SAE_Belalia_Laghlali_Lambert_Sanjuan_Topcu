@@ -2,6 +2,8 @@
 
 namespace iutnc\nrv\renderer;
 
+use iutnc\nrv\action\AddSpectacleAction;
+
 class RendererAddSpectacle extends Renderer
 {
     public function render(array $data = []): string
@@ -12,7 +14,7 @@ class RendererAddSpectacle extends Renderer
 
         $body = <<<HTML
         <h2>Créer un Spectacle</h2>
-        <form action="?action=createSpectacle" method="post">
+        <form action="?action=creerSpectacle" method="post">
             <div>
                 <label for="titre">Titre :</label>
                 <input type="text" id="titre" name="titre" required>

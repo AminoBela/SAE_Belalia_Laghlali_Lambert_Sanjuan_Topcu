@@ -27,14 +27,14 @@ class UserRepository {
         return $stmt->fetchColumn() > 0;
     }
 
-    public function ajouterUtilisateur(string $nomUtilisateur, string $email, string $hashedPassword, int $role): void {
+    public function ajouterUtilisateur(string $nomUtilisateur, string $email, string $hashedPassword): void {
         $sql = "INSERT INTO utilisateur (nomUtilisateur, email, motDePasse, role) VALUES (:nomUtilisateur, :email, :motDePasse, :role)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([
             ':nomUtilisateur' => $nomUtilisateur,
             ':email' => $email,
             ':motDePasse' => $hashedPassword,
-            ':role' => $role
+            ':role' => 'staff'
         ]);
     }
 

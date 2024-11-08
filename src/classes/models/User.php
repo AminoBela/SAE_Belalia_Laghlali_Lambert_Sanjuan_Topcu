@@ -9,15 +9,12 @@ class User {
     private string $hashedPassword;
     private int $role;
 
-    const ROLE_ADMIN = 1;
-    const ROLE_STAFF = 2;
 
-    public function __construct(int $id, string $email, string $nomUtilisateur, string $hashedPassword, int $role) {
-        $this->id = $id;
-        $this->email = $email;
-        $this->nomUtilisateur = $nomUtilisateur;
-        $this->hashedPassword = $hashedPassword;
-        $this->role = $role;
+    const ROLE_ADMIN = 'admin';
+    const ROLE_STAFF = 'staff';
+
+    public function getRoleName(): string {
+        return $this->role === self::ROLE_ADMIN ? 'Admin' : 'Staff';
     }
 
     public function getId(): int {
@@ -34,10 +31,6 @@ class User {
 
     public function getHashedPassword(): string {
         return $this->hashedPassword;
-    }
-
-    public function getRole(): int {
-        return $this->role;
     }
 
     public function isAdmin(): bool {
