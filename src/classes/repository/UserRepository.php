@@ -28,7 +28,7 @@ class UserRepository {
     }
 
     public function ajouterUtilisateur(string $nomUtilisateur, string $email, string $hashedPassword, int $role): void {
-        $sql = "INSERT INTO utilisateur (nomUtilisateur, email, motDePasse, rôle) VALUES (:nomUtilisateur, :email, :motDePasse, :role)";
+        $sql = "INSERT INTO utilisateur (nomUtilisateur, email, motDePasse, role) VALUES (:nomUtilisateur, :email, :motDePasse, :role)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([
             ':nomUtilisateur' => $nomUtilisateur,
