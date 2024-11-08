@@ -29,11 +29,11 @@ class AddSpectacleAction extends Action
 
             $titre = filter_var($_POST['titre'], FILTER_SANITIZE_STRING);
             $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
-            $urlVideo = filter_var($_POST['urlVideo'], FILTER_SANITIZE_URL);
-            $urlAudio = filter_var($_POST['urlAudio'], FILTER_SANITIZE_URL);
             $horairePrevuSpectacle = filter_var($_POST['horairePrevuSpectacle'], FILTER_SANITIZE_STRING);
             $genre = filter_var($_POST['genre'], FILTER_SANITIZE_STRING);
             $dureeSpectacle = filter_var($_POST['dureeSpectacle'], FILTER_SANITIZE_NUMBER_INT);
+
+            $urlAudio = $this->uploadFile('urlAudio');
 
             try {
                 $this->validate($titre, $description, $urlVideo, $urlAudio, $horairePrevuSpectacle, $genre, $dureeSpectacle);
@@ -69,6 +69,35 @@ class AddSpectacleAction extends Action
 
         if (!preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/', $horairePrevuSpectacle)) {
             throw new ValidationException("L'horaire prévu doit être au format AAAA-MM-JJTHH:MM.");
+        }
+    }
+
+    private function uploadFile(string $fichier): string
+    {
+        if(isset($_FILES[$fichier]) && $_FILES[$fichier]['error'] === UPLOAD_ERR_OK )
+        {
+            $fichierTmp = $_FILES[$fichier]['tmp_name'];
+            $fichierName = $_FILES[$fichier]['name'];
+            $fichierSize = $_FILES[$fichier]['size'];
+            $fichierType = $_FILES[$fichier]['type'];
+            $fichierNC = explode(".", $fichierName);
+            $fichierExtension = strtolower(end($fichierNC));
+
+            $extensions = ['mp4', 'mp3', 'wav', 'avi'];
+            if (in_array($fichierExtension, $extensions)) {
+                $fichierDestination = 'uploads/';
+                $fichierDestination .= $fichierName;
+
+                if (move_uploaded_file($fichierTmp, $fichierDestination)) {
+                    return $fichierDestination;
+                } else {
+                    throw new ValidationException("Erreur lors de l'upload du fichier.");
+                }
+            } else {
+                throw new ValidationException("Le fichier doit être de type mp4, mp3, wav ou avi.");
+            }
+        }else{
+            throw new ValidationException("Erreur lors de l'upload du fichier.");
         }
     }
 }

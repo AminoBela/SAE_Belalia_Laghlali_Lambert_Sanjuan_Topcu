@@ -25,11 +25,11 @@ class RendererAddSpectacle extends Renderer
             </div>
             <div>
                 <label for="urlVideo">URL Vidéo :</label>
-                <input type="url" id="urlVideo" name="urlVideo" required>
+                <input type="file" id="urlVideo" name="urlVideo" required>
             </div>
             <div>
                 <label for="urlAudio">URL Audio :</label>
-                <input type="url" id="urlAudio" name="urlAudio" required>
+                <input type="file" id="urlAudio" name="urlAudio" required>
             </div>
             <div>
                 <label for="horairePrevuSpectacle">Horaire Prévu :</label>

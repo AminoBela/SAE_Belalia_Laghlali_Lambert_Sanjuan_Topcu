@@ -32,7 +32,7 @@ class Dispatcher
                 session_destroy();
                 header('Location: ?action=home');
                 break;
-            case 'createSpectacle':
+            case 'creerSpectacle':
                 $action = new AddSpectacleAction();
                 echo $action->execute();
                 break;
