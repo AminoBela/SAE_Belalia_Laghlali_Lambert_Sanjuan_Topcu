@@ -6,11 +6,13 @@ use iutnc\nrv\auth\Authentification;
 
 abstract class Renderer
 {
-    protected function renderHeader(string $title): string
+    protected function renderHeader(string $title, ?string $stylesheet = null): string
     {
         $navLinks = Authentification::isLogged() ?
             '<a href="?action=logout">Déconnexion</a>' :
             '<a href="?action=login">Connexion</a><a href="?action=register">Inscription</a>';
+
+        $autreStyle = $stylesheet ?? "";
 
         return <<<HTML
         <!DOCTYPE html>
@@ -20,6 +22,7 @@ abstract class Renderer
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>{$title}</title>
             <link rel="stylesheet" href="styles.css">
+            <link rel="stylesheet" href="{$autreStyle}">
             <header>
                 <h1>NRV Festival</h1>
             </header>

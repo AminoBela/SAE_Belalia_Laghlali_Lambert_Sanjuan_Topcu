@@ -53,14 +53,24 @@ class SpectacleDetailsRenderer extends Renderer
             $videoElement = "";
         }
 
-        return "
-            <p>$dureeSpectacle</p>
-            <h1>{$this->spectacle->getTitre()}</h1>
-            <p>{$this->spectacle->getDescription()}</p>
-            $audioElement
-            $videoElement
-            <p>Genre : {$this->spectacle->getGenre()}</p>
-            <p>Horaire prévu : {$this->spectacle->getHorairePrevuSpectacle()}</p>
-        ";
+        return
+            $this->renderHeader($this->spectacle->getTitre(), 'spectacle-details.css') .
+            "
+            <div class='spectacle-details'>
+                <div class='details-header'>
+                    <div class='no-row'>
+                        <p>$dureeSpectacle</p>
+                        <h1>{$this->spectacle->getTitre()}</h1>
+                        <p>{$this->spectacle->getDescription()}</p>
+                    </div>
+                    $videoElement
+                    $audioElement
+                </div>
+                <div class='details-body'>
+                    <p>Genre : {$this->spectacle->getGenre()}</p>
+                    <p>Horaire prévu : {$this->spectacle->getHorairePrevuSpectacle()}</p>
+            </div>
+            "
+            . $this->renderFooter();
     }
 }
