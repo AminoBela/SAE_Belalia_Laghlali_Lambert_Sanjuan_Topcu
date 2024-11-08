@@ -62,5 +62,4 @@ class Spectacle
         return $this->estAnnule;
     }
 
-
 }
