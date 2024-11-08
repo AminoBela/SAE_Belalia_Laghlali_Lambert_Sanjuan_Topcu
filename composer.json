@@ -13,5 +13,7 @@
             "name": "cemquo"
         }
     ],
-    "require": {}
+    "require": {
+      "ext-pdo": "*"
+    }
 }

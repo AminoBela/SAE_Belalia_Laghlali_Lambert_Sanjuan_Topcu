@@ -20,10 +20,6 @@ class Dispatcher
     public function run()
     {
         switch ($this->action) {
-            default:
-                $action = new HomeAction();
-                echo $action->execute();
-                break;
             case 'login':
                 $action = new LoginAction();
                 echo $action->execute();
@@ -38,6 +34,14 @@ class Dispatcher
                 break;
             case 'createSpectacle':
                 $action = new AddSpectacleAction();
+                echo $action->execute();
+                break;
+            case 'spectacleDetails':
+                $action = new SpectacleDetailsAction();
+                echo $action->execute();
+                break;
+            default:
+                $action = new HomeAction();
                 echo $action->execute();
                 break;
         }
