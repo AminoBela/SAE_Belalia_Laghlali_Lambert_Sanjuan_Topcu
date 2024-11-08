@@ -1,6 +1,6 @@
 <?php
 
-namespace iutnc\nrv\repository;
+namespace iutnc\nrv\repositories;
 
 use iutnc\nrv\bd\ConnectionBD;
 use PDO;

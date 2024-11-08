@@ -2,7 +2,48 @@
 
 namespace iutnc\nrv\renderer;
 
-class Renderer
-{
+use iutnc\nrv\auth\Authentification;
 
+abstract class Renderer
+{
+    protected function renderHeader(string $title): string
+    {
+        $navLinks = Authentification::isLogged() ?
+            '<a href="?action=logout">Déconnexion</a>' :
+            '<a href="?action=login">Connexion</a><a href="?action=register">Inscription</a>';
+
+        return <<<HTML
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>{$title}</title>
+            <link rel="stylesheet" href="styles.css">
+            <header>
+                <h1>NRV Festival</h1>
+            </header>
+        </head>
+        <body>
+            <nav>
+                <a href="?action=default">Accueil</a>
+                {$navLinks}
+            </nav>
+        HTML;
+    }
+
+    protected function renderFooter(): string
+    {
+        return <<<HTML
+            <footer>
+                <p>&copy; 2024 NRV Festival</p>
+                <p>Site réalisé par Amin, Noah, Valentino, Nicolas et Semih</p>
+            </footer>
+        </body>
+            
+        </html>
+        HTML;
+    }
+
+    abstract public function render(): string;
 }

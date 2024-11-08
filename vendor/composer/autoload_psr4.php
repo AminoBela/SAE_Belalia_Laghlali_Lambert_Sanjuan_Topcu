@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Fbbig\\Sae3devWeb\\' => array($baseDir . '/src'),
+    'iutnc\\nrv\\' => array($baseDir . '/src/classes'),
 );

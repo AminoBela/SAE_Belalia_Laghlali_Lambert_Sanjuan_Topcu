@@ -1,38 +1,86 @@
 <?php
 
-namespace iutnc\nrv\services;
+namespace iutnc\nrv\repositories;
 
 use iutnc\nrv\bd\ConnectionBD;
-use iutnc\nrv\repository\User;
 use PDO;
 
-abstract class UserService
+class UserService
 {
-    public static function ajouterUtilisateur(User $user) : bool {
-        $db = ConnectionBD::obtenirBD();
+    private PDO $pdo;
 
-        $query = "INSERT INTO Utilisateurs (nomUtilisateur, motDePasse, role) VALUES (:nomUtilisateur, :motDePasse, :role)";
-        $stmt = $db->prepare($query);
-
-        $nomUtilisateur = $user->getNomUtilisateur();
-        $stmt->bindParam(":nomUtilisateur", $nomUtilisateur);
-
-        $motDePasse = $user->getPassword();
-        $stmt->bindParam(":motDePasse", $motDePasse);
-
-        $role = $user->getRole();
-        $stmt->bindParam(":role", $role);
-
-        return $stmt->execute();
+    public function __construct()
+    {
+        $this->pdo = ConnectionBD::obtenirBD();
     }
 
-    public static function obtenirUtilisateurParNom($nomUtilisateur) {
-        $db = ConnectionBD::obtenirBD();
-
-        $query = "SELECT * FROM Utilisateurs WHERE nomUtilisateur = :nomUtilisateur";
-        $stmt = $db->prepare($query);
-        $stmt->bindParam(":nomUtilisateur", $nomUtilisateur);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+    public function chercherEmail(string $email)
+    {
+        $sql = "SELECT email FROM utilisateur WHERE email = :email";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetch();
     }
+
+    public function chercherNomUtilisateur(string $nomUtilisateur)
+    {
+        $sql = "SELECT nomUtilisateur FROM utilisateur WHERE nomUtilisateur = :nomUtilisateur";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['nomUtilisateur' => $nomUtilisateur]);
+        return $stmt->fetch();
+    }
+
+    public function ajouterUtilisateur(string $nomUtilisateur, string $email, string $mdpHash)
+    {
+        $sql = "INSERT INTO utilisateur (nomUtilisateur, email, motDePasse, rôle) VALUES (:nomUtilisateur, :email, :motDePasse, :role)";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            ':nomUtilisateur' => $nomUtilisateur,
+            ':email' => $email,
+            ':motDePasse' => $mdpHash,
+            ':role' => 'staff'
+        ]);
+    }
+
+    public function chercherParEmailUser(string $email)
+    {
+        $sql = "SELECT * FROM utilisateur WHERE email = :email";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetch();
+    }
+
+    public function getRole(string $email)
+    {
+        $sql = "SELECT rôle FROM utilisateur WHERE email = :email";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetch();
+    }
+
+    public function getMdp(string $email)
+    {
+        $sql = "SELECT motDePasse FROM utilisateur WHERE email = :email";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetch();
+    }
+
+    public function getNomUtilisateur(string $email)
+    {
+        $sql = "SELECT nomUtilisateur FROM utilisateur WHERE email = :email";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetch();
+    }
+
+    public function getIDUtilisateur(string $email)
+    {
+        $sql = "SELECT idUtilisateur FROM utilisateur WHERE email = :email";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['email' => $email]);
+        return $stmt->fetch();
+    }
+
+
 }

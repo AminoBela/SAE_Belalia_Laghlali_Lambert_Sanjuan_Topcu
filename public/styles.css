@@ -1,32 +1,114 @@
-/* styles.css */
-
-* {
+/* Reset de styles de base */
+body, h1, ul, li {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    list-style: none;
 }
 
+/* Styles du corps de la page */
 body {
+    font-family: Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4; /* Couleur de fond gris clair */
+    color: #333; /* Couleur du texte */
+    padding: 0 20px;
+}
+
+/* Styles du titre principal */
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    color: white; /* Couleur du texte du titre */
+}
+
+/* Styles de la navigation */
+nav {
+    background-color: #4b6cb7; /* Couleur de fond bleu */
+    padding: 10px 0;
+    /* coins arrondis en bas */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+nav ul {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #4b6cb7, #182848);
-    color: #ffffff;
-}
-
-h2 {
     text-align: center;
-    margin-bottom: 1rem;
-    font-size: 2rem;
-    color: #ffffff;
-    font-weight: 700;
+    width: 100%;
 }
 
+nav li {
+    margin: 0 15px;
+    flex: 1;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    display: block;
+}
+
+nav a:hover {
+    background-color: #4b6cb7; /* Couleur de fond au survol */
+}
+
+
+/* Styles du conteneur principal */
+div {
+    max-width: 800px; /* Largeur maximale */
+    margin: 20px auto; /* Centre le conteneur */
+    padding: 20px;
+    background-color: cornflowerblue; /* Couleur de fond blanc */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+/* Styles du header */
+header {
+    background-color: #333; /* Couleur de fond du header */
+    color: white; /* Couleur du texte du header */
+    padding: 20px 0; /* Espacement interne du header */
+    text-align: center; /* Centrer le texte */
+    border-bottom: 2px solid #0056b3; /* Bordure inférieure */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+header h1 {
+    margin: 0; /* Supprimer les marges */
+    font-size: 2.5rem; /* Taille de la police */
+}
+
+header p {
+    margin: 5px 0 0; /* Marges du paragraphe */
+    font-size: 1.2rem; /* Taille de la police */
+    color: #ccc; /* Couleur du texte */
+}
+
+/* Styles pour les boutons du header */
+header a {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #4b6cb7;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    box-sizing: border-box;
+}
+
+header a:hover {
+    background-color: #3a519b;
+}
+
+/* Styles pour le formulaire de connexion */
 form {
     background: #333;
-    margin: 30px;
+    margin: 30px auto;
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -45,6 +127,7 @@ label {
     color: #ffffff;
     margin-bottom: 0.5rem;
     font-weight: bold;
+
 }
 
 input[type="text"],
@@ -53,17 +136,19 @@ input[type="password"] {
     padding: 0.75rem;
     border-radius: 4px;
     border: 1px solid #777;
-    background: #555;
-    color: #ffffff;
+    background: white;
+    color: black;
     font-size: 1rem;
     transition: all 0.3s ease;
+    /* centrer la zone de texte */
+    box-sizing: border-box;
 }
 
 input[type="text"]:focus,
 input[type="password"]:focus {
     outline: none;
     border-color: #4b6cb7;
-    background: #666;
+    background: lightgray;
     box-shadow: 0 0 8px rgba(75, 108, 183, 0.4);
 }
 
@@ -91,18 +176,42 @@ button[type="submit"]:active {
 p {
     text-align: center;
     font-size: 1rem;
-    color: #ff4b4b;
+    color: black;
     margin-top: 1rem;
 }
 
-/* Animation for form */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    bottom: 0; /* Position at the bottom */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+footer p
+{
+    color: white;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 0 10px;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    nav ul {
+        flex-direction: column;
+    }
+
+    nav li {
+        margin: 10px 0;
+    }
+
+    form {
+        width: 90%;
     }
 }
+
+

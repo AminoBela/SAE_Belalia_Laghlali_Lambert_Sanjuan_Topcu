@@ -1,17 +1,16 @@
 <?php
 
-namespace iutnc\nrv\security;
+namespace iutnc\nrv\auth;
 
 class Autorisation
 {
 
     public static function verifRole(string $role): bool
     {
-        if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] == $role) {
-            return true;
-        }
-        return false;
+        // verifier si l'utilisateur est staff ou admin
     }
+
+
 
     public static function isStaff(): bool
     {

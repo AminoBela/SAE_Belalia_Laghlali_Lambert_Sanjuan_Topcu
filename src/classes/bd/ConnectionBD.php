@@ -5,29 +5,29 @@ namespace iutnc\nrv\bd;
 use PDO;
 use PDOException;
 
+
+
 class ConnectionBD
 {
     private static array $tab = [];
+    public static ?PDO $bd = null;
 
-    public static ?PDO $pdo = null;
-
-    public static function setConfig(string $file): void
-    {
+    public static function setConfig(String $file ){
         self::$tab = parse_ini_file($file);
     }
 
-    public static function obtenirBD(): ?PDO
+    public static function obtenirBD()
     {
-        if(is_null(self::$pdo)){
-            try {
-                $res = self::$tab['driver'] . ':host=' . self::$tab['host'] . ';dbname=' . self::$tab['dbname'];
-                self::$pdo = new PDO($res, self::$tab['user'], self::$tab['password']);
-                self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        if(is_null(self::$bd)){
+            try{
+                $res = self::$tab['driver'].":host=".self::$tab['host'].";dbname=".self::$tab['database'];
+                self::$bd = new PDO($res, self::$tab['username'], self::$tab['password']);
+                self::$bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
-                echo 'Connexion échouée à la base de données : ' . $e->getMessage();
+                echo "Erreur de connexion à la base de données : ".$e->getMessage();
             }
         }
-        return self::$pdo;
+        return self::$bd;
     }
 
 }

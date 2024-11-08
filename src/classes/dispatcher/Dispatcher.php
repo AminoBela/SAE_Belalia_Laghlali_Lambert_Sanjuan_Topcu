@@ -2,9 +2,12 @@
 
 namespace iutnc\nrv\dispatcher;
 
+use iutnc\nrv\action\HomeAction;
+use iutnc\nrv\action\LoginAction;
+use iutnc\nrv\action\RegisterAction;
+
 class Dispatcher
 {
-
     private string $action;
 
     public function __construct()
@@ -17,10 +20,21 @@ class Dispatcher
     {
         switch ($this->action) {
             default:
-                echo "default";
+                $action = new HomeAction();
+                echo $action->execute();
+                break;
+            case 'login':
+                $action = new LoginAction();
+                echo $action->execute();
+                break;
+            case 'register':
+                $action = new RegisterAction();
+                echo $action->execute();
+                break;
+            case 'logout':
+                session_destroy();
+                header('Location: ?action=home');
                 break;
         }
     }
-
-
 }
