@@ -47,7 +47,7 @@ class Authentification
         }
 
         $_SESSION['user_id'] = $user['idUtilisateur'];
-        $_SESSION['user_role'] = $user['rôle'];
+        $_SESSION['user_role'] = $user['role'];
 
         return true;
     }
