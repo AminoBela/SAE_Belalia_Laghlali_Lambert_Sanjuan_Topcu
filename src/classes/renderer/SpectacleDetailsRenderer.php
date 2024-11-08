@@ -69,6 +69,7 @@ class SpectacleDetailsRenderer extends Renderer
                 <div class='details-body'>
                     <p>Genre : {$this->spectacle->getGenre()}</p>
                     <p>Horaire prévu : {$this->spectacle->getHorairePrevuSpectacle()}</p>
+                </div>
             </div>
             "
             . $this->renderFooter();

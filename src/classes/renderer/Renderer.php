@@ -39,11 +39,11 @@ abstract class Renderer
     protected function renderFooter(): string
     {
         return <<<HTML
+            </body>
             <footer>
                 <p>&copy; 2024 NRV Festival</p>
                 <p>Site réalisé par Amin, Noah, Valentino, Nicolas et Semih</p>
             </footer>
-        </body>
             
         </html>
         HTML;
