@@ -27,6 +27,7 @@ abstract class Renderer
         <body>
             <nav>
                 <a href="?action=default">Accueil</a>
+                <a href="?action=createSpectacle">Créer un spectacle</a>
                 {$navLinks}
             </nav>
         HTML;

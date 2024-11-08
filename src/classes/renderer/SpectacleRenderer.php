@@ -1,25 +1,24 @@
 <?php
-declare(strict_types=1);
-
 namespace iutnc\nrv\renderer;
 
-use iutnc\nrv\models\Spectacle;
+class SpectacleRenderer {
 
-require_once 'vendor/autoload.php';
+    public static function renderListeSpectacles(array $spectacles): string {
+        $html = "<div class='spectacle-list'>";
 
-class SpectacleRenderer
-{
+        foreach ($spectacles as $spectacle) {
+            $html .= "<div class='spectacle-item'>";
+            $html .= "<h2>{$spectacle['titre']}</h2>";
+            $html .= "<p>Date : {$spectacle['dateSoiree']}</p>";
+            $html .= "<p>Horaire : {$spectacle['horrairePrevuSpectacle']}</p>";
+            $html .= "<p>Description : {$spectacle['description']}</p>";
+            if (!empty($spectacle['urlImage'])) {
+                $html .= "<img src='{$spectacle['urlImage']}' alt='Image du spectacle'>";
+            }
+            $html .= "</div>";
+        }
 
-    protected Spectacle $spectacle;
-
-
-    public function __construct(Spectacle $piste)
-    {
-        $this->spectacle = $piste;
-    }
-
-    public function render(): string
-    {
-        return "<p>titre : {$this->spectacle->getTitre()}</p> <p>description : {$this->spectacle->getDescription()}</p> <p>genre : {$this->spectacle->getGenre()}</p> <p>duree : {$this->spectacle->getDureeSpectacle()}</p> <p>video : {$this->spectacle->getUrlVideo()}</p>  <p>horraire : {$this->spectacle->getHorairePrevuSpectacle()}</p> <p>Extrait audio : {$this->spectacle->getUrlAudio()}</p>";
+        $html .= "</div>";
+        return $html;
     }
 }

@@ -1,19 +1,22 @@
 <?php
 
+namespace iutnc\nrv\action;
 
 use iutnc\nrv\models\Spectacle;
+use iutnc\nrv\models\User;
+use iutnc\nrv\repository\SpectacleRepository;
+use iutnc\nrv\renderer\RendererAddSpectacle;
+use iutnc\nrv\exception\ValidationException;
 
 class AddSpectacleAction extends Action
 {
-
     public function __construct()
     {
         parent::__construct();
         $repository = new SpectacleRepository();
-
     }
 
-    public function execute() :string
+    public function execute(): string
     {
         if (!isset($_SESSION['user_role']) || !in_array($_SESSION['user_role'], [User::ROLE_ADMIN, User::ROLE_STAFF])) {
             header('Location: ?action=login');
@@ -22,6 +25,7 @@ class AddSpectacleAction extends Action
 
         $error = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
             $titre = filter_var($_POST['titre'], FILTER_SANITIZE_STRING);
             $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
             $urlVideo = filter_var($_POST['urlVideo'], FILTER_SANITIZE_URL);
@@ -38,6 +42,7 @@ class AddSpectacleAction extends Action
 
                 header('Location: ?action=home');
                 exit();
+
             } catch (ValidationException $e) {
                 $error = $e->getMessage();
             } catch (Exception $e) {
@@ -45,7 +50,7 @@ class AddSpectacleAction extends Action
             }
         }
 
-        $renderer = new RendererSpectacle();
+        $renderer = new RendererAddSpectacle();
         return $renderer->render(['error' => $error]);
     }
 
@@ -67,10 +72,4 @@ class AddSpectacleAction extends Action
             throw new ValidationException("L'horaire prévu doit être au format AAAA-MM-JJTHH:MM.");
         }
     }
-
-    }
-
-
-
-
 }
