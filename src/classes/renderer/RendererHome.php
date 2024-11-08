@@ -4,8 +4,9 @@ namespace iutnc\nrv\renderer;
 
 class RendererHome extends Renderer
 {
-    public function render(): string
+    public function render(array $data = []): string
     {
+
         $header = $this->renderHeader('Accueil - NRV Festival');
         $footer = $this->renderFooter();
 

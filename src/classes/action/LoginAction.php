@@ -4,8 +4,8 @@ namespace iutnc\nrv\action;
 
 use iutnc\nrv\auth\Authentification;
 use iutnc\nrv\renderer\RendererLogin;
-use Exception;
-use iutnc\nrv\repositories\UserService;
+use iutnc\nrv\repository\UserRepository;
+use iutnc\nrv\exception\AuthException;
 
 class LoginAction extends Action
 {
@@ -14,7 +14,7 @@ class LoginAction extends Action
     public function __construct()
     {
         parent::__construct();
-        $repository = new UserService();
+        $repository = new UserRepository();
         $this->auth = new Authentification($repository);
         if ($this->auth->isLogged()) {
             header('Location: ?action=home');
@@ -33,8 +33,8 @@ class LoginAction extends Action
             try {
                 if ($this->auth->login($email, $password)) {
                     $_SESSION['email'] = $email;
-                    $role = $this->auth->getRepository()->getRole($email);
-                    if ($role == 'Admin') {
+                    $role = Authentification::getRole($email);
+                    if ($role === 'Admin') {
                         $_SESSION['role'] = 'Admin';
                     } else {
                         $_SESSION['role'] = 'staff';
@@ -43,12 +43,14 @@ class LoginAction extends Action
                     header('Location: ?action=home');
                     exit();
                 }
-            } catch (Exception $e) {
+            } catch (AuthException $e) {
                 $error = "Erreur lors de la connexion: " . $e->getMessage();
+            } catch (Exception $e) {
+                $error = 'An unexpected error occurred. Please try again later.';
             }
         }
 
         $renderer = new RendererLogin();
-        return $renderer->render($error);
+        return $renderer->render(['error' => $error]);
     }
 }

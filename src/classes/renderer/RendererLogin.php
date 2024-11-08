@@ -4,8 +4,9 @@ namespace iutnc\nrv\renderer;
 
 class RendererLogin extends Renderer
 {
-    public function render(string $error = ''): string
+    public function render(array $data = []): string
     {
+        $error = $data['error'] ?? '';
         $header = $this->renderHeader('Connexion - NRV Festival');
         $footer = $this->renderFooter();
 
@@ -21,12 +22,14 @@ class RendererLogin extends Renderer
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit">Se connecter</button>
+            <div>
+                <a href="?action=register">Pas encore inscrit ? Inscrivez-vous</a>
+            </div>
         </form>
+        <div style="color: red;">
+            $error
+        </div>
         HTML;
-
-        if ($error) {
-            $body .= "<p style='color: red;'>{$error}</p>";
-        }
 
         return $header . $body . $footer;
     }

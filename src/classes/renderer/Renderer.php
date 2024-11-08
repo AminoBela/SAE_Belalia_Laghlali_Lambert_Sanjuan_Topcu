@@ -45,5 +45,5 @@ abstract class Renderer
         HTML;
     }
 
-    abstract public function render(): string;
+    abstract public function render(array $context = []): string;
 }

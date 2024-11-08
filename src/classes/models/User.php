@@ -1,29 +1,22 @@
 <?php
 
-namespace iutnc\nrv\repository;
+namespace iutnc\nrv\models;
 
-use iutnc\nrv\bd\ConnectionBD;
-use PDO;
-
-/**
- * Class User qui peut être un organisateur d'une soirée ou l'admin sinon le reste sont anonyme (visiteurs)
- */
 class User {
     private int $id;
-
     private string $email;
-
     private string $nomUtilisateur;
-
-    private string $password;
-
+    private string $hashedPassword;
     private int $role;
 
-    public function __construct(int $id, string $email, string $nomUtilisateur, string $password, int $role) {
+    const ROLE_ADMIN = 1;
+    const ROLE_STAFF = 2;
+
+    public function __construct(int $id, string $email, string $nomUtilisateur, string $hashedPassword, int $role) {
         $this->id = $id;
         $this->email = $email;
         $this->nomUtilisateur = $nomUtilisateur;
-        $this->password = $password;
+        $this->hashedPassword = $hashedPassword;
         $this->role = $role;
     }
 
@@ -39,11 +32,19 @@ class User {
         return $this->nomUtilisateur;
     }
 
-    public function getPassword(): string {
-        return $this->password;
+    public function getHashedPassword(): string {
+        return $this->hashedPassword;
     }
 
     public function getRole(): int {
         return $this->role;
+    }
+
+    public function isAdmin(): bool {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isStaff(): bool {
+        return $this->role === self::ROLE_STAFF;
     }
 }
