@@ -7,7 +7,6 @@ use iutnc\nrv\action\LoginAction;
 use iutnc\nrv\action\RegisterAction;
 use iutnc\nrv\action\AddSpectacleAction;
 
-
 class Dispatcher
 {
     private string $action;
@@ -21,7 +20,6 @@ class Dispatcher
     public function run()
     {
         switch ($this->action) {
-
             case 'login':
                 $action = new LoginAction();
                 echo $action->execute();
@@ -34,8 +32,12 @@ class Dispatcher
                 session_destroy();
                 header('Location: ?action=home');
                 break;
-            case 'creerSpectacle':
+            case 'createSpectacle':
                 $action = new AddSpectacleAction();
+                echo $action->execute();
+                break;
+            case 'spectacleDetails':
+                $action = new SpectacleDetailsAction();
                 echo $action->execute();
                 break;
             default:

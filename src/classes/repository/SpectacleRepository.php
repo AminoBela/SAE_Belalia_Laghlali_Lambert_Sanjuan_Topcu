@@ -1,7 +1,9 @@
 <?php
 namespace iutnc\nrv\repository;
 
+use Exception;
 use iutnc\nrv\bd\ConnectionBD;
+use iutnc\nrv\models\Spectacle;
 use PDO;
 
 class SpectacleRepository {
@@ -40,6 +42,24 @@ class SpectacleRepository {
             ':dureeSpectacle' => $dureeSpectacle,
             ':estAnnule' => $estAnnule
         ]);
+    }
+
+    public function obtenirSpectacleParId(string $idSpectacle) : ?Spectacle
+    {
+        $query = "
+            SELECT *
+            FROM Spectacle
+            WHERE idSpectacle = :idSpectacle;
+        ";
+        $stmt = $this->pdo->prepare($query);
+        try {
+            $stmt->execute(['idSpectacle' => $idSpectacle]);
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return Spectacle::fromArray($result);
+        }
+        catch (Exception $e) {
+            return null;
+        }
     }
 }
 

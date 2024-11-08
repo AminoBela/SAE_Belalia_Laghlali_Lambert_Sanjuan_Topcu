@@ -15,6 +15,7 @@ class SpectacleRenderer {
             if (!empty($spectacle['urlImage'])) {
                 $html .= "<img src='{$spectacle['urlImage']}' alt='Image du spectacle'>";
             }
+            $html .= "<a href='spectacle.php?idSpectacle={$spectacle['idSpectacle']}'>Voir plus</a>";
             $html .= "</div>";
         }
 
