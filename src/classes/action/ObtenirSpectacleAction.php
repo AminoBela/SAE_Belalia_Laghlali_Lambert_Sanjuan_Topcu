@@ -7,7 +7,6 @@ use iutnc\nrv\repository\SpectacleRepository;
 class ObtenirSpectacleAction extends Action {
 
     private SpectacleRepository $spectacleRepository;
-    private string $http_method;
 
     public function __construct() {
         $this->spectacleRepository = new SpectacleRepository();

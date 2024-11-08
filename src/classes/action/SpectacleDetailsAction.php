@@ -1,8 +1,7 @@
 <?php
 
-namespace iutnc\nrv\dispatcher;
+namespace iutnc\nrv\action;
 
-use iutnc\nrv\action\Action;
 use iutnc\nrv\renderer\SpectacleDetailsRenderer;
 use iutnc\nrv\repository\SpectacleRepository;
 

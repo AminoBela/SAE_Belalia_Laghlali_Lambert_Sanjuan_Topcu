@@ -2,10 +2,11 @@
 
 namespace iutnc\nrv\dispatcher;
 
+use iutnc\nrv\action\AddSpectacleAction;
 use iutnc\nrv\action\HomeAction;
 use iutnc\nrv\action\LoginAction;
 use iutnc\nrv\action\RegisterAction;
-use iutnc\nrv\action\AddSpectacleAction;
+use iutnc\nrv\action\SpectacleDetailsAction;
 
 class Dispatcher
 {

@@ -56,15 +56,17 @@ nav a:hover {
 }
 
 
-/* Styles du conteneur principal */
+
+
+/*!* Styles du conteneur principal *!
 div {
-    max-width: 800px; /* Largeur maximale */
-    margin: 20px auto; /* Centre le conteneur */
+    max-width: 800px; !* Largeur maximale *!
+    margin: 20px auto; !* Centre le conteneur *!
     padding: 20px;
-    background-color: cornflowerblue; /* Couleur de fond blanc */
-    border-radius: 8px; /* Coins arrondis */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
-}
+    background-color: cornflowerblue; !* Couleur de fond blanc *!
+    border-radius: 8px; !* Coins arrondis *!
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); !* Ombre légère *!
+}*/
 
 /* Styles du header */
 header {

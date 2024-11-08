@@ -55,6 +55,12 @@ class SpectacleRepository {
         try {
             $stmt->execute(['idSpectacle' => $idSpectacle]);
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // get images from ImageRepository
+            $imageRep = new ImageRepository();
+            $images = $imageRep->getImageDepuisSpec($idSpectacle);
+            $result['images'] = $images;
+
             return Spectacle::fromArray($result);
         }
         catch (Exception $e) {

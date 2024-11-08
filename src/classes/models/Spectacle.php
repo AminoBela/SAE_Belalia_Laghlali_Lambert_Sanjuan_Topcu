@@ -13,8 +13,9 @@ class Spectacle
     private string $genre;
     private int $dureeSpectacle;
     private int $estAnnule;
+    private array $images;
 
-    public function __construct(int $idSpectacle, string $titre, string $description, ?string $urlVideo, ?string $urlAudio, string $horairePrevuSpectacle, string $genre, int $dureeSpectacle, int $estAnnule) {
+    public function __construct(int $idSpectacle, string $titre, string $description, ?string $urlVideo, ?string $urlAudio, string $horairePrevuSpectacle, string $genre, int $dureeSpectacle, int $estAnnule, array $images = []) {
         $this->idSpectacle = $idSpectacle;
         $this->titre = $titre;
         $this->description = $description;
@@ -24,10 +25,13 @@ class Spectacle
         $this->genre = $genre;
         $this->dureeSpectacle = $dureeSpectacle;
         $this->estAnnule = $estAnnule;
+        $this->images = $images;
     }
 
     public static function fromArray($result) : Spectacle
     {
+        $images = $result['images'] ?? [];
+
         return new Spectacle(
             $result['idSpectacle'],
             $result['titre'],
@@ -37,7 +41,8 @@ class Spectacle
             $result['horrairePrevuSpectacle'],
             $result['genre'],
             $result['dureeSpectacle'],
-            $result['estAnnule']
+            $result['estAnnule'],
+            $images
         );
     }
 
@@ -85,6 +90,11 @@ class Spectacle
 
     public function getEstAnnule(): int {
         return $this->estAnnule;
+    }
+
+    public function getImages() : array
+    {
+        return $this->images;
     }
 
 }
