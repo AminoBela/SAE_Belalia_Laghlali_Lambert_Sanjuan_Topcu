@@ -9,7 +9,6 @@ use iutnc\nrv\renderer\RendererAddSpectacle;
 use iutnc\nrv\exception\ValidationException;
 use Exception;
 
-
 class AddSpectacleAction extends Action
 {
     public function __construct()
@@ -33,14 +32,15 @@ class AddSpectacleAction extends Action
             $genre = filter_var($_POST['genre'], FILTER_SANITIZE_STRING);
             $dureeSpectacle = filter_var($_POST['dureeSpectacle'], FILTER_SANITIZE_NUMBER_INT);
 
-            $urlAudio = $this->uploadFile('urlAudio');
-
             try {
+                $urlVideo = $this->uploadFile('urlVideo');
+                $urlAudio = $this->uploadFile('urlAudio');
                 $this->validate($titre, $description, $urlVideo, $urlAudio, $horairePrevuSpectacle, $genre, $dureeSpectacle);
                 $spectacle = new Spectacle(0, $titre, $description, $urlVideo, $urlAudio, $horairePrevuSpectacle, $genre, $dureeSpectacle, 0);
                 $repository = new SpectacleRepository();
-                $repository->ajouterSpectacle($spectacle);
+                $repository->ajouterSpectacle($titre, $description, $urlVideo, $urlAudio, $horairePrevuSpectacle, $genre, $dureeSpectacle, 0);
 
+                return "<p>Spectacle '$titre' ajouté avec succès.</p>";
 
             } catch (ValidationException $e) {
                 $error = $e->getMessage();
@@ -59,11 +59,11 @@ class AddSpectacleAction extends Action
             throw new ValidationException("Tous les champs sont obligatoires.");
         }
 
-        if (!filter_var($urlVideo, FILTER_VALIDATE_URL)) {
+        if (!file_exists($urlVideo)) {
             throw new ValidationException("L'URL Vidéo est invalide.");
         }
 
-        if (!filter_var($urlAudio, FILTER_VALIDATE_URL)) {
+        if (!file_exists($urlAudio)) {
             throw new ValidationException("L'URL Audio est invalide.");
         }
 
@@ -72,32 +72,44 @@ class AddSpectacleAction extends Action
         }
     }
 
+
     private function uploadFile(string $fichier): string
     {
-        if(isset($_FILES[$fichier]) && $_FILES[$fichier]['error'] === UPLOAD_ERR_OK )
-        {
+        if (isset($_FILES[$fichier]) && $_FILES[$fichier]['error'] === UPLOAD_ERR_OK) {
             $fichierTmp = $_FILES[$fichier]['tmp_name'];
-            $fichierName = $_FILES[$fichier]['name'];
-            $fichierSize = $_FILES[$fichier]['size'];
-            $fichierType = $_FILES[$fichier]['type'];
-            $fichierNC = explode(".", $fichierName);
-            $fichierExtension = strtolower(end($fichierNC));
+            $fichierExtension = pathinfo($_FILES[$fichier]['name'], PATHINFO_EXTENSION);
+            $fichierName = uniqid() . '.' . $fichierExtension;
+            $fichierDestination = __DIR__ . '/uploads/' . $fichierName;
 
-            $extensions = ['mp4', 'mp3', 'wav', 'avi'];
-            if (in_array($fichierExtension, $extensions)) {
-                $fichierDestination = 'uploads/';
-                $fichierDestination .= $fichierName;
-
-                if (move_uploaded_file($fichierTmp, $fichierDestination)) {
-                    return $fichierDestination;
-                } else {
-                    throw new ValidationException("Erreur lors de l'upload du fichier.");
-                }
-            } else {
-                throw new ValidationException("Le fichier doit être de type mp4, mp3, wav ou avi.");
+            if (!is_dir(__DIR__ . '/uploads/')) {
+                mkdir(__DIR__ . '/uploads/', 0755, true);
             }
-        }else{
-            throw new ValidationException("Erreur lors de l'upload du fichier.");
+
+            $mimeType = mime_content_type($fichierTmp);
+            $allowedTypes = ['video/mp4', 'audio/mpeg', 'audio/wav'];
+            if (!in_array($mimeType, $allowedTypes)) {
+                throw new ValidationException("Le fichier doit être une vidéo ou un fichier audio valide.");
+            }
+
+            if (move_uploaded_file($fichierTmp, $fichierDestination)) {
+                return $fichierDestination;
+            } else {
+                throw new ValidationException("Erreur lors de l'upload du fichier.");
+            }
+        } else {
+            $errorMessages = [
+                UPLOAD_ERR_INI_SIZE => "Le fichier téléchargé dépasse la directive upload_max_filesize dans php.ini.",
+                UPLOAD_ERR_FORM_SIZE => "Le fichier téléchargé dépasse la directive MAX_FILE_SIZE spécifiée dans le formulaire HTML.",
+                UPLOAD_ERR_PARTIAL => "Le fichier téléchargé n'a été que partiellement téléchargé.",
+                UPLOAD_ERR_NO_FILE => "Aucun fichier n'a été téléchargé.",
+                UPLOAD_ERR_NO_TMP_DIR => "Il manque un dossier temporaire.",
+                UPLOAD_ERR_CANT_WRITE => "Échec de l'écriture du fichier sur le disque.",
+                UPLOAD_ERR_EXTENSION => "Une extension PHP a arrêté le téléchargement du fichier.",
+            ];
+            $errorCode = $_FILES[$fichier]['error'];
+            $errorMessage = $errorMessages[$errorCode] ?? "Erreur inconnue lors de l'upload du fichier.";
+            throw new ValidationException($errorMessage);
         }
     }
+
 }

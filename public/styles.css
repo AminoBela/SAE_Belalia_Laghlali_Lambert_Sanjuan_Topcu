@@ -183,6 +183,25 @@ p {
     margin-top: 1rem;
 }
 
+footer {
+    text-align: center;
+    background-color: #333;
+    color: #000;
+    width: 100%;
+
+    bottom: 0;
+    left: 0;
+    height: 100px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+footer p
+{
+    color: white;
+}
+
 
 
 @media (max-width: 600px) {
@@ -202,21 +221,7 @@ p {
         width: 90%;
     }
 }
-footer {
-    text-align: center;
-    background-color: #333;
-    color: #000;
-    width: 100%;
-    position: static;
-    bottom: 0;
-    left: 0;
-    height: 100px;
-}
 
-footer p
-{
-    color: white;
-}
 
 
 
