@@ -1,9 +1,14 @@
 <?php
+
 namespace iutnc\nrv\renderer;
 
-class SpectacleRenderer {
+class RendererListeSpectacles extends Renderer {
 
-    public static function renderListeSpectacles(array $spectacles): string {
+    public function renderListeSpectacles(array $spectacles): string {
+
+        $header = $this->renderHeader('Liste des spectacles - NRV Festival');
+        $footer = $this->renderFooter();
+
         $html = "<div class='spectacle-list'>";
 
         foreach ($spectacles as $spectacle) {
@@ -15,11 +20,15 @@ class SpectacleRenderer {
             if (!empty($spectacle['urlImage'])) {
                 $html .= "<img src='{$spectacle['urlImage']}' alt='Image du spectacle'>";
             }
-            $html .= "<a href='spectacle.php?idSpectacle={$spectacle['idSpectacle']}'>Voir plus</a>";
+            $html .= "<a href='?action=spectacleDetails&idSpectacle={$spectacle['idSpectacle']}'>Voir plus</a>";
             $html .= "</div>";
         }
 
         $html .= "</div>";
-        return $html;
+        return $header . $html . $footer;
+    }
+
+    public function render(array $context = []): string {
+        return $this->renderListeSpectacles($context);
     }
 }

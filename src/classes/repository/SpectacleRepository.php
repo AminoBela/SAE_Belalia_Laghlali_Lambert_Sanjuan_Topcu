@@ -15,7 +15,7 @@ class SpectacleRepository {
 
     public function getListeSpectacles(): array {
         $query = "
-            SELECT s.titre, s.description, s.horrairePrevuSpectacle, so.dateSoiree, i.urlImage
+            SELECT s.idSpectacle, s.titre, s.description, s.horrairePrevuSpectacle, so.dateSoiree, i.urlImage
             FROM Spectacle s
             LEFT JOIN SoireeToSpectacle sts ON s.idSpectacle = sts.idSpectacle
             LEFT JOIN Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree

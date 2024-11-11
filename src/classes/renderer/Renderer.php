@@ -30,6 +30,7 @@ abstract class Renderer
         <body>
             <nav>
                 <a href="?action=default">Accueil</a>
+                <a href="?action=afficherListeSpectacles">Liste des spectacles</a>
                 <a href="?action=creerSpectacle">Créer un spectacle</a>
                 {$navLinks}
             </nav>

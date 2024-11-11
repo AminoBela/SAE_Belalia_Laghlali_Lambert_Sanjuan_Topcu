@@ -176,4 +176,22 @@ class Spectacle
         return $this->images;
     }
 
+    /**
+     * Getter de l'image principale du spectacle.
+     * @return string
+     */
+    public function getImagePrincipale() : string
+    {
+        return $this->images[0] ?? 'default-image.jpg';
+    }
+
+    /**
+     * Getter de la date du spectacle.
+     * @return string
+     */
+    public function getDate(){
+        return date('d/m/Y', strtotime($this->horairePrevuSpectacle));
+    }
+
+
 }

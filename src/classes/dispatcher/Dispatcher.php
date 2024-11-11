@@ -9,6 +9,7 @@ use iutnc\nrv\action\LoginAction;
 use iutnc\nrv\action\RegisterAction;
 use iutnc\nrv\action\SpectacleDetailsAction;
 use iutnc\nrv\action\SoireeDetailsAction;
+use iutnc\nrv\action\AfficherListeSpectaclesAction;
 
 /**
  * Dispatcher pour les actions.
@@ -65,10 +66,15 @@ class Dispatcher
                 $action = new SoireeDetailsAction();
                 echo $action->execute();
                 break;
+            case 'afficherListeSpectacles':
+                $action = new AfficherListeSpectaclesAction();
+                echo $action->execute();
+                break;
             default:
                 $action = new HomeAction();
                 echo $action->execute();
                 break;
+
         }
     }
 }
