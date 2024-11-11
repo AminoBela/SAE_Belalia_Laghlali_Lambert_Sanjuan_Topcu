@@ -7,7 +7,13 @@ class Autorisation
 
     public static function verifRole(string $role): bool
     {
-        // verifier si l'utilisateur est staff ou admin
+        // Vérifie si la session est active
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Vérifie si le rôle dans la session correspond au rôle attendu
+        return isset($_SESSION['user_role']) && strtolower($_SESSION['user_role']) === strtolower($role);
     }
 
 

@@ -27,20 +27,21 @@ class SpectacleRepository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function ajouterSpectacle(string $titre, string $description, string $urlVideo, string $urlAudio, string $horairePrevuSpectacle, string $genre, int $dureeSpectacle, int $estAnnule): void {
-        $sql = "INSERT INTO spectacle 
-                (titre, description, urlVideo, urlAudio, horairePrevuSpectacle, genre, dureeSpectacle, estAnnule) 
-                VALUES (:titre, :description, :urlVideo, :urlAudio, :horairePrevuSpectacle, :genre, :dureeSpectacle, :estAnnule)";
-        $stmt = $this->pdo->prepare($sql);
+    public function ajouterSpectacle(Spectacle $spectacle): void
+    {
+        $query = "INSERT INTO Spectacle (titre, description, urlVideo, horrairePrevuSpectacle, genre, dureeSpectacle, estAnnule, urlAudio)
+                  VALUES (:titre, :description, :urlVideo, :horrairePrevuSpectacle, :genre, :dureeSpectacle, :estAnnule, :urlAudio)";
+
+        $stmt = $this->pdo->prepare($query);
         $stmt->execute([
-            ':titre' => $titre,
-            ':description' => $description,
-            ':urlVideo' => $urlVideo,
-            ':urlAudio' => $urlAudio,
-            ':horairePrevuSpectacle' => $horairePrevuSpectacle,
-            ':genre' => $genre,
-            ':dureeSpectacle' => $dureeSpectacle,
-            ':estAnnule' => $estAnnule
+            ':titre' => $spectacle->getTitre(),
+            ':description' => $spectacle->getDescription(),
+            ':urlVideo' => $spectacle->getUrlVideo(),
+            ':horrairePrevuSpectacle' => $spectacle->getHorairePrevuSpectacle(),
+            ':genre' => $spectacle->getGenre(),
+            ':dureeSpectacle' => $spectacle->getDureeSpectacle(),
+            ':estAnnule' => $spectacle->getEstAnnule(),
+            ':urlAudio' => $spectacle->getUrlAudio(),
         ]);
     }
 

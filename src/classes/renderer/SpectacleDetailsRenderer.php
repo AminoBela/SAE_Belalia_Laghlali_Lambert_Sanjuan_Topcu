@@ -53,11 +53,14 @@ class SpectacleDetailsRenderer extends Renderer
             $videoElement = "";
         }
 
-        $headerImage = $this->spectacle->getImages()[0] ?? "";
+        $urlImage = $this->spectacle->getImages();
 
-        $urlImage = $headerImage['urlImage'];
-
-        echo $urlImage;
+        // Ensure $urlImage is an array before accessing its elements
+        if (is_array($urlImage) && !empty($urlImage)) {
+            $imageSrc = $urlImage[0]; // Assuming you want the first image
+        } else {
+            $imageSrc = 'default-image.jpg'; // Fallback image
+        }
 
         return
             $this->renderHeader($this->spectacle->getTitre(), 'spectacle-details.css') .

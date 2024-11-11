@@ -14,7 +14,7 @@ class User {
     const ROLE_STAFF = 'staff';
 
     public function getRoleName(): string {
-        return $this->role === self::ROLE_ADMIN ? 'Admin' : 'Staff';
+        return $this->role === self::ROLE_ADMIN ? 'admin' : 'staff';
     }
 
     public function getId(): int {

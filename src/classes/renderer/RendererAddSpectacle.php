@@ -46,8 +46,9 @@ class RendererAddSpectacle extends Renderer
         <button type="submit">Créer</button>
     </form>
     <div style="color: red;">
-        $error
+        <?php echo isset($error) ? htmlspecialchars($error) : ''; ?>
     </div>
+
     HTML;
 
         return $header . $body . $footer;

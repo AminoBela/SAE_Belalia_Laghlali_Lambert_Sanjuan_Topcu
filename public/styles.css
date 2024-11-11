@@ -28,6 +28,7 @@ nav {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    z-index: 1000; /* Ensure navigation bar stays above other elements */
 }
 
 nav ul {
@@ -55,18 +56,14 @@ nav a:hover {
     background-color: #4b6cb7; /* Couleur de fond au survol */
 }
 
-
-
-
-/*!* Styles du conteneur principal *!
 div {
-    max-width: 800px; !* Largeur maximale *!
-    margin: 20px auto; !* Centre le conteneur *!
+    max-width: 800px;
+    margin: 20px auto;
     padding: 20px;
-    background-color: cornflowerblue; !* Couleur de fond blanc *!
-    border-radius: 8px; !* Coins arrondis *!
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); !* Ombre légère *!
-}*/
+    background-color: cornflowerblue;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
 /* Styles du header */
 header {
@@ -202,8 +199,6 @@ footer p
     color: white;
 }
 
-
-
 @media (max-width: 600px) {
     body {
         padding: 0 10px;
@@ -221,7 +216,3 @@ footer p
         width: 90%;
     }
 }
-
-
-
-
