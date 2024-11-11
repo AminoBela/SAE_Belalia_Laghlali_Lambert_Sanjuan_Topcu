@@ -2,8 +2,7 @@
 
 namespace iutnc\nrv\repository;
 
-use Cassandra\Date;
-use DateTime;
+use iutnc\nrv\models\Lieu;
 use iutnc\nrv\models\Soiree;
 use iutnc\nrv\models\Spectacle;
 use PDO;
@@ -14,7 +13,8 @@ class SoireeRepository
 
     private PDO $pdo;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->pdo = ConnectionBD::obtenirBD();
     }
 
@@ -33,42 +33,85 @@ class SoireeRepository
         ]);
     }
 
-    public function chercherDateSoiree(DateTime $date): bool {
-        $sql = "SELECT COUNT(*) FROM soiree WHERE dateSoiree = :date";
-        $stmt = $this->pdo->prepare($sql);
+    public function getSoireeById(int $idLieu, string $dateSoiree): ?Soiree
+    {
+        $query = "SELECT * FROM Soiree WHERE idLieu = :idLieu AND dateSoiree = :dateSoiree";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindValue(':idLieu', $idLieu, \PDO::PARAM_INT);
+        $stmt->bindValue(':dateSoiree', $dateSoiree, \PDO::PARAM_STR);
+        $stmt->execute();
+        $data = $stmt->fetch();
 
-        // On formate la date en string pour la requête
-        $formattedDate = $date->format('Y-m-d');
-
-        $stmt->execute(['date' => $formattedDate]);
-        return $stmt->fetchColumn() > 0;
-    }
-
-
-    public function chercherNomSoiree(string $nomSoiree):bool {
-        $sql = "SELECT COUNT(*) FROM soiree WHERE nomSoiree = :nomSoiree";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['nomSoiree' => $nomSoiree]);
-        return $stmt->fetchColumn() > 0;
-    }
-
-    public function chercherThematique(string $thematique):bool {
-        $sql = "SELECT COUNT(*) FROM soiree WHERE thematique = :thematique";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['thematique' => $thematique]);
-        return $stmt->fetchColumn() > 0;
-    }
-
-    public function chercherHoraireDebut(string $horaireDebut): bool {
-
-        // Validation simple pour vérifier que l'heure est bien au format HH:MM:SS
-        if (!preg_match('/^\d{2}:\d{2}:\d{2}$/', $horaireDebut)) {
-            throw new InvalidArgumentException("Le format de l'horaire est invalide.");
+        if ($data) {
+            return new Soiree(
+                $data['nomSoiree'],
+                $data['thematique'],
+                $data['dateSoiree'],
+                $data['horraireDebut'],
+                $this->getLieuById($data['idLieu'])
+            );
         }
 
-        $sql = "SELECT COUNT(*) FROM soiree WHERE horaireDebut = :horaireDebut";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['horaireDebut' => $horaireDebut]);
-        return $stmt->fetchColumn() > 0;
+        return null;
     }
+
+
+    public function getSpectaclesForSoiree(int $idLieu, string $dateSoiree): array
+    {
+        $query = "
+        SELECT sp.* 
+        FROM Spectacle sp
+        INNER JOIN SoireeToSpectacle sts
+        ON sp.idSpectacle = sts.idSpectacle
+        WHERE sts.idLieu = :idLieu AND sts.dateSoiree = :dateSoiree
+    ";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindValue(':idLieu', $idLieu, \PDO::PARAM_INT);
+        $stmt->bindValue(':dateSoiree', $dateSoiree, \PDO::PARAM_STR);
+        $stmt->execute();
+        $data = $stmt->fetchAll();
+
+        $spectacles = [];
+        foreach ($data as $row) {
+            $spectacles[] = new Spectacle(
+                $row['idSpectacle'],                // idSpectacle (int ou null)
+                $row['titre'],                     // titre
+                $row['description'],               // description
+                $row['urlVideo'] ?? null,          // urlVideo (peut être null)
+                $row['urlAudio'] ?? null,          // urlAudio (peut être null)
+                $row['horrairePrevuSpectacle'],    // horrairePrevuSpectacle
+                $row['genre'],                     // genre
+                (int) $row['dureeSpectacle'],      // dureeSpectacle
+                (bool) $row['estAnnule']           // estAnnule (converti en booléen)
+            );
+        }
+
+        return $spectacles;
+    }
+
+
+
+
+    public function getLieuById(int $idLieu): Lieu
+    {
+        $query = "SELECT * FROM Lieu WHERE idLieu = :idLieu";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindValue(':idLieu', $idLieu, \PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch();
+
+        if ($data) {
+            return new Lieu(
+                $data['idLieu'],
+                $data['nomLieu'],
+                $data['adresse'],
+                $data['nombrePlacesAssises'],
+                $data['nombrePlacesDebout']
+            );
+        }
+
+        throw new \Exception("Lieu introuvable pour l'ID $idLieu");
+    }
+
+
 }
