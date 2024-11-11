@@ -4,6 +4,8 @@ namespace iutnc\nrv\repository;
 
 use Cassandra\Date;
 use DateTime;
+use iutnc\nrv\models\Soiree;
+use iutnc\nrv\models\Spectacle;
 use PDO;
 use iutnc\nrv\bd\ConnectionBD;
 
@@ -14,6 +16,21 @@ class SoireeRepository
 
     public function __construct() {
         $this->pdo = ConnectionBD::obtenirBD();
+    }
+
+    public function ajouterSoiree(Soiree $soiree): void
+    {
+        $query = "INSERT INTO Soiree (idLieu, dateSoiree, nomSoiree, thematique, horraireDebut)
+                  VALUES (:idLieu, :dateSoiree, :nomSoiree, :thematique, :horraireDebut)";
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute([
+            ':idLieu' => $soiree->getLieu(),
+            ':dateSoiree' => $soiree->getDateSoiree(),
+            ':nomSoiree' => $soiree->getNomSoiree(),
+            ':thematique' => $soiree->getThematique(),
+            ':horraireDebut' => $soiree->getHoraireDebut(),
+        ]);
     }
 
     public function chercherDateSoiree(DateTime $date): bool {
