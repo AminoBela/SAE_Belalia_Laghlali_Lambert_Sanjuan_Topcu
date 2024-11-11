@@ -2,25 +2,44 @@
 
 namespace iutnc\nrv\models;
 
-use iutnc\nrv\models\Lieu;
-use iutnc\nrv\models\Spectacle;
-
+/**
+ * Classe pour la gestion des soirées.
+ */
 class Soiree
 {
-    private string $nomSoiree;      // Nom de la soirée
-    private string $thematique;    // Thématique générale (ex. "soirée blues")
-    private string $dateSoiree;    // Date de la soirée
-    private string $horaireDebut;  // Horaire de début
-    private Lieu $lieu;            // Lieu où se déroule la soirée
-    private array $spectacles;     // Liste des spectacles prévus
 
+    /**
+     * Attributs de la classe.
+     * @var string $nomSoiree Nom de la soirée.
+     * @var string $thematique Thématique de la soirée.
+     * @var string $dateSoiree Date de la soirée.
+     * @var string $horaireDebut Horaire de début de la soirée.
+     * @var Lieu $lieu Lieu de la soirée.
+     * @var array $spectacles Spectacles de la soirée.
+     */
+    private string $nomSoiree;
+    private string $thematique;
+    private string $dateSoiree;
+    private string $horaireDebut;
+    private Lieu $lieu;
+    private array $spectacles;
+
+    /**
+     * Constructeur de la classe.
+     * @param string $nomSoiree Nom de la soirée.
+     * @param string $thematique Thématique de la soirée.
+     * @param string $dateSoiree Date de la soirée.
+     * @param string $horaireDebut Horaire de début de la soirée.
+     * @param Lieu $lieu Lieu de la soirée.
+     * @param array $spectacles Spectacles de la soirée.
+     */
     public function __construct(
         string $nomSoiree,
         string $thematique,
         string $dateSoiree,
         string $horaireDebut,
         Lieu $lieu,
-        array $spectacles = [] // Spectacles associés (par défaut vide)
+        array $spectacles = []
     ) {
         $this->nomSoiree = $nomSoiree;
         $this->thematique = $thematique;
@@ -30,21 +49,76 @@ class Soiree
         $this->spectacles = $spectacles;
     }
 
-    // Getters
-    public function getNomSoiree(): string { return $this->nomSoiree; }
-    public function getThematique(): string { return $this->thematique; }
-    public function getDateSoiree(): string { return $this->dateSoiree; }
-    public function getHoraireDebut(): string { return $this->horaireDebut; }
-    public function getLieu(): Lieu { return $this->lieu; }
-    public function getSpectacles(): array { return $this->spectacles; }
+    /**
+     * Getter du nom de la soirée.
+     * @return string Nom de la soirée.
+     */
+    public function getNomSoiree(): string
+    {
+        return $this->nomSoiree;
+    }
 
-    // Setters
-    public function setSpectacles(array $spectacles): void { $this->spectacles = $spectacles; }
+    /**
+     * Getter de la thématique de la soirée.
+     * @return string Thématique de la soirée.
+     */
+    public function getThematique(): string
+    {
+        return $this->thematique;
+    }
 
+    /**
+     * Getter de la date de la soirée.
+     * @return string Date de la soirée.
+     */
+    public function getDateSoiree(): string
+    {
+        return $this->dateSoiree;
+    }
+
+    /**
+     * Getter de l'horaire de début de la soirée.
+     * @return string Horaire de début de la soirée.
+     */
+    public function getHoraireDebut(): string
+    {
+        return $this->horaireDebut;
+    }
+
+    /**
+     * Getter du lieu de la soirée.
+     * @return Lieu Lieu de la soirée.
+     */
+    public function getLieu(): Lieu
+    {
+        return $this->lieu;
+    }
+
+    /**
+     * Getter des Spectacles.
+     * @return array
+     */
+    public function getSpectacles(): array
+    {
+        return $this->spectacles;
+    }
+
+    /**
+     * Setter des Spectacles.
+     * @param array $spectacles
+     * @return void
+     */
+    public function setSpectacles(array $spectacles): void
+    {
+        $this->spectacles = $spectacles;
+    }
+
+    /**
+     * Methode toString pour afficher une soirée.
+     * @return string
+     */
     public function __toString(): string
     {
         return "{$this->nomSoiree} - {$this->thematique} ({$this->dateSoiree}, {$this->horaireDebut} au {$this->lieu})";
     }
-
-
 }

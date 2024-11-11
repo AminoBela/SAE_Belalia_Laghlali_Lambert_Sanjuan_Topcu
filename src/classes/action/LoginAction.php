@@ -6,12 +6,23 @@ use iutnc\nrv\auth\Authentification;
 use iutnc\nrv\renderer\RendererLogin;
 use iutnc\nrv\repository\UserRepository;
 use iutnc\nrv\exception\AuthException;
-use iutnc\nrv\models\User;
+use Exception;
 
+/**
+ * Action pour la page de connexion, fonctionalité 13.
+ */
 class LoginAction extends Action
 {
+
+    /**
+     * Attribut pour la gestion de l'authentification.
+     * @var Authentification Gestion de l'authentification.
+     */
     private Authentification $auth;
 
+    /**
+     * Constructeur de l'action, initialise l'authentification.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -23,6 +34,10 @@ class LoginAction extends Action
         }
     }
 
+    /**
+     * Exécution de l'action.
+     * @return string
+     */
     public function execute(): string
     {
         $error = '';
@@ -34,7 +49,6 @@ class LoginAction extends Action
             try {
                 if ($this->auth->login($email, $password)) {
                     $_SESSION['email'] = $email;
-                    // etablir le role de l'utilisateur
                     $_SESSION['role'] = $this->auth->getRole($email);
 
                     header('Location: ?action=home');
@@ -46,7 +60,6 @@ class LoginAction extends Action
                 $error = 'An unexpected error occurred. Please try again later.';
             }
         }
-
         $renderer = new RendererLogin();
         return $renderer->render(['error' => $error]);
     }

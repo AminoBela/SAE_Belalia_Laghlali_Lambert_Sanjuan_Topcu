@@ -2,13 +2,19 @@
 
 namespace iutnc\nrv\action;
 
-use iutnc\nrv\models\Soiree;
-use iutnc\nrv\models\Spectacle;
 use iutnc\nrv\renderer\RendererDetailsSoiree;
 use iutnc\nrv\repository\SoireeRepository;
 
+/**
+ * Action pour la page de détails d'une soirée. Fonctionnalité 6.
+ */
 class SoireeDetailsAction extends Action
 {
+
+    /**
+     * Exécute l'action.
+     * @return string
+     */
     public function execute(): string
     {
         $idLieu = $_GET['idLieu'] ?? null;
@@ -25,13 +31,10 @@ class SoireeDetailsAction extends Action
             return "<p>Soirée introuvable.</p>";
         }
 
-        // Récupération des spectacles associés à la soirée
         $spectacles = $soireeRepository->getSpectaclesForSoiree((int) $idLieu, $dateSoiree);
 
-        // Ajout des spectacles à l'objet Soiree
         $soiree->setSpectacles($spectacles);
 
-        // Renderer
         $renderer = new RendererDetailsSoiree($soiree);
         return $renderer->render();
     }

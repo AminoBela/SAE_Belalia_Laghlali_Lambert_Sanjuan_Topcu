@@ -10,16 +10,30 @@ use iutnc\nrv\action\RegisterAction;
 use iutnc\nrv\action\SpectacleDetailsAction;
 use iutnc\nrv\action\SoireeDetailsAction;
 
+/**
+ * Dispatcher pour les actions.
+ */
 class Dispatcher
 {
+
+    /**
+     * Attribut pour l'action à effectuer.
+     * @var string Action à effectuer.
+     */
     private string $action;
 
+    /**
+     * Constructeur du dispatcher.
+     */
     public function __construct()
     {
         $this->action = "";
         if (isset($_GET['action'])) $this->action = $_GET['action'];
     }
 
+    /**
+     * Méthode qui exécute l'action demandée.
+     */
     public function run()
     {
         switch ($this->action) {
