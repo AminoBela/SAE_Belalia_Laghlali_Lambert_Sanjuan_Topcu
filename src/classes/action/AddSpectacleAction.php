@@ -7,20 +7,38 @@ use iutnc\nrv\repository\SpectacleRepository;
 use iutnc\nrv\exception\ValidationException;
 use iutnc\nrv\auth\Autorisation;
 use iutnc\nrv\renderer\RendererAddSpectacle;
+use Exception;
 
+/**
+ * Action pour ajouter un spectacle.
+ * Ceci concerne la fonctionnalité 14. Creer un nouveau spectacle.
+ */
 class AddSpectacleAction extends Action
 {
+
+    /**
+     * Attribut repository
+     * @var SpectacleRepository $repository
+     */
     protected SpectacleRepository $repository;
 
+    /**
+     * Constructeur
+     * Ce constructeur initialise l'attribut repository.
+     */
     public function __construct()
     {
         parent::__construct();
         $this->repository = new SpectacleRepository();
     }
 
+    /**
+     * Méthode execute
+     * Cette méthode permet d'ajouter un spectacle.
+     * @return string Retourne le résultat de l'action
+     */
     public function execute(): string
     {
-        // Vérification des permissions via Autorisation
         if (!Autorisation::isStaff() && !Autorisation::isAdmin()) {
             return "<div style='color:red;'>Permission refusée : vous devez être admin ou staff.</div>";
         }
@@ -28,11 +46,10 @@ class AddSpectacleAction extends Action
         $error = '';
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                var_dump('Step 1: Starting POST processing'); // Débogage
-                var_dump($_POST); // Vérifie les données POST
-                var_dump($_FILES); // Vérifie les fichiers uploadés
+                var_dump('Step 1: Starting POST processing');
+                var_dump($_POST);
+                var_dump($_FILES);
 
-                // Validation des champs obligatoires
                 $titre = filter_var($_POST['titre'] ?? '', FILTER_SANITIZE_STRING);
                 $description = filter_var($_POST['description'] ?? '', FILTER_SANITIZE_STRING);
                 $horrairePrevuSpectacle = filter_var($_POST['horairePrevuSpectacle'] ?? '', FILTER_SANITIZE_STRING);
@@ -43,35 +60,19 @@ class AddSpectacleAction extends Action
                     throw new ValidationException("Tous les champs obligatoires doivent être remplis.");
                 }
 
-                // Traitement des fichiers uploadés
                 $urlVideo = $this->handleFileUpload('urlVideo', 'videos/');
                 $urlAudio = $this->handleFileUpload('urlAudio', 'audios/');
 
+                $spectacle = new Spectacle(null, $titre, $description, $urlVideo, $urlAudio, $horrairePrevuSpectacle, $genre, $dureeSpectacle, 0);
 
-
-                // Création du spectacle
-                $spectacle = new Spectacle(
-                    null,
-                    $titre,
-                    $description,
-                    $urlVideo,
-                    $urlAudio,
-                    $horrairePrevuSpectacle,
-                    $genre,
-                    $dureeSpectacle,
-                    0
-                );
-
-                // Sauvegarde dans la base
                 $this->repository->ajouterSpectacle($spectacle);
 
-                // Redirection vers l'accueil
                 header('Location: ?action=home');
                 exit;
             }
         } catch (ValidationException $e) {
             $error = $e->getMessage();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $error = "Une erreur inattendue s'est produite : " . $e->getMessage();
         }
 
@@ -79,6 +80,13 @@ class AddSpectacleAction extends Action
         return (new RendererAddSpectacle())->render(['error' => $error]);
     }
 
+    /**
+     * Méthode handleFileUpload
+     * Cette méthode permet de gérer le téléchargement d'un fichier.
+     * @param string $fieldName Nom du champ de fichier
+     * @param string $destination Destination du fichier
+     * @return string|null Retourne le chemin du fichier téléchargé
+     */
     private function handleFileUpload(string $fieldName, string $destination): ?string
     {
         if (isset($_FILES[$fieldName]) && $_FILES[$fieldName]['error'] === UPLOAD_ERR_OK) {
