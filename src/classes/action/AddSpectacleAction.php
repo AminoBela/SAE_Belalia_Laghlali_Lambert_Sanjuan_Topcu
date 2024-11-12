@@ -52,7 +52,7 @@ class AddSpectacleAction extends Action
 
                 $titre = filter_var($_POST['titre'] ?? '', FILTER_SANITIZE_STRING);
                 $description = filter_var($_POST['description'] ?? '', FILTER_SANITIZE_STRING);
-                $horrairePrevuSpectacle = filter_var($_POST['horairePrevuSpectacle'] ?? '', FILTER_SANITIZE_STRING);
+                $horairePrevuSpectacle = filter_var($_POST['horrairePrevuSpectacle'] ?? '', FILTER_SANITIZE_STRING);
                 $genre = filter_var($_POST['genre'] ?? '', FILTER_SANITIZE_STRING);
                 $dureeSpectacle = filter_var($_POST['dureeSpectacle'] ?? '', FILTER_VALIDATE_INT);
 
@@ -63,7 +63,7 @@ class AddSpectacleAction extends Action
                 $urlVideo = $this->handleFileUpload('urlVideo', 'videos/');
                 $urlAudio = $this->handleFileUpload('urlAudio', 'audios/');
 
-                $spectacle = new Spectacle(null, $titre, $description, $urlVideo, $urlAudio, $horrairePrevuSpectacle, $genre, $dureeSpectacle, 0);
+                $spectacle = new Spectacle(null, $titre, $description, $urlVideo, $urlAudio, $horairePrevuSpectacle, $genre, $dureeSpectacle, 0);
 
                 $this->repository->ajouterSpectacle($spectacle);
 

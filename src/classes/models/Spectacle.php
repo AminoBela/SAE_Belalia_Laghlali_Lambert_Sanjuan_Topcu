@@ -32,6 +32,7 @@ class Spectacle
     private int $estAnnule;
     private array $images;
 
+
     /**
      * Constructeur de la classe.
      * @param int|null $idSpectacle
@@ -56,6 +57,7 @@ class Spectacle
         $this->dureeSpectacle = $dureeSpectacle;
         $this->estAnnule = $estAnnule;
         $this->images = $images;
+
     }
 
     /**
@@ -77,7 +79,8 @@ class Spectacle
             $result['genre'],
             $result['dureeSpectacle'],
             $result['estAnnule'],
-            $images
+            $images,
+            $result['nomLieu'] ?? 'N/A'
         );
     }
 
@@ -88,6 +91,16 @@ class Spectacle
     public function getIdSpectacle(): int {
         return $this->idSpectacle;
     }
+
+    /**
+     * Getter du nom du lieu du spectacle.
+     * @return string
+     */
+    public function getNomLieu(): string {
+        return $this->nomLieu;
+    }
+
+
 
     /***
      * Getter du titre du spectacle.

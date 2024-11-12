@@ -21,7 +21,7 @@ abstract class Renderer
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>{$title}</title>
-            <link rel="stylesheet" href="styles.css">
+            <link rel="stylesheet" href="styles/global.css">
             <link rel="stylesheet" href="{$autreStyle}">
             <header>
                 <h1>NRV Festival</h1>

@@ -1,0 +1,31 @@
+.home-container {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.home-container h1 {
+    font-size: 2.5rem;
+    color: #4b6cb7;
+    margin-bottom: 20px;
+}
+
+.home-container p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+.home-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4b6cb7;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+.home-button:hover {
+    background-color: #395b99;
+}

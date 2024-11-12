@@ -13,74 +13,65 @@ class SpectacleDetailsRenderer extends Renderer
         $this->spectacle = $spectacle;
     }
 
-
     public function render(array $context = []): string
     {
-        // si le spectacle est annulé, on affiche un message, sinon affiche la durée du spectacle
-        $dureeSpectacle = $this->spectacle->getEstAnnule() ? "Spectacle annulé" : "Durée du spectacle : " . $this->spectacle->getDureeSpectacleText();
+        // Gestion de la durée ou annulation
+        $dureeSpectacle = $this->spectacle->getEstAnnule()
+            ? "<span class='annule'>Spectacle annulé</span>"
+            : "Durée du spectacle : " . $this->spectacle->getDureeSpectacleText();
 
-        // affiche l'audio avec le titre du spectacle, sa description, la vidéo si elle existe
-        // et les autres informations du spectacle
-        $audio = $this->spectacle->getUrlAudio() ?? "";
-        $video = $this->spectacle->getUrlVideo() ?? "";
+        // Gestion de l'audio
+        $audio = $this->spectacle->getUrlAudio();
+        $audioElement = $audio ? "
+            <audio controls>
+                <source src='{$audio}' type='audio/mpeg'>
+                Votre navigateur ne supporte pas l'élément audio.
+            </audio>
+        " : "";
 
-        if ($audio) {
-            $audioElement = "<audio controls>
-                                <source src='$audio' type='audio/mpeg'>
-                                Your browser does not support the audio element.
-                            </audio>";
-        } else {
-            $audioElement = "";
-        }
-
+        // Gestion de la vidéo
+        $video = $this->spectacle->getUrlVideo();
+        $videoElement = "";
         if ($video) {
             if (strpos($video, 'youtube') !== false) {
-                // obtient l'id de la vidéo youtube
                 $youtubeId = explode('=', $video);
-
-                // crée le lien de la vidéo youtube avec embed
                 $video = "https://www.youtube.com/embed/" . end($youtubeId);
-
-                // crée l'iframe de la vidéo youtube
-                $videoElement = "<iframe width='560' height='315' src='$video' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>";
+                $videoElement = "
+                    <iframe width='560' height='315' src='{$video}' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
+                ";
             } else {
-                $videoElement = "<video controls>
-                                    <source src='$video' type='video/mp4'>
-                                    Your browser does not support the video element.
-                                </video>";
+                $videoElement = "
+                    <video controls>
+                        <source src='{$video}' type='video/mp4'>
+                        Votre navigateur ne supporte pas l'élément vidéo.
+                    </video>
+                ";
             }
-        } else {
-            $videoElement = "";
         }
 
+        // Gestion des images
         $urlImage = $this->spectacle->getImages();
+        $imageSrc = is_array($urlImage) && !empty($urlImage) ? $urlImage[0] : 'default-image.jpg';
 
-        // Ensure $urlImage is an array before accessing its elements
-        if (is_array($urlImage) && !empty($urlImage)) {
-            $imageSrc = $urlImage[0]; // Assuming you want the first image
-        } else {
-            $imageSrc = 'default-image.jpg'; // Fallback image
-        }
-
-        return
-            $this->renderHeader($this->spectacle->getTitre(), 'spectacle-details.css') .
-            "
-                <div class='details-header'>
-                    <div class='image-container'>
-                        <img src='{}' alt='image'>
-                        <div class='image-text'>
-                            <h1>{$this->spectacle->getTitre()}</h1>
-                        <div>
+        // Construction du rendu HTML
+        return $this->renderHeader($this->spectacle->getTitre(), 'styles/spectacle-details.css') . <<<HTML
+            <div class="details-header">
+                <div class="image-container">
+                    <img src="{$imageSrc}" alt="Image du spectacle">
+                    <div class="image-text">
+                        <h1>{$this->spectacle->getTitre()}</h1>
                     </div>
-                    <p>{$this->spectacle->getDescription()}</p>
-                    $videoElement
-                    $audioElement
                 </div>
-                <div class='details-body'>
-                    <p>Genre : {$this->spectacle->getGenre()}</p>
-                    <p>Horaire prévu : {$this->spectacle->getHorairePrevuSpectacle()}</p>
-                </div>
-            "
+                <p>{$this->spectacle->getDescription()}</p>
+                {$videoElement}
+                {$audioElement}
+            </div>
+            <div class="details-body">
+                <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
+                <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacle()}</p>
+                <p><span>Durée :</span> {$dureeSpectacle}</p>
+            </div>
+            HTML
             . $this->renderFooter();
     }
 }

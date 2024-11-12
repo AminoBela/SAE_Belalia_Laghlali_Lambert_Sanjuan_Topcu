@@ -17,7 +17,7 @@ class RendererDetailsSoiree extends Renderer
     public function render(array $context = []): string
     {
         // Header
-        $html = $this->renderHeader("Détails de la Soirée");
+        $html = $this->renderHeader("Détails de la Soirée", "styles/soiree.css");
 
         // Contenu principal
         $html .= "<main class='soiree-details'>";

@@ -1,0 +1,69 @@
+/* Conteneur principal */
+.details-header {
+    padding: 20px;
+    background-color: #f4f4f4;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.details-header .image-container {
+    max-width: 600px;
+    margin: 0 auto 20px auto;
+    position: relative;
+}
+
+.details-header .image-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.details-header .image-text {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+}
+
+.details-header p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: 15px;
+}
+
+/* Vidéo et audio */
+.details-header video,
+.details-header iframe,
+.details-header audio {
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Corps des détails */
+.details-body {
+    padding: 20px;
+    background-color: white;
+    max-width: 800px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.details-body p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+    color: #333;
+}
+
+.details-body p span {
+    font-weight: bold;
+    color: #4b6cb7;
+}

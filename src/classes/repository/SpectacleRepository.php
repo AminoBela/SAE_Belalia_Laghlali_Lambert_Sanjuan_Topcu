@@ -1,4 +1,5 @@
 <?php
+
 namespace iutnc\nrv\repository;
 
 use Exception;
@@ -13,35 +14,36 @@ class SpectacleRepository {
         $this->pdo = ConnectionBD::obtenirBD();
     }
 
-    public function getListeSpectacles(): array {
+    public function getListeSpectacles(): array
+    {
         $query = "
-            SELECT s.idSpectacle, s.titre, s.description, s.horrairePrevuSpectacle, so.dateSoiree, i.urlImage
-            FROM Spectacle s
-            LEFT JOIN SoireeToSpectacle sts ON s.idSpectacle = sts.idSpectacle
-            LEFT JOIN Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
-            LEFT JOIN ImageToSpectacle its ON s.idSpectacle = its.idSpectacle
-            LEFT JOIN Image i ON its.idImage = i.idImage;
+            select s.idSpectacle, s.titre, s.description, s.horrairePrevuSpectacle, s.genre, so.dateSoiree, so.horraireDebut, l.nomLieu, l.adresse
+            from Spectacle s
+            left join SoireeToSpectacle sts ON s.idSpectacle = sts.idSpectacle
+            left join Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
+            left join Lieu l ON so.idLieu = l.idLieu;
         ";
+
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function ajouterSpectacle(Spectacle $spectacle): void
     {
-        $query = "INSERT INTO Spectacle (titre, description, urlVideo, horrairePrevuSpectacle, genre, dureeSpectacle, estAnnule, urlAudio)
-                  VALUES (:titre, :description, :urlVideo, :horrairePrevuSpectacle, :genre, :dureeSpectacle, :estAnnule, :urlAudio)";
-
+        $query = "insert into Spectacle (titre, description, urlVideo, urlAudio, horrairePrevuSpectacle, genre, dureeSpectacle, estAnnule) 
+        values (:titre, :description, :urlVideo, :urlAudio, :horrairePrevuSpectacle, :genre, :dureeSpectacle, :estAnnule)";
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([
-            ':titre' => $spectacle->getTitre(),
-            ':description' => $spectacle->getDescription(),
-            ':urlVideo' => $spectacle->getUrlVideo(),
-            ':horrairePrevuSpectacle' => $spectacle->getHorairePrevuSpectacle(),
-            ':genre' => $spectacle->getGenre(),
-            ':dureeSpectacle' => $spectacle->getDureeSpectacle(),
-            ':estAnnule' => $spectacle->getEstAnnule(),
-            ':urlAudio' => $spectacle->getUrlAudio(),
+            'titre' => $spectacle->getTitre(),
+            'description' => $spectacle->getDescription(),
+            'urlVideo' => $spectacle->getUrlVideo(),
+            'urlAudio' => $spectacle->getUrlAudio(),
+            'horrairePrevuSpectacle' => $spectacle->getHorairePrevuSpectacle(),
+            'genre' => $spectacle->getGenre(),
+            'dureeSpectacle' => $spectacle->getDureeSpectacle(),
+            'estAnnule' => $spectacle->getEstAnnule()
         ]);
     }
 

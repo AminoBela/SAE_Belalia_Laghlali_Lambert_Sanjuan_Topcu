@@ -1,0 +1,79 @@
+/* Global container */
+.soiree-details {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.soiree-details h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #4b6cb7;
+    margin-bottom: 20px;
+}
+
+.soiree-details p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+    color: #555;
+}
+
+.soiree-details strong {
+    color: #4b6cb7;
+}
+
+/* Spectacles list */
+.spectacles-list {
+    margin-top: 20px;
+    padding: 0;
+    list-style-type: none;
+}
+
+.spectacles-list h2 {
+    font-size: 1.8rem;
+    color: #4b6cb7;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.spectacle-item {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.spectacle-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.spectacle-item h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+    color: #4b6cb7;
+}
+
+.spectacle-item h3 a {
+    text-decoration: none;
+    color: #4b6cb7;
+    transition: color 0.3s ease;
+}
+
+.spectacle-item h3 a:hover {
+    color: #395b99;
+}
+
+.spectacle-item p {
+    font-size: 1rem;
+    color: #333;
+    margin: 5px 0;
+}
