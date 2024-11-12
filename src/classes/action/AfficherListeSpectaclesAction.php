@@ -5,8 +5,7 @@ namespace iutnc\nrv\action;
 use iutnc\nrv\repository\SpectacleRepository;
 use iutnc\nrv\renderer\RendererListeSpectacles;
 
-class AfficherListeSpectaclesAction extends Action
-{
+class AfficherListeSpectaclesAction extends Action {
 
     private SpectacleRepository $spectacleRepository;
 
@@ -15,7 +14,18 @@ class AfficherListeSpectaclesAction extends Action
     }
 
     public function execute(): string {
-        $spectacles = $this->spectacleRepository->getListeSpectacles();
+        // Récupérer le paramètre de tri, avec 'date' comme valeur par défaut
+        $sort = $_GET['sort'] ?? 'date';
+
+        // Appel à la méthode de tri en fonction du paramètre
+        if ($sort === 'genre') {
+            $spectacles = $this->spectacleRepository->getListeSpectaclesByGenre();
+        } elseif ($sort === 'lieu') {
+            $spectacles = $this->spectacleRepository->getListeSpectaclesByLieu();
+        } else {
+            $spectacles = $this->spectacleRepository->getListeSpectaclesByDate();
+        }
+
         $renderer = new RendererListeSpectacles();
         return $renderer->renderListeSpectacles($spectacles);
     }
