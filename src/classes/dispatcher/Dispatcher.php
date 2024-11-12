@@ -8,17 +8,33 @@ use iutnc\nrv\action\HomeAction;
 use iutnc\nrv\action\LoginAction;
 use iutnc\nrv\action\RegisterAction;
 use iutnc\nrv\action\SpectacleDetailsAction;
+use iutnc\nrv\action\SoireeDetailsAction;
+use iutnc\nrv\action\AfficherListeSpectaclesAction;
 
+/**
+ * Dispatcher pour les actions.
+ */
 class Dispatcher
 {
+
+    /**
+     * Attribut pour l'action à effectuer.
+     * @var string Action à effectuer.
+     */
     private string $action;
 
+    /**
+     * Constructeur du dispatcher.
+     */
     public function __construct()
     {
         $this->action = "";
         if (isset($_GET['action'])) $this->action = $_GET['action'];
     }
 
+    /**
+     * Méthode qui exécute l'action demandée.
+     */
     public function run()
     {
         switch ($this->action) {
@@ -46,10 +62,19 @@ class Dispatcher
                 $action = new SpectacleDetailsAction();
                 echo $action->execute();
                 break;
+            case 'soireeDetails':
+                $action = new SoireeDetailsAction();
+                echo $action->execute();
+                break;
+            case 'afficherListeSpectacles':
+                $action = new AfficherListeSpectaclesAction();
+                echo $action->execute();
+                break;
             default:
                 $action = new HomeAction();
                 echo $action->execute();
                 break;
+
         }
     }
 }

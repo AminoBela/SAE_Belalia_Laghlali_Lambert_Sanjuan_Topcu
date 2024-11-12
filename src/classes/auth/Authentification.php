@@ -6,10 +6,22 @@ use iutnc\nrv\repository\UserRepository;
 use iutnc\nrv\exception\AuthException;
 use iutnc\nrv\models\User;
 
+/**
+ * Classe pour la gestion de l'authentification.
+ */
 class Authentification
 {
+
+    /**
+     * Attribut pour le repository des utilisateurs.
+     * @var UserRepository Repository des utilisateurs.
+     */
     private UserRepository $repository;
 
+    /**
+     * Constructeur de la classe, initialise le repository.
+     * @param UserRepository $repository Repository des utilisateurs.
+     */
     public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
@@ -18,6 +30,14 @@ class Authentification
         }
     }
 
+    /**
+     * Methode pour l'inscription d'un utilisateur.
+     * @param string $nomUtilisateur Nom de l'utilisateur.
+     * @param string $email Email de l'utilisateur.
+     * @param string $mdp Mot de passe de l'utilisateur.
+     * @param string $mdpConfirm Confirmation du mot de passe.
+     * @throws AuthException
+     */
     public function register(string $nomUtilisateur, string $email, string $mdp, string $mdpConfirm): void
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -39,6 +59,13 @@ class Authentification
         $this->repository->ajouterUtilisateur($nomUtilisateur, $email, $hashedMdp, User::ROLE_STAFF);
     }
 
+    /**
+     * Methode pour la connexion d'un utilisateur.
+     * @param string $email Email de l'utilisateur.
+     * @param string $mdp Mot de passe de l'utilisateur.
+     * @return bool
+     * @throws AuthException
+     */
     public function login(string $email, string $mdp): bool {
         $user = $this->repository->chercherParEmailUser($email);
 
@@ -52,14 +79,26 @@ class Authentification
         return true;
     }
 
+    /**
+     * Methode pour verifier si un utilisateur est connecté.
+     * @return bool
+     */
     public static function isLogged(): bool {
         return isset($_SESSION['user_id']);
     }
 
+    /**
+     * Methode pour la deconnexion d'un utilisateur.
+     */
     public static function logout(): void {
         session_destroy();
     }
 
+    /**
+     * Methode pour obtenir le role d'un utilisateur.
+     * @param string $email Email de l'utilisateur.
+     * @return string|null
+     */
     public static function getRole(string $email): ?string {
         $repository = new UserRepository();
         $user = $repository->chercherParEmailUser($email);
