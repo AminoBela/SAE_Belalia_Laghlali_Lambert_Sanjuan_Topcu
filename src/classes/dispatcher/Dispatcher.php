@@ -2,7 +2,7 @@
 
 namespace iutnc\nrv\dispatcher;
 
-use AddSpectacleAction;
+use iutnc\nrv\action\AddSpectacleAction;
 use iutnc\nrv\action\AddSoireeAction;
 use iutnc\nrv\action\HomeAction;
 use iutnc\nrv\action\LoginAction;

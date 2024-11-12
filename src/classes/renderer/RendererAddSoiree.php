@@ -25,11 +25,11 @@ class RendererAddSoiree extends Renderer
         </div>
         <div>
             <label for="dateSoiree">Date de la soirée :</label>
-            <input type="text" id="dateSoiree" name="dateSoiree" maxlength="255" required>
+            <input type="date" id="dateSoiree" name="dateSoiree" required>
         </div>
         <div>
             <label for="horraireDebut">horraire du debut de la soirée :</label>
-            <input type="text" id="horraireDebut" name="horraireDebut" maxlength="255" required>
+            <input type="time" id="horraireDebut" name="horraireDebut" required>
         </div>
         <div>
             <label for="idLieu">id du lieu :</label>
