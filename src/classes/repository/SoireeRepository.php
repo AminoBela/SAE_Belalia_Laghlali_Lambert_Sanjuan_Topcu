@@ -25,7 +25,7 @@ class SoireeRepository
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([
-            ':idLieu' => $soiree->getLieu(),
+            ':idLieu' => $soiree->getLieu()->getIdLieu(),
             ':dateSoiree' => $soiree->getDateSoiree(),
             ':nomSoiree' => $soiree->getNomSoiree(),
             ':thematique' => $soiree->getThematique(),

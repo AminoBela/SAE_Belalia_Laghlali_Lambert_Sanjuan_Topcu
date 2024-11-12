@@ -2,13 +2,12 @@
 
 namespace iutnc\nrv\renderer;
 
-use iutnc\nrv\action\AddSoireeAction;
-
 class RendererAddSoiree extends Renderer
 {
     public function render(array $data = []): string
     {
         $error = htmlspecialchars($data['error'] ?? '', ENT_QUOTES, 'UTF-8');
+        $lieux = $data['lieux'] ?? [];
         $header = $this->renderHeader('Créer une Soiree - NRV Festival');
         $footer = $this->renderFooter();
 
@@ -32,18 +31,23 @@ class RendererAddSoiree extends Renderer
             <input type="time" id="horraireDebut" name="horraireDebut" required>
         </div>
         <div>
-            <label for="idLieu">id du lieu :</label>
-            <input type="number" id="idLieu" name="idLieu" min="1" required>
+            <label for="idLieu">Lieu :</label>
+            <select id="idLieu" name="idLieu" required>
+                <option value="">Sélectionnez un lieu</option>
+HTML;
+        foreach ($lieux as $lieu) {
+            $body .= "<option value='{$lieu['idLieu']}'>{$lieu['nomLieu']}</option>";
+        }
+        $body .= <<<HTML
+            </select>
         </div>
         <button type="submit">Créer</button>
     </form>
     <div style="color: red;">
-        <?php echo isset($error) ? htmlspecialchars($error) : ''; ?>
+        $error
     </div>
-
-    HTML;
+HTML;
 
         return $header . $body . $footer;
     }
-
 }
