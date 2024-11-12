@@ -5,8 +5,8 @@ namespace iutnc\nrv\action;
 use iutnc\nrv\repository\SpectacleRepository;
 use iutnc\nrv\renderer\RendererListeSpectacles;
 
-class AfficherListeSpectaclesAction extends Action {
-
+class AfficherListeSpectaclesAction extends Action
+{
     private SpectacleRepository $spectacleRepository;
 
     public function __construct() {
@@ -14,20 +14,38 @@ class AfficherListeSpectaclesAction extends Action {
     }
 
     public function execute(): string {
-        // Récupérer le paramètre de tri, avec 'date' comme valeur par défaut
-        $sort = $_GET['sort'] ?? 'date';
+        $filterCriteria = filter_input(INPUT_GET, 'filter-criteria', FILTER_SANITIZE_STRING);
+        $filterOption = filter_input(INPUT_GET, 'filter-options', FILTER_SANITIZE_STRING);
 
-        // Appel à la méthode de tri en fonction du paramètre
-        if ($sort === 'genre') {
-            $spectacles = $this->spectacleRepository->getListeSpectaclesByGenre();
-        } elseif ($sort === 'lieu') {
-            $spectacles = $this->spectacleRepository->getListeSpectaclesByLieu();
+        $spectacles = [];
+        if ($filterCriteria && $filterOption) {
+            switch ($filterCriteria) {
+                case 'jour':
+                    $spectacles = $this->spectacleRepository->getListeSpectaclesByDate($filterOption);
+                    break;
+                case 'lieu':
+                    $spectacles = $this->spectacleRepository->getListeSpectaclesByLieu($filterOption);
+                    break;
+                case 'style':
+                    $spectacles = $this->spectacleRepository->getListeSpectaclesByGenre($filterOption);
+                    break;
+            }
         } else {
-            $spectacles = $this->spectacleRepository->getListeSpectaclesByDate();
+            $spectacles = $this->spectacleRepository->getListeSpectacles();
         }
 
-        $renderer = new RendererListeSpectacles();
-        return $renderer->renderListeSpectacles($spectacles);
-    }
+        $jours = $this->spectacleRepository->getDistinctJours();
+        $lieux = $this->spectacleRepository->getDistinctLieux();
+        $styles = $this->spectacleRepository->getDistinctStyles();
 
+        $renderer = new RendererListeSpectacles();
+        return $renderer->render([
+            'spectacles' => $spectacles,
+            'jours' => $jours,
+            'lieux' => $lieux,
+            'styles' => $styles,
+            'selectedCriteria' => $filterCriteria,
+            'selectedOption' => $filterOption
+        ]);
+    }
 }

@@ -69,7 +69,7 @@ class SpectacleRepository {
         }
     }
 
-    public function getListeSpectaclesByDate(): array {
+    public function getListeSpectaclesByDate(string $date): array {
         $query = "
         SELECT s.idSpectacle, s.titre, s.description, s.horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
         FROM Spectacle s
@@ -78,14 +78,15 @@ class SpectacleRepository {
         LEFT JOIN ImageToSpectacle its ON s.idSpectacle = its.idSpectacle
         LEFT JOIN Image i ON its.idImage = i.idImage
         LEFT JOIN Lieu l ON so.idLieu = l.idLieu
-        ORDER BY so.dateSoiree ASC;  -- Tri par date croissante
+        WHERE so.dateSoiree = :date
+        ORDER BY so.dateSoiree ASC;
     ";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
+        $stmt->execute(['date' => $date]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getListeSpectaclesByGenre(): array {
+    public function getListeSpectaclesByGenre(string $genre): array {
         $query = "
         SELECT s.idSpectacle, s.titre, s.description, s.horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
         FROM Spectacle s
@@ -94,14 +95,15 @@ class SpectacleRepository {
         LEFT JOIN ImageToSpectacle its ON s.idSpectacle = its.idSpectacle
         LEFT JOIN Image i ON its.idImage = i.idImage
         LEFT JOIN Lieu l ON so.idLieu = l.idLieu
-        ORDER BY s.genre ASC;  -- Tri par genre
+        WHERE s.genre = :genre
+        ORDER BY s.genre ASC;
     ";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
+        $stmt->execute(['genre' => $genre]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getListeSpectaclesByLieu(): array {
+    public function getListeSpectaclesByLieu(string $lieu): array {
         $query = "
         SELECT s.idSpectacle, s.titre, s.description, s.horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
         FROM Spectacle s
@@ -110,12 +112,35 @@ class SpectacleRepository {
         LEFT JOIN ImageToSpectacle its ON s.idSpectacle = its.idSpectacle
         LEFT JOIN Image i ON its.idImage = i.idImage
         LEFT JOIN Lieu l ON so.idLieu = l.idLieu
-        ORDER BY l.nomLieu ASC;  -- Tri par lieu
+        WHERE l.nomLieu = :lieu
+        ORDER BY l.nomLieu ASC;
     ";
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
+        $stmt->execute(['lieu' => $lieu]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getDistinctJours(): array {
+        $query = "SELECT DISTINCT dateSoiree FROM Soiree ORDER BY dateSoiree ASC";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_COLUMN);
+    }
+
+    public function getDistinctLieux(): array {
+        $query = "SELECT DISTINCT nomLieu FROM Lieu ORDER BY nomLieu ASC";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_COLUMN);
+    }
+
+    public function getDistinctStyles(): array {
+        $query = "SELECT DISTINCT genre FROM Spectacle ORDER BY genre ASC";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_COLUMN);
+    }
+
 
 }
 

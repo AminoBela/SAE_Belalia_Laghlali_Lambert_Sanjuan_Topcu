@@ -4,7 +4,7 @@ namespace iutnc\nrv\renderer;
 
 class RendererListeSpectacles extends Renderer {
 
-    public function renderListeSpectacles(array $spectacles): string {
+    public function renderListeSpectacles(array $spectacles, array $jours, array $lieux, array $styles, string $selectedCriteria = '', string $selectedOption = ''): string {
 
         $header = $this->renderHeader('Liste des spectacles - NRV Festival');
         $footer = $this->renderFooter();
@@ -13,15 +13,32 @@ class RendererListeSpectacles extends Renderer {
         $html = "
             <form method='get' action='index.php'>
                 <input type='hidden' name='action' value='afficherListeSpectacles'>
-                <label for='sort'>Trier par :</label>
-                <select name='sort' id='sort'>
-                    <option value='date' " . ($this->isSelected('date') ? 'selected' : '') . ">Date</option>
-                    <option value='genre' " . ($this->isSelected('genre') ? 'selected' : '') . ">Style de Musique</option>
-                    <option value='lieu' " . ($this->isSelected('lieu') ? 'selected' : '') . ">Lieu</option>
-                </select>
-                <button type='submit'>Appliquer le tri</button>
-            </form>
-        ";
+                <label for='filter-criteria'>Filtrer par :</label>
+                <select name='filter-criteria' id='filter-criteria' onchange='this.form.submit()'>
+                    <option value=''>Sélectionner un critère</option>
+                    <option value='jour'" . ($selectedCriteria == 'jour' ? ' selected' : '') . ">Journée</option>
+                    <option value='lieu'" . ($selectedCriteria == 'lieu' ? ' selected' : '') . ">Lieu</option>
+                    <option value='style'" . ($selectedCriteria == 'style' ? ' selected' : '') . ">Style de musique</option>
+                </select>";
+
+        if ($selectedCriteria) {
+            $html .= "<select name='filter-options' id='filter-options'>";
+            $options = [];
+            if ($selectedCriteria == 'jour') {
+                $options = $jours;
+            } elseif ($selectedCriteria == 'lieu') {
+                $options = $lieux;
+            } elseif ($selectedCriteria == 'style') {
+                $options = $styles;
+            }
+            foreach ($options as $option) {
+                $html .= "<option value='" . htmlspecialchars($option) . "'" . ($selectedOption == $option ? ' selected' : '') . ">" . htmlspecialchars($option) . "</option>";
+            }
+            $html .= "</select>";
+        }
+
+        $html .= "<button type='submit'>Appliquer le filtre</button>";
+        $html .= "</form>";
 
         $html .= "<div class='spectacle-list'>";
 
@@ -31,8 +48,8 @@ class RendererListeSpectacles extends Renderer {
             $html .= "<h2>" . htmlspecialchars($spectacle['titre']) . "</h2>";
             $html .= "<p>Date : " . htmlspecialchars($spectacle['dateSoiree']) . "</p>";
             $html .= "<p>Horaire : " . htmlspecialchars($spectacle['horrairePrevuSpectacle']) . "</p>";
-            $html .= "<p>Style de musique : " . htmlspecialchars($spectacle['genre']) . "</p>";
-            $html .= "<p>Lieu : " . htmlspecialchars($spectacle['nomLieu']) . "</p>";
+            $html .= "<p>Style de musique : " . htmlspecialchars($spectacle['genre'] ?? 'N/A') . "</p>";
+            $html .= "<p>Lieu : " . htmlspecialchars($spectacle['nomLieu'] ?? 'N/A') . "</p>";
             $html .= "<p>Description : " . htmlspecialchars($spectacle['description']) . "</p>";
             if (!empty($spectacle['urlImage'])) {
                 $html .= "<img src='" . htmlspecialchars($spectacle['urlImage']) . "' alt='Image du spectacle'>";
@@ -45,12 +62,14 @@ class RendererListeSpectacles extends Renderer {
         return $header . $html . $footer;
     }
 
-    // Fonction pour vérifier si un critère est sélectionné pour garder le tri dans le formulaire
-    private function isSelected(string $sortCriteria): bool {
-        return isset($_GET['sort']) && $_GET['sort'] === $sortCriteria;
-    }
-
     public function render(array $context = []): string {
-        return $this->renderListeSpectacles($context);
+        return $this->renderListeSpectacles(
+            $context['spectacles'] ?? [],
+            $context['jours'] ?? [],
+            $context['lieux'] ?? [],
+            $context['styles'] ?? [],
+            $context['selectedCriteria'] ?? '',
+            $context['selectedOption'] ?? ''
+        );
     }
 }
