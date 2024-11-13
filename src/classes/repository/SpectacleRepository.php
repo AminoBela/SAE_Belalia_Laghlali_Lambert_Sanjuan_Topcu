@@ -49,26 +49,24 @@ class SpectacleRepository {
 
     public function obtenirSpectacleParId(string $idSpectacle) : ?Spectacle
     {
-        $query = "
-            SELECT *
-            FROM Spectacle
-            WHERE idSpectacle = :idSpectacle;
-        ";
+        $query = "select s.*, i.urlImage
+        from Spectacle s   
+        left join ImageToSpectacle its ON s.idSpectacle = its.idSpectacle
+        left join Image i ON its.idImage = i.idImage
+        where s.idSpectacle = :idSpectacle";
+
         $stmt = $this->pdo->prepare($query);
-        try {
-            $stmt->execute(['idSpectacle' => $idSpectacle]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->execute(['idSpectacle' => $idSpectacle]);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // get images from ImageRepository
-            $imageRep = new ImageRepository();
-            $images = $imageRep->getImageDepuisSpec($idSpectacle);
-            $result['images'] = $images;
+        if ($result) {
+            $spectacle = Spectacle::fromArray($result[0]);
+            $images = array_column($result, 'urlImage');
+            $spectacle->setImages($images);
+            return $spectacle;
+        }
 
-            return Spectacle::fromArray($result);
-        }
-        catch (Exception $e) {
-            return null;
-        }
+        return null;
     }
 
     public function getListeSpectaclesByDate(string $date): array {

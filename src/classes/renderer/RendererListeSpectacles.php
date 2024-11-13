@@ -5,42 +5,34 @@ header('Content-Type: text/html; charset=utf-8');
 class RendererListeSpectacles extends Renderer
 {
 
-    public function renderListeSpectacles(
-        array $spectacles,
-        array $jours,
-        array $lieux,
-        array $styles,
-        string $selectedCriteria = '',
-        string $selectedOption = ''
-    ): string {
-        // Inclure le fichier CSS spécifique
+    public function renderListeSpectacles(array $spectacles, array $jours, array $lieux, array $styles, string $critereSelec = '', string $selectedOption = ''): string {
+
         $header = $this->renderHeader('Liste des spectacles - NRV Festival', 'styles/spectacles.css');
         $footer = $this->renderFooter();
 
-        // Formulaire de filtrage
+        //fonctionalite de filtrage 2,3,4
         $html = "
             <form class='filtre-options' method='get' action='index.php'>
                 <input type='hidden' name='action' value='afficherListeSpectacles'>
                 <label for='filter-criteria'>Filtrer par :</label>
                 <select name='filter-criteria' id='filter-criteria' onchange='this.form.submit()'>
                     <option value=''>Sélectionner un critère</option>
-                    <option value='jour'" . ($selectedCriteria == 'jour' ? ' selected' : '') . ">Journée</option>
-                    <option value='lieu'" . ($selectedCriteria == 'lieu' ? ' selected' : '') . ">Lieu</option>
-                    <option value='style'" . ($selectedCriteria == 'style' ? ' selected' : '') . ">Style de musique</option>
+                    <option value='jour'" . ($critereSelec == 'jour' ? ' selected' : '') . ">Journée</option>
+                    <option value='lieu'" . ($critereSelec == 'lieu' ? ' selected' : '') . ">Lieu</option>
+                    <option value='style'" . ($critereSelec == 'style' ? ' selected' : '') . ">Style de musique</option>
                 </select>";
 
-        // Affichage des options de filtrage dynamiques
-        if ($selectedCriteria) {
+        // si filtrage selectionne, afficher les elements ayant le critere selectionne
+        if ($critereSelec) {
             $html .= "<select name='filter-options' id='filter-options'>";
             $options = [];
-            if ($selectedCriteria == 'jour') {
+            if ($critereSelec == 'jour') {
                 $options = $jours;
-            } elseif ($selectedCriteria == 'lieu') {
+            } elseif ($critereSelec == 'lieu') {
                 $options = $lieux;
-            } elseif ($selectedCriteria == 'style') {
+            } elseif ($critereSelec == 'style') {
                 $options = $styles;
             }
-
             foreach ($options as $option) {
                 $html .= "<option value='" . htmlspecialchars($option) . "'" . ($selectedOption == $option ? ' selected' : '') . ">" . htmlspecialchars($option) . "</option>";
             }
@@ -50,7 +42,6 @@ class RendererListeSpectacles extends Renderer
         $html .= "<button type='submit'>Appliquer le filtre</button>";
         $html .= "</form>";
 
-        // Liste des spectacles
         $html .= "<div class='spectacle-list'>";
 
         foreach ($spectacles as $spectacle) {
@@ -87,15 +78,15 @@ class RendererListeSpectacles extends Renderer
         return $header . $html . $footer;
     }
 
-    public function render(array $context = []): string
+    public function render(array $contexte = []): string
     {
         return $this->renderListeSpectacles(
-            $context['spectacles'] ?? [],
-            $context['jours'] ?? [],
-            $context['lieux'] ?? [],
-            $context['styles'] ?? [],
-            $context['selectedCriteria'] ?? '',
-            $context['selectedOption'] ?? ''
+            $contexte['spectacles'] ?? [],
+            $contexte['jours'] ?? [],
+            $contexte['lieux'] ?? [],
+            $contexte['styles'] ?? [],
+            $contexte['selectedCriteria'] ?? '',
+            $contexte['selectedOption'] ?? ''
         );
     }
 }

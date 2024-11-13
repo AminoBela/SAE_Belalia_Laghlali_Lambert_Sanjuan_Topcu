@@ -2,7 +2,7 @@
 
 namespace iutnc\nrv\action;
 
-use iutnc\nrv\renderer\SpectacleDetailsRenderer;
+use iutnc\nrv\renderer\RendererDetailsSpectacle;
 use iutnc\nrv\repository\SpectacleRepository;
 
 /**
@@ -21,7 +21,7 @@ class SpectacleDetailsAction extends Action
         $spectacle = $spectacleRep->obtenirSpectacleParId($_GET['idSpectacle']);
 
         if ($spectacle !=  null) {
-            return (new SpectacleDetailsRenderer($spectacle))->render();
+            return (new RendererDetailsSpectacle($spectacle))->render();
         } else {
             return "<p>Spectacle introuvable.</p>";
         }

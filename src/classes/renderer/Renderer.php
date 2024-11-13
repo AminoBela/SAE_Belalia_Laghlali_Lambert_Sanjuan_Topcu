@@ -9,8 +9,12 @@ abstract class Renderer
     protected function renderHeader(string $title, ?string $stylesheet = null): string
     {
         $navLinks = Authentification::isLogged() ?
+            // boutons creer soiree et creer spectacle
+            '<a href="?action=creerSoiree">Créer une soirée</a>' .
+            '<a href="?action=creerSpectacle">Créer un spectacle</a>' .
             '<a href="?action=logout">Déconnexion</a>' :
-            '<a href="?action=login">Connexion</a><a href="?action=register">Inscription</a>';
+            '<a href="?action=login">Connexion</a>' .
+            '<a href="?action=register">Inscription</a>';
 
         $autreStyle = $stylesheet ?? "";
 
@@ -31,8 +35,7 @@ abstract class Renderer
             <nav>
                 <a href="?action=default">Accueil</a>
                 <a href="?action=afficherListeSpectacles">Liste des spectacles</a>
-                <a href="?action=creerSpectacle">Créer un spectacle</a>
-                <a href="?action=creerSoiree">Créer une soiree</a>
+                
                 {$navLinks}
             </nav>
         HTML;
@@ -51,5 +54,5 @@ abstract class Renderer
         HTML;
     }
 
-    abstract public function render(array $context = []): string;
+    abstract public function render(array $contexte = []): string;
 }

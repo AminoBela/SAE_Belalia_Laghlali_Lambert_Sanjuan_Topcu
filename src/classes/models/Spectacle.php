@@ -190,13 +190,20 @@ class Spectacle
     }
 
     /**
-     * Getter de l'image principale du spectacle.
-     * @return string
+     * Setter des images du spectacle.
+     * @param array $images
      */
+
+    public function setImages(array $images) : void
+    {
+        $this->images = $images;
+    }
+
     public function getImagePrincipale() : string
     {
-        return $this->images[0] ?? 'default-image.jpg';
+        return $this->images[0] ?? 'default.jpg';
     }
+
 
     /**
      * Getter de la date du spectacle.
@@ -205,6 +212,5 @@ class Spectacle
     public function getDate(){
         return date('d/m/Y', strtotime($this->horairePrevuSpectacle));
     }
-
 
 }

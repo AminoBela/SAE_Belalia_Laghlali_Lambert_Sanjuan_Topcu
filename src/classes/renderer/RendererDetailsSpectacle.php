@@ -4,7 +4,7 @@ namespace iutnc\nrv\renderer;
 
 use iutnc\nrv\models\Spectacle;
 
-class SpectacleDetailsRenderer extends Renderer
+class RendererDetailsSpectacle extends Renderer
 {
     private Spectacle $spectacle;
 
@@ -13,7 +13,7 @@ class SpectacleDetailsRenderer extends Renderer
         $this->spectacle = $spectacle;
     }
 
-    public function render(array $context = []): string
+    public function render(array $contexte = []): string
     {
         // Gestion de la durée ou annulation
         $dureeSpectacle = $this->spectacle->getEstAnnule()
@@ -50,14 +50,21 @@ class SpectacleDetailsRenderer extends Renderer
         }
 
         // Gestion des images
-        $urlImage = $this->spectacle->getImages();
-        $imageSrc = is_array($urlImage) && !empty($urlImage) ? $urlImage[0] : 'default-image.jpg';
+        $images = $this->spectacle->getImages();
+        $imagesElement = "";
+        if (!empty($images)) {
+            $imagesElement = "<div class='images-container'>";
+            foreach ($images as $image) {
+                $imagesElement .= "<img src='uploads/images/{$image}' alt='Image du spectacle'>";
+            }
+            $imagesElement .= "</div>";
+        }
 
         // Construction du rendu HTML
         return $this->renderHeader($this->spectacle->getTitre(), 'styles/spectacle-details.css') . <<<HTML
             <div class="details-header">
                 <div class="image-container">
-                    <img src="{$imageSrc}" alt="Image du spectacle">
+                    <img src="uploads/images/{$this->spectacle->getImagePrincipale()}" alt="Image principale du spectacle">
                     <div class="image-text">
                         <h1>{$this->spectacle->getTitre()}</h1>
                     </div>
@@ -70,6 +77,7 @@ class SpectacleDetailsRenderer extends Renderer
                 <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
                 <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacle()}</p>
                 <p><span>Durée :</span> {$dureeSpectacle}</p>
+                {$imagesElement}
             </div>
             HTML
             . $this->renderFooter();
