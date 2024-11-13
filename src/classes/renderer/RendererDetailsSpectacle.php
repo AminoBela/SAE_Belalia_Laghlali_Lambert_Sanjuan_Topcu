@@ -15,21 +15,18 @@ class RendererDetailsSpectacle extends Renderer
 
     public function render(array $contexte = []): string
     {
-        // Gestion de la durée ou annulation
         $dureeSpectacle = $this->spectacle->getEstAnnule()
             ? "<span class='annule'>Spectacle annulé</span>"
-            : "Durée du spectacle : " . $this->spectacle->getDureeSpectacleText();
+            : "Durée du spectacle : " . htmlspecialchars($this->spectacle->getDureeSpectacleText(), ENT_QUOTES, 'UTF-8');
 
-        // Gestion de l'audio
         $audio = $this->spectacle->getUrlAudio();
         $audioElement = $audio ? "
             <audio controls>
-                <source src='{$audio}' type='audio/mpeg'>
+                <source src='" . htmlspecialchars($audio, ENT_QUOTES, 'UTF-8') . "' type='audio/mpeg'>
                 Votre navigateur ne supporte pas l'élément audio.
             </audio>
         " : "";
 
-        // Gestion de la vidéo
         $video = $this->spectacle->getUrlVideo();
         $videoElement = "";
         if ($video) {
@@ -37,34 +34,32 @@ class RendererDetailsSpectacle extends Renderer
                 $youtubeId = explode('=', $video);
                 $video = "https://www.youtube.com/embed/" . end($youtubeId);
                 $videoElement = "
-                    <iframe width='560' height='315' src='{$video}' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
+                    <iframe width='560' height='315' src='" . htmlspecialchars($video, ENT_QUOTES, 'UTF-8') . "' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>
                 ";
             } else {
                 $videoElement = "
                     <video controls>
-                        <source src='{$video}' type='video/mp4'>
+                        <source src='" . htmlspecialchars($video, ENT_QUOTES, 'UTF-8') . "' type='video/mp4'>
                         Votre navigateur ne supporte pas l'élément vidéo.
                     </video>
                 ";
             }
         }
 
-        // Gestion des images
         $images = $this->spectacle->getImages();
         $imagesElement = "";
         if (!empty($images)) {
             $imagesElement = "<div class='images-container'>";
             foreach ($images as $image) {
-                $imagesElement .= "<img src='uploads/images/{$image}' alt='Image du spectacle'>";
+                $imagesElement .= "<img src='uploads/images/" . htmlspecialchars($image, ENT_QUOTES, 'UTF-8') . "' alt='Image du spectacle'>";
             }
             $imagesElement .= "</div>";
         }
 
-        // Construction du rendu HTML
         return $this->renderHeader($this->spectacle->getTitre(), 'styles/spectacle-details.css') . <<<HTML
             <div class="details-header">
                 <div class="image-container">
-                    <img src="uploads/images/{$this->spectacle->getImagePrincipale()}" alt="Image principale du spectacle">
+                    <img src="uploads/images/{$this->spectacle->getImagePrincipale()}" alt="Image du spectacle">
                     <div class="image-text">
                         <h1>{$this->spectacle->getTitre()}</h1>
                     </div>
@@ -77,7 +72,7 @@ class RendererDetailsSpectacle extends Renderer
                 <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
                 <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacle()}</p>
                 <p><span>Durée :</span> {$dureeSpectacle}</p>
-                {$imagesElement}
+                <div class="image-final">{$imagesElement}</div>
             </div>
             HTML
             . $this->renderFooter();

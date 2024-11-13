@@ -53,9 +53,9 @@ class AddSoireeAction extends Action
                 exit;
             }
         } catch (ValidationException $e) {
-            $error = $e->getMessage();
+            $error = htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
         } catch (Exception $e) {
-            $error = "Une erreur inattendue s'est produite : " . $e->getMessage();
+            $error = "Une erreur inattendue s'est produite : " . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
         }
 
         $lieux = $this->lieuRepository->getAllLieux();

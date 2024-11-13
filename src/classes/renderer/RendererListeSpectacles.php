@@ -1,16 +1,12 @@
 <?php
 namespace iutnc\nrv\renderer;
-header('Content-Type: text/html; charset=utf-8');
 
 class RendererListeSpectacles extends Renderer
 {
-
     public function renderListeSpectacles(array $spectacles, array $jours, array $lieux, array $styles, string $critereSelec = '', string $selectedOption = ''): string {
-
         $header = $this->renderHeader('Liste des spectacles - NRV Festival', 'styles/spectacles.css');
         $footer = $this->renderFooter();
 
-        //fonctionalite de filtrage 2,3,4
         $html = "
             <form class='filtre-options' method='get' action='index.php'>
                 <input type='hidden' name='action' value='afficherListeSpectacles'>
@@ -22,7 +18,6 @@ class RendererListeSpectacles extends Renderer
                     <option value='style'" . ($critereSelec == 'style' ? ' selected' : '') . ">Style de musique</option>
                 </select>";
 
-        // si filtrage selectionne, afficher les elements ayant le critere selectionne
         if ($critereSelec) {
             $html .= "<select name='filter-options' id='filter-options'>";
             $options = [];
@@ -34,7 +29,7 @@ class RendererListeSpectacles extends Renderer
                 $options = $styles;
             }
             foreach ($options as $option) {
-                $html .= "<option value='" . htmlspecialchars($option) . "'" . ($selectedOption == $option ? ' selected' : '') . ">" . htmlspecialchars($option) . "</option>";
+                $html .= "<option value='" . htmlspecialchars($option, ENT_QUOTES, 'UTF-8') . "'" . ($selectedOption == $option ? ' selected' : '') . ">" . htmlspecialchars($option, ENT_QUOTES, 'UTF-8') . "</option>";
             }
             $html .= "</select>";
         }
@@ -45,14 +40,14 @@ class RendererListeSpectacles extends Renderer
         $html .= "<div class='spectacle-list'>";
 
         foreach ($spectacles as $spectacle) {
-            $titre = htmlspecialchars($spectacle['titre']);
-            $date = htmlspecialchars($spectacle['dateSoiree']);
-            $horaire = htmlspecialchars($spectacle['horrairePrevuSpectacle'] ?? 'N/A');
-            $style = htmlspecialchars($spectacle['genre'] ?? 'N/A');
-            $lieu = htmlspecialchars($spectacle['nomLieu'] ?? 'N/A');
-            $description = htmlspecialchars($spectacle['description']);
-            $urlImage = htmlspecialchars($spectacle['urlImage'] ?? '');
-            $idSpectacle = htmlspecialchars($spectacle['idSpectacle']);
+            $titre = htmlspecialchars($spectacle['titre'], ENT_QUOTES, 'UTF-8');
+            $date = htmlspecialchars($spectacle['dateSoiree'], ENT_QUOTES, 'UTF-8');
+            $horaire = htmlspecialchars($spectacle['horrairePrevuSpectacle'] ?? 'N/A', ENT_QUOTES, 'UTF-8');
+            $style = htmlspecialchars($spectacle['genre'] ?? 'N/A', ENT_QUOTES, 'UTF-8');
+            $lieu = htmlspecialchars($spectacle['nomLieu'] ?? 'N/A', ENT_QUOTES, 'UTF-8');
+            $description = htmlspecialchars($spectacle['description'], ENT_QUOTES, 'UTF-8');
+            $urlImage = htmlspecialchars($spectacle['urlImage'] ?? '', ENT_QUOTES, 'UTF-8');
+            $idSpectacle = htmlspecialchars($spectacle['idSpectacle'], ENT_QUOTES, 'UTF-8');
 
             $html .= "<div class='spectacle-item'>";
             $html .= "<h2>{$titre}</h2>";

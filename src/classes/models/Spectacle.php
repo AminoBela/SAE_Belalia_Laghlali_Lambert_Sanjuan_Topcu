@@ -138,8 +138,10 @@ class Spectacle
      * Getter de l'horaire prévu du spectacle.
      * @return string
      */
+    // src/classes/models/Spectacle.php
+
     public function getHorairePrevuSpectacle(): string {
-        return $this->horairePrevuSpectacle;
+        return date('H:i', strtotime($this->horairePrevuSpectacle));
     }
 
     /**
@@ -202,15 +204,6 @@ class Spectacle
     public function getImagePrincipale() : string
     {
         return $this->images[0] ?? 'default.jpg';
-    }
-
-
-    /**
-     * Getter de la date du spectacle.
-     * @return string
-     */
-    public function getDate(){
-        return date('d/m/Y', strtotime($this->horairePrevuSpectacle));
     }
 
 }

@@ -2,8 +2,6 @@
 
 namespace iutnc\nrv\renderer;
 
-use iutnc\nrv\action\AddSpectacleAction;
-
 class RendererAddSpectacle extends Renderer
 {
     public function render(array $data = []): string

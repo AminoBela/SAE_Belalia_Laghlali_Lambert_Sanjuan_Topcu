@@ -6,10 +6,14 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Trebuchet MS', sans-serif;
     background-color: #f9f9f9;
     color: #333;
     line-height: 1.6;
+    /*Le body est en flex pour que le footer soit toujours en bas de la page*/
+    display: flex;
+    flex-direction: column;
+
 }
 
 /* Header */
@@ -34,6 +38,8 @@ nav {
     background-color: #395b99;
     padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
 }
 
 nav a {
@@ -59,6 +65,9 @@ footer {
     position: relative;
     bottom: 0;
     width: 100%;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 footer p {

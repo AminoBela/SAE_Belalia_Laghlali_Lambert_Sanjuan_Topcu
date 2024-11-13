@@ -3,7 +3,6 @@
 namespace iutnc\nrv\renderer;
 
 use iutnc\nrv\models\Soiree;
-use iutnc\nrv\models\Spectacle;
 
 class RendererDetailsSoiree extends Renderer
 {
@@ -16,15 +15,13 @@ class RendererDetailsSoiree extends Renderer
 
     public function render(array $contexte = []): string
     {
-        // Header
         $html = $this->renderHeader("Détails de la Soirée", "styles/soiree.css");
 
-        // Contenu principal
         $html .= "<main class='soiree-details'>";
-        $html .= "<h1>" . htmlspecialchars($this->soiree->getNomSoiree()) . "</h1>";
-        $html .= "<p><strong>Thématique :</strong> " . htmlspecialchars($this->soiree->getThematique()) . "</p>";
-        $html .= "<p><strong>Date :</strong> " . htmlspecialchars($this->soiree->getDateSoiree()) . " à " . htmlspecialchars($this->soiree->getHoraireDebut()) . "</p>";
-        $html .= "<p><strong>Lieu :</strong> " . htmlspecialchars($this->soiree->getLieu()) . "</p>";
+        $html .= "<h1>" . htmlspecialchars($this->soiree->getNomSoiree(), ENT_QUOTES, 'UTF-8') . "</h1>";
+        $html .= "<p><strong>Thématique :</strong> " . htmlspecialchars($this->soiree->getThematique(), ENT_QUOTES, 'UTF-8') . "</p>";
+        $html .= "<p><strong>Date :</strong> " . htmlspecialchars($this->soiree->getDateSoiree(), ENT_QUOTES, 'UTF-8') . " à " . htmlspecialchars($this->soiree->getHoraireDebut(), ENT_QUOTES, 'UTF-8') . "</p>";
+        $html .= "<p><strong>Lieu :</strong> " . htmlspecialchars($this->soiree->getLieu(), ENT_QUOTES, 'UTF-8') . "</p>";
 
         $spectacles = $this->soiree->getSpectacles();
         if (!empty($spectacles)) {
@@ -33,12 +30,12 @@ class RendererDetailsSoiree extends Renderer
 
             foreach ($spectacles as $spectacle) {
                 $html .= "<li class='spectacle-item'>";
-                $html .= "<h3><a href='?action=spectacleDetails&idSpectacle=" . htmlspecialchars($spectacle->getIdSpectacle()) . "'>"
-                    . htmlspecialchars($spectacle->getTitre()) . "</a></h3>";
-                $html .= "<p>" . htmlspecialchars($spectacle->getDescription()) . "</p>";
-                $html .= "<p><strong>Genre :</strong> " . htmlspecialchars($spectacle->getGenre()) . "</p>";
-                $html .= "<p><strong>Horaire :</strong> " . htmlspecialchars($spectacle->getHorairePrevuSpectacle()) . "</p>";
-                $html .= "</li>";
+                $html .= "<h3><a href='?action=spectacleDetails&idSpectacle=" . htmlspecialchars($spectacle->getIdSpectacle(), ENT_QUOTES, 'UTF-8') . "'>"
+                    . htmlspecialchars($spectacle->getTitre(), ENT_QUOTES, 'UTF-8') . "</a></h3>";
+                $html .= "<p>" . htmlspecialchars($spectacle->getDescription(), ENT_QUOTES, 'UTF-8') . "</p>";
+                $html .= "<p><strong>Genre :</strong> " . htmlspecialchars($spectacle->getGenre(), ENT_QUOTES, 'UTF-8') . "</p>";
+
+                $html .= "<p><strong>Horaire :</strong> " . htmlspecialchars($spectacle->getHorairePrevuSpectacle(), ENT_QUOTES, 'UTF-8') . "</p>";                $html .= "</li>";
             }
 
             $html .= "</ul>";
@@ -47,8 +44,6 @@ class RendererDetailsSoiree extends Renderer
         }
 
         $html .= "</main>";
-
-        // Footer
         $html .= $this->renderFooter();
 
         return $html;

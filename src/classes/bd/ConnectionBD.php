@@ -38,6 +38,7 @@ class ConnectionBD
                 $res = self::$tab['driver'].":host=".self::$tab['host'].";dbname=".self::$tab['database'];
                 self::$bd = new PDO($res, self::$tab['username'], self::$tab['password']);
                 self::$bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
             } catch (PDOException $e) {
                 echo "Erreur de connexion à la base de données : ".$e->getMessage();
             }

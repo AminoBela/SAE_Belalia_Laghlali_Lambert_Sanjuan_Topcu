@@ -9,14 +9,13 @@ abstract class Renderer
     protected function renderHeader(string $title, ?string $stylesheet = null): string
     {
         $navLinks = Authentification::isLogged() ?
-            // boutons creer soiree et creer spectacle
             '<a href="?action=creerSoiree">Créer une soirée</a>' .
             '<a href="?action=creerSpectacle">Créer un spectacle</a>' .
             '<a href="?action=logout">Déconnexion</a>' :
             '<a href="?action=login">Connexion</a>' .
             '<a href="?action=register">Inscription</a>';
 
-        $autreStyle = $stylesheet ?? "";
+        $autreStyle = htmlspecialchars($stylesheet ?? '', ENT_QUOTES, 'UTF-8');
 
         return <<<HTML
         <!DOCTYPE html>
@@ -35,7 +34,6 @@ abstract class Renderer
             <nav>
                 <a href="?action=default">Accueil</a>
                 <a href="?action=afficherListeSpectacles">Liste des spectacles</a>
-                
                 {$navLinks}
             </nav>
         HTML;
@@ -44,12 +42,11 @@ abstract class Renderer
     protected function renderFooter(): string
     {
         return <<<HTML
-            </body>
+        </body>
             <footer>
                 <p>&copy; 2024 NRV Festival</p>
                 <p>Site réalisé par Amin, Noah, Valentino, Nicolas et Semih</p>
             </footer>
-            
         </html>
         HTML;
     }

@@ -1,4 +1,3 @@
-/* Conteneur principal */
 .details-header {
     padding: 20px;
     background-color: #f4f4f4;
@@ -47,7 +46,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Corps des détails */
 .details-body {
     padding: 20px;
     background-color: white;
@@ -66,4 +64,11 @@
 .details-body p span {
     font-weight: bold;
     color: #4b6cb7;
+}
+
+.image-final img{
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
