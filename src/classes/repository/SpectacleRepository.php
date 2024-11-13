@@ -17,7 +17,7 @@ class SpectacleRepository {
     public function getListeSpectacles(): array
     {
         $query = "
-            select s.idSpectacle, s.titre, s.description, s.horrairePrevuSpectacle, s.genre, so.dateSoiree, so.horraireDebut, l.nomLieu, l.adresse
+            select s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, s.genre, so.dateSoiree, so.horraireDebut, l.nomLieu, l.adresse
             from Spectacle s
             left join SoireeToSpectacle sts ON s.idSpectacle = sts.idSpectacle
             left join Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree

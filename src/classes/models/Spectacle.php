@@ -50,7 +50,7 @@ class Spectacle
         $this->idSpectacle = $idSpectacle;
         $this->titre = $titre;
         $this->description = $description;
-        $this->urlVideo = $urlVideo ;
+        $this->urlVideo = $urlVideo;
         $this->urlAudio = $urlAudio;
         $this->horairePrevuSpectacle = $horairePrevuSpectacle;
         $this->genre = $genre;
