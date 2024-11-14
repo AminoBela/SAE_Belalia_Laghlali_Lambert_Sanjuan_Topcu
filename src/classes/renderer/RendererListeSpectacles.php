@@ -58,7 +58,9 @@ class RendererListeSpectacles extends Renderer
             $html .= "<p>Description : {$description}</p>";
 
             if (!empty($urlImage)) {
-                $html .= "<img src='uploads/images/{$urlImage}' alt='Image du spectacle'>";
+                $html .= "<img src='uploads/images/{$urlImage}' alt='Image du spectacle' class='image-spectacle-liste'>";
+            } else {
+                $html .= "<img src='uploads/images/default.jpg' alt='Image du spectacle' class='image-spectacle-liste'>";
             }
 
             $html .= "<a href='?action=spectacleDetails&idSpectacle={$idSpectacle}'>Voir plus</a>";

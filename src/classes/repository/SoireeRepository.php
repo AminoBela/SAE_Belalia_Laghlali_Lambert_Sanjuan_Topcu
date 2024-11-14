@@ -20,7 +20,7 @@ class SoireeRepository
 
     public function ajouterSoiree(Soiree $soiree): void
     {
-        $query = "INSERT INTO Soiree (idLieu, dateSoiree, nomSoiree, thematique, horraireDebut)
+        $query = "INSERT INTO Soiree (idLieu, dateSoiree, nomSoiree, thematique, DATE_FORMAT(horraireDebut, '%H:%i') as horraireDebut)
                   VALUES (:idLieu, :dateSoiree, :nomSoiree, :thematique, :horraireDebut)";
 
         $stmt = $this->pdo->prepare($query);
@@ -35,7 +35,7 @@ class SoireeRepository
 
     public function getSoireeById(int $idLieu, string $dateSoiree): ?Soiree
     {
-        $query = "SELECT * FROM Soiree WHERE idLieu = :idLieu AND dateSoiree = :dateSoiree";
+        $query = "SELECT nomSoiree, thematique, dateSoiree, DATE_FORMAT(horraireDebut, '%H:%i') as horraireDebut, idLieu FROM Soiree WHERE idLieu = :idLieu AND dateSoiree = :dateSoiree";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindValue(':idLieu', $idLieu, \PDO::PARAM_INT);
         $stmt->bindValue(':dateSoiree', $dateSoiree, \PDO::PARAM_STR);
@@ -53,6 +53,27 @@ class SoireeRepository
         }
 
         return null;
+    }
+
+    public function getListeSoirees(): array
+    {
+        $query = "SELECT nomSoiree, thematique, dateSoiree, DATE_FORMAT(horraireDebut, '%H:%i') as horraireDebut, idLieu FROM Soiree";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $data = $stmt->fetchAll();
+
+        $soirees = [];
+        foreach ($data as $row) {
+            $soirees[] = new Soiree(
+                $row['nomSoiree'],
+                $row['thematique'],
+                $row['dateSoiree'],
+                $row['horraireDebut'],
+                $this->getLieuById($row['idLieu'])
+            );
+        }
+
+        return $soirees;
     }
 
 
@@ -88,8 +109,6 @@ class SoireeRepository
 
         return $spectacles;
     }
-
-
 
 
     public function getLieuById(int $idLieu): Lieu
