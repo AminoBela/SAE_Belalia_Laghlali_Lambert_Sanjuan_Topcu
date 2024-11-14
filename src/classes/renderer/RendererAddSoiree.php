@@ -47,7 +47,9 @@ HTML;
         $body .= <<<HTML
                     </select>
                 </div>
-                <button type="submit" class="form-submit">Créer</button>
+                <div class="form-group">
+                    <button type="submit" class="form-submit">Créer</button>
+                </div>
             </form>
 HTML;
 

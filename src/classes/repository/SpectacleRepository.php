@@ -17,11 +17,13 @@ class SpectacleRepository {
     public function getListeSpectacles(): array
     {
         $query = "
-            select s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, s.genre, so.dateSoiree, so.horraireDebut, l.nomLieu, l.adresse
+            select s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, s.genre, so.dateSoiree, so.horraireDebut, l.nomLieu, l.adresse, i.urlImage
             from Spectacle s
             left join SoireeToSpectacle sts ON s.idSpectacle = sts.idSpectacle
             left join Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
-            left join Lieu l ON so.idLieu = l.idLieu;
+            left join Lieu l ON so.idLieu = l.idLieu
+            left join ImageToSpectacle its ON s.idSpectacle = its.idSpectacle
+                left join Image i ON its.idImage = i.idImage;
         ";
 
         $stmt = $this->pdo->prepare($query);
@@ -71,7 +73,7 @@ class SpectacleRepository {
 
     public function getListeSpectaclesByDate(string $date): array {
         $query = "
-        SELECT s.idSpectacle, s.titre, s.description, s.horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
+        SELECT s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
         FROM Spectacle s
         LEFT JOIN SoireeToSpectacle sts ON s.idSpectacle = sts.idSpectacle
         LEFT JOIN Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
@@ -88,7 +90,7 @@ class SpectacleRepository {
 
     public function getListeSpectaclesByGenre(string $genre): array {
         $query = "
-        SELECT s.idSpectacle, s.titre, s.description, s.horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
+        SELECT s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
         FROM Spectacle s
         LEFT JOIN SoireeToSpectacle sts ON s.idSpectacle = sts.idSpectacle
         LEFT JOIN Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
@@ -105,7 +107,7 @@ class SpectacleRepository {
 
     public function getListeSpectaclesByLieu(string $lieu): array {
         $query = "
-        SELECT s.idSpectacle, s.titre, s.description, s.horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
+        SELECT s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
         FROM Spectacle s
         LEFT JOIN SoireeToSpectacle sts ON s.idSpectacle = sts.idSpectacle
         LEFT JOIN Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
