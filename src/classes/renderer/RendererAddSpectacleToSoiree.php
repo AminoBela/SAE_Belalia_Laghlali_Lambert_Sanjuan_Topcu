@@ -17,7 +17,7 @@ class RendererAddSpectacleToSoiree extends Renderer
         $body = <<<HTML
         <div class="form-container">
             <h2>Ajouter un Spectacle à une Soirée</h2>
-            <form action="?action=SpectacleToSoiree" method="post" enctype="multipart/form-data">
+            <form action="?action=ajouterSpectacleToSoiree" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="dateSoiree">Date de la soirée :</label>
                     <input type="date" id="dateSoiree" name="dateSoiree" required>
@@ -50,7 +50,7 @@ HTML;
 HTML;
 
         foreach ($spectacles as $spectacle) {
-            $idSpectacle = htmlspecialchars((string)$spectacle['idSpectacle'], ENT_QUOTES, 'UTF-8');
+            $idSpectacle = htmlspecialchars($spectacle['idSpectacle'], ENT_QUOTES, 'UTF-8');
             $nomSpectacle = htmlspecialchars($spectacle['titre'], ENT_QUOTES, 'UTF-8');
             $body .= "<option value='{$idSpectacle}'>{$nomSpectacle}</option>";
         }

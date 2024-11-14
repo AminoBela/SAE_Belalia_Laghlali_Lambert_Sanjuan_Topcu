@@ -39,11 +39,10 @@ class AddSpectacleToSoireeAction extends Action
         $error = '';
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $idSpectacle = filter_var($_POST['idSpectacle'] ?? '', FILTER_SANITIZE_STRING);
-
-                $dateSoiree = filter_var($_POST['dateSoiree'] ?? '', FILTER_SANITIZE_STRING);
-
-                $idLieu = filter_var($_POST['idLieu'] ?? '', FILTER_VALIDATE_INT);
+                
+                $idSpectacle = htmlspecialchars($_POST['idSpectacle'] ?? '', ENT_QUOTES);
+                $dateSoiree = htmlspecialchars($_POST['dateSoiree'] ?? '', ENT_QUOTES,'UTF-8');
+                $idLieu = htmlspecialchars($_POST['idLieu'] ?? '', ENT_QUOTES);
                 if (empty($idSpectacle) || empty($dateSoiree) || empty($idLieu)) {
                     throw new ValidationException("Tous les champs obligatoires doivent être remplis.");
                 }
@@ -70,7 +69,6 @@ class AddSpectacleToSoireeAction extends Action
 
         $lieux = $this->lieuRepository->getAllLieux();
         $spectacles = $this->spectacleRepository->getListeSpectacles();
-
         return (new RendererAddSpectacleToSoiree())->render(['error' => $error, 'lieux' => $lieux, 'idSpectacle' => $spectacles]);
     }
 }
