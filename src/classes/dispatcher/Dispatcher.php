@@ -11,6 +11,8 @@ use iutnc\nrv\action\RegisterAction;
 use iutnc\nrv\action\SpectacleDetailsAction;
 use iutnc\nrv\action\SoireeDetailsAction;
 use iutnc\nrv\action\AfficherListeSpectaclesAction;
+use iutnc\nrv\action\AnnulerSpectacleAction;
+use iutnc\nrv\repository\SpectacleRepository;
 
 /**
  * Dispatcher pour les actions.
@@ -73,6 +75,10 @@ class Dispatcher
                 break;
             case 'afficherListeSpectacles':
                 $action = new AfficherListeSpectaclesAction();
+                echo $action->execute();
+                break;
+            case 'annulerSpectacle':
+                $action = new AnnulerSpectacleAction();
                 echo $action->execute();
                 break;
             default:

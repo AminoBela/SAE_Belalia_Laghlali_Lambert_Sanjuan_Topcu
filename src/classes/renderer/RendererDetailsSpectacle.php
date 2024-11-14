@@ -74,6 +74,11 @@ class RendererDetailsSpectacle extends Renderer
                 <p>{$this->spectacle->getDescription()}</p>
                 {$videoElement}
                 {$audioElement}
+                <form action="?action=annulerSpectacle" method="post">
+                    <input type="hidden" name="idSpectacle" value="{$this->spectacle->getIdSpectacle()}">
+                    <button type="submit" class="btn-annulation">Annuler le spectacle</button>
+                </form>
+                
             </div>
             <div class="details-body">
                 <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
