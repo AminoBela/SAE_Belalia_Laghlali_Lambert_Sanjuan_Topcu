@@ -15,6 +15,10 @@ class RendererDetailsSpectacle extends Renderer
 
     public function render(array $contexte = []): string
     {
+        $statusAnnulation = $this->spectacle->getEstAnnule()
+            ? "<p class='status-annule'>⚠️ Ce spectacle est annulé</p>"
+            : "";
+
         $dureeSpectacle = $this->spectacle->getEstAnnule()
             ? "<span class='annule'>Spectacle annulé</span>"
             : "Durée du spectacle : " . htmlspecialchars($this->spectacle->getDureeSpectacleText(), ENT_QUOTES, 'UTF-8');
@@ -66,9 +70,15 @@ class RendererDetailsSpectacle extends Renderer
                         <h1>{$this->spectacle->getTitre()}</h1>
                     </div>
                 </div>
+                {$statusAnnulation}
                 <p>{$this->spectacle->getDescription()}</p>
                 {$videoElement}
                 {$audioElement}
+                <form action="?action=annulerSpectacle" method="post">
+                    <input type="hidden" name="idSpectacle" value="{$this->spectacle->getIdSpectacle()}">
+                    <button type="submit" class="btn-annulation">Annuler le spectacle</button>
+                </form>
+                
             </div>
             <div class="details-body">
                 <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>

@@ -170,6 +170,13 @@ class Spectacle
 
         $heures = floor($this->dureeSpectacle / 60);
         $minutes = $this->dureeSpectacle % 60;
+        //format hh:mm
+        if ($minutes == 0) {
+            return "$heures h";
+        } elseif ($minutes < 10 && $minutes > 0) {
+            return "$heures h 0$minutes";
+        }
+
         return "$heures h $minutes minutes";
     }
 
