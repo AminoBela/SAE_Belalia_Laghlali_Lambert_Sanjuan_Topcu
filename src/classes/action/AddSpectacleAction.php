@@ -28,11 +28,11 @@ class AddSpectacleAction extends Action
         $error = '';
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $titre = filter_var($_POST['titre'] ?? '', FILTER_SANITIZE_STRING);
-                $description = filter_var($_POST['description'] ?? '', FILTER_SANITIZE_STRING);
-                $horairePrevuSpectacle = filter_var($_POST['horrairePrevuSpectacle'] ?? '', FILTER_SANITIZE_STRING);
-                $genre = filter_var($_POST['genre'] ?? '', FILTER_SANITIZE_STRING);
-                $dureeSpectacle = filter_var($_POST['dureeSpectacle'] ?? '', FILTER_VALIDATE_INT);
+                $titre = htmlspecialchars($_POST['titre'] ?? '', ENT_QUOTES,'UTF-8');
+                $description = htmlspecialchars($_POST['description'] ?? '', ENT_QUOTES);
+                $horairePrevuSpectacle = htmlspecialchars($_POST['horrairePrevuSpectacle'] ?? '', ENT_QUOTES,'UTF-8');
+                $genre = htmlspecialchars($_POST['genre'] ?? '', ENT_QUOTES,'UTF-8');
+                $dureeSpectacle = htmlspecialchars($_POST['dureeSpectacle'] ?? '', ENT_QUOTES,'UTF-8');
 
                 if (empty($titre) || empty($description) || empty($genre)) {
                     throw new ValidationException("Tous les champs obligatoires doivent être remplis.");

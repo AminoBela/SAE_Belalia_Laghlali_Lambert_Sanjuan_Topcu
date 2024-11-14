@@ -10,7 +10,7 @@ class SpectacleDetailsAction extends Action
     public function execute(): string
     {
         $spectacleRep = new SpectacleRepository();
-        $spectacle = $spectacleRep->obtenirSpectacleParId(filter_var($_GET['idSpectacle'], FILTER_SANITIZE_STRING));
+        $spectacle = $spectacleRep->obtenirSpectacleParId(htmlspecialchars($_GET['idSpectacle'], ENT_QUOTES, 'UTF-8'));
 
         if ($spectacle !=  null) {
             return (new RendererDetailsSpectacle($spectacle))->render();

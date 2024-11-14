@@ -40,7 +40,7 @@ class Authentification
      */
     public function register(string $nomUtilisateur, string $email, string $mdp, string $mdpConfirm): void
     {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!htmlspecialchars($email, ENT_QUOTES,'UTF-8')) {
             throw new AuthException("Email invalide");
         }
         if ($this->repository->chercherEmail($email)) {

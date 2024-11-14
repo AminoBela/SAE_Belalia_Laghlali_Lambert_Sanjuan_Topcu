@@ -43,8 +43,8 @@ class LoginAction extends Action
         $error = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-            $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+            $email = htmlspecialchars($_POST['email'], ENT_QUOTES,'UTF-8');
+            $password = htmlspecialchars($_POST['password'], ENT_QUOTES,'UTF-8');
 
             try {
                 if ($this->auth->login($email, $password)) {
