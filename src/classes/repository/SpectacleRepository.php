@@ -17,13 +17,15 @@ class SpectacleRepository {
     public function getListeSpectacles(): array
     {
         $query = "
-            select s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, s.genre, so.dateSoiree, so.horraireDebut, l.nomLieu, l.adresse, i.urlImage
+            select s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, s.genre, so.dateSoiree, so.horraireDebut, l.nomLieu, l.adresse, i.urlImage, a.nomArtiste
             from Spectacle s
             left join SoireeToSpectacle sts ON s.idSpectacle = sts.idSpectacle
             left join Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
             left join Lieu l ON so.idLieu = l.idLieu
             left join ImageToSpectacle its ON s.idSpectacle = its.idSpectacle
-                left join Image i ON its.idImage = i.idImage;
+            left join Image i ON its.idImage = i.idImage
+            left join ArtisteToSpectacle ats ON s.idSpectacle = ats.idSpectacle
+            left join Artiste a ON ats.idArtiste = a.idArtiste;
         ";
 
         $stmt = $this->pdo->prepare($query);

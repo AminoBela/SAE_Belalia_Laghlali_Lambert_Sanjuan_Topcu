@@ -30,7 +30,7 @@ class AddSpectacleAction extends Action
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $titre = htmlspecialchars($_POST['titre'] ?? '', ENT_QUOTES,'UTF-8');
                 $description = htmlspecialchars($_POST['description'] ?? '', ENT_QUOTES);
-                $horairePrevuSpectacle = htmlspecialchars($_POST['horrairePrevuSpectacle'] ?? '', ENT_QUOTES,'UTF-8');
+                $horairePrevuSpectacle = htmlspecialchars($_POST['horairePrevuSpectacle'] ?? '', ENT_QUOTES,'UTF-8');
                 $genre = htmlspecialchars($_POST['genre'] ?? '', ENT_QUOTES,'UTF-8');
                 $dureeSpectacle = htmlspecialchars($_POST['dureeSpectacle'] ?? '', ENT_QUOTES,'UTF-8');
 

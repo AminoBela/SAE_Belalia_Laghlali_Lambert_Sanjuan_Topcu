@@ -10,8 +10,6 @@ class RendererAddSpectacleToSoiree extends Renderer
         $spectacles = $data['idSpectacle'] ?? [];
         $soirees = $data['soirees'] ?? [];
 
-
-
         $header = $this->renderHeader('Ajouter un Spectacle à une Soirée - NRV Festival', 'styles/form.css');
         $footer = $this->renderFooter();
 
@@ -25,7 +23,7 @@ class RendererAddSpectacleToSoiree extends Renderer
                     <label for="idLieu">Soiree :</label>
                     <select id="Soiree" name="Soiree" required>
                         <option value="">Sélectionnez une soiree</option>
-HTML;
+        HTML;
 
         foreach ($soirees as $soiree) {
             $idLieu = htmlspecialchars($soiree['idLieu'], ENT_QUOTES, 'UTF-8');
@@ -35,17 +33,14 @@ HTML;
             $body .= "<option value='{$idLieu},{$dateSoiree}'>{$nomSoiree}</option>";
         }
 
-
-
         $body .= <<<HTML
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="idSpectacle">Spectacle :</label>
                     <select id="idSpectacle" name="idSpectacle" required>
                         <option value="">Sélectionnez un spectacle</option>
-HTML;
+        HTML;
         foreach ($spectacles as $spectacle) {
             $idSpectacle = htmlspecialchars($spectacle['idSpectacle'], ENT_QUOTES, 'UTF-8');
             $nomSpectacle = htmlspecialchars($spectacle['titre'], ENT_QUOTES, 'UTF-8');
@@ -57,23 +52,19 @@ HTML;
                 </div>
                 <button type="submit" class="form-submit">Ajouter</button>
             </form>
-HTML;
+        HTML;
 
         if (!empty($error)) {
             $body .= <<<HTML
             <div class="error-message">
                 {$error}
             </div>
-HTML;
+        HTML;
         }
 
         $body .= <<<HTML
         </div>
-HTML;
-
+        HTML;
         return $header . $body . $footer;
     }
-
-
-
 }

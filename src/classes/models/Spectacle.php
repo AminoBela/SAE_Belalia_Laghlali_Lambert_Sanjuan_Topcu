@@ -57,7 +57,6 @@ class Spectacle
         $this->dureeSpectacle = $dureeSpectacle;
         $this->estAnnule = $estAnnule;
         $this->images = $images;
-
     }
 
     /**
@@ -68,7 +67,6 @@ class Spectacle
     public static function fromArray($result) : Spectacle
     {
         $images = $result['images'] ?? [];
-
         return new Spectacle(
             $result['idSpectacle'],
             $result['titre'],
@@ -80,7 +78,7 @@ class Spectacle
             $result['dureeSpectacle'],
             $result['estAnnule'],
             $images,
-            $result['nomLieu'] ?? 'N/A'
+            $result['nomLieu'] ?? 'N/A',
         );
     }
 
@@ -140,7 +138,7 @@ class Spectacle
      */
 
     public function getHorairePrevuSpectacle(): string {
-        return date('H:i', strtotime($this->horairePrevuSpectacle));
+        return $this->horairePrevuSpectacle;
     }
 
     /**
@@ -211,5 +209,6 @@ class Spectacle
     {
         return $this->images[0] ?? 'default.jpg';
     }
+
 
 }
