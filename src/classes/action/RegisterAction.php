@@ -45,10 +45,10 @@ class RegisterAction extends Action
     {
         $error = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $nomUtilisateur = filter_var($_POST['nomUtilisateur'], FILTER_SANITIZE_STRING);
-            $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-            $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
-            $passwordConfirm = filter_var($_POST['passwordConfirm'], FILTER_SANITIZE_STRING);
+            $nomUtilisateur = htmlspecialchars($_POST['nomUtilisateur'], ENT_QUOTES,'UTF-8');
+            $email = htmlspecialchars($_POST['email'], ENT_QUOTES,'UTF-8');
+            $password = htmlspecialchars($_POST['password'], ENT_QUOTES,'UTF-8');
+            $passwordConfirm = htmlspecialchars($_POST['passwordConfirm'], ENT_QUOTES,'UTF-8');
 
             try {
                 $auth = new Authentification(new UserRepository());

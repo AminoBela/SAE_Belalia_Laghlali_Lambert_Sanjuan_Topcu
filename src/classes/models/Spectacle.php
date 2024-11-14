@@ -138,7 +138,6 @@ class Spectacle
      * Getter de l'horaire prévu du spectacle.
      * @return string
      */
-    // src/classes/models/Spectacle.php
 
     public function getHorairePrevuSpectacle(): string {
         return date('H:i', strtotime($this->horairePrevuSpectacle));

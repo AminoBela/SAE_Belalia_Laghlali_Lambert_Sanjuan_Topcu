@@ -51,7 +51,9 @@ class RendererDetailsSpectacle extends Renderer
         if (!empty($images)) {
             $imagesElement = "<div class='images-container'>";
             foreach ($images as $image) {
-                $imagesElement .= "<img src='uploads/images/" . htmlspecialchars($image, ENT_QUOTES, 'UTF-8') . "' alt='Image du spectacle'>";
+                if (!empty($image)) {
+                    $imagesElement .= "<img src='uploads/images/" . htmlspecialchars($image, ENT_QUOTES, 'UTF-8') . "' alt='Image du spectacle'>";
+                }
             }
             $imagesElement .= "</div>";
         }
