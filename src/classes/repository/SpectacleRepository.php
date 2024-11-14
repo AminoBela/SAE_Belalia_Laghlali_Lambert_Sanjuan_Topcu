@@ -144,5 +144,11 @@ class SpectacleRepository {
     }
 
 
+    public function annulerSpectacle(int $idSpectacle): bool {
+        $sql = "UPDATE Spectacle SET estAnnule = TRUE WHERE idSpectacle = :idSpectacle";
+        $stmt = $this->connection->prepare($sql);
+        return $stmt->execute([':idSpectacle' => $idSpectacle]);
+    }
+
 }
 
