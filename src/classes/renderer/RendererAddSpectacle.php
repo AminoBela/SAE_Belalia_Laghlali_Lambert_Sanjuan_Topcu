@@ -31,7 +31,7 @@ class RendererAddSpectacle extends Renderer
                 <input type="file" id="urlAudio" name="urlAudio" accept="audio/*" required>
             </div>
             <div class="form-group">
-                <label for="horairePrevuSpectacle">Horaire Prévu :</label>
+                <label for="horairePrevuSpectacle">Horaire prévu :</label>
                 <input type="time" id="horairePrevuSpectacle" name="horairePrevuSpectacle" required>
             </div>
             <div class="form-group">

@@ -3,11 +3,8 @@
 namespace iutnc\nrv\action;
 
 use iutnc\nrv\repository\SoireeRepository;
-use iutnc\nrv\renderer\RendererHome;
+use iutnc\nrv\renderer\RendererListeSoirees;
 
-/**
- * Classe d'action pour afficher la liste des soirées dans le home.
- */
 class AfficherListeSoireesAction extends Action
 {
     private SoireeRepository $soireeRepository;
@@ -18,7 +15,7 @@ class AfficherListeSoireesAction extends Action
 
     public function execute(): string {
         $soirees = $this->soireeRepository->getListeSoirees();
-        $renderer = new RendererHome();
+        $renderer = new RendererListeSoirees();
         return $renderer->render([
             'soirees' => $soirees
         ]);

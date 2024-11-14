@@ -9,9 +9,14 @@ abstract class Renderer
     protected function renderHeader(string $title, ?string $stylesheet = null): string
     {
         $navLinks = Authentification::isLogged() ?
-            '<a href="?action=creerSoiree">Créer une soirée</a>' .
-            '<a href="?action=creerSpectacle">Créer un spectacle</a>' .
-            '<a href="?action=ajouterSpectacleToSoiree">Lier un spectacle et une soirée</a>' .
+            '<div class="dropdown">
+                <button class="dropbtn">Administration</button>
+                <div class="dropdown-content">
+                    <a href="?action=creerSoiree">Créer une soirée</a>
+                    <a href="?action=creerSpectacle">Créer un spectacle</a>
+                    <a href="?action=ajouterSpectacleToSoiree">Lier un spectacle et une soirée</a>
+                </div>
+            </div>' .
             '<a href="?action=logout">Déconnexion</a>' :
             '<a href="?action=login">Connexion</a>' .
             '<a href="?action=register">Inscription</a>';
@@ -33,9 +38,14 @@ abstract class Renderer
         </head>
         <body>
             <nav>
-                <a href="?action=default">Accueil</a>
-                <a href="?action=afficherListeSpectacles">Liste des spectacles</a>
-                {$navLinks}
+                <div class="nav-left">
+                    <a href="?action=default">Accueil</a>
+                    <a href="?action=afficherListeSpectacles">Liste des spectacles</a>
+                    <a href="?action=afficherListeSoirees">Liste des soirées</a>
+                </div>
+                <div class="nav-right">
+                    {$navLinks}
+                </div>
             </nav>
         HTML;
     }

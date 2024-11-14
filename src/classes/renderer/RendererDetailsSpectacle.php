@@ -3,6 +3,7 @@
 namespace iutnc\nrv\renderer;
 
 use iutnc\nrv\models\Spectacle;
+use iutnc\nrv\auth\Autorisation;
 
 class RendererDetailsSpectacle extends Renderer
 {
@@ -62,6 +63,16 @@ class RendererDetailsSpectacle extends Renderer
             $imagesElement .= "</div>";
         }
 
+        $cancelButton = "";
+        if (Autorisation::isStaff() || Autorisation::isAdmin()) {
+            $cancelButton = "
+                <form action='?action=annulerSpectacle' method='post'>
+                    <input type='hidden' name='idSpectacle' value='{$this->spectacle->getIdSpectacle()}'>
+                    <button type='submit' class='btn-annulation'>Annuler le spectacle</button>
+                </form>
+            ";
+        }
+
         return $this->renderHeader($this->spectacle->getTitre(), 'styles/spectacle-details.css') . <<<HTML
             <div class="details-header">
                 <div class="image-container">
@@ -74,11 +85,7 @@ class RendererDetailsSpectacle extends Renderer
                 <p>{$this->spectacle->getDescription()}</p>
                 {$videoElement}
                 {$audioElement}
-                <form action="?action=annulerSpectacle" method="post">
-                    <input type="hidden" name="idSpectacle" value="{$this->spectacle->getIdSpectacle()}">
-                    <button type="submit" class="btn-annulation">Annuler le spectacle</button>
-                </form>
-                
+                {$cancelButton}
             </div>
             <div class="details-body">
                 <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
