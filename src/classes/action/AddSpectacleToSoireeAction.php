@@ -19,8 +19,6 @@ class AddSpectacleToSoireeAction extends Action
     protected SpectacleToSoireeRepository $spectacleToSoireeRepository;
     protected SpectacleRepository $spectacleRepository;
 
-
-
     public function __construct()
     {
         parent::__construct();
@@ -39,24 +37,34 @@ class AddSpectacleToSoireeAction extends Action
         $error = '';
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                
                 $idSpectacle = htmlspecialchars($_POST['idSpectacle'] ?? '', ENT_QUOTES);
-                $dateSoiree = htmlspecialchars($_POST['dateSoiree'] ?? '', ENT_QUOTES,'UTF-8');
-                $idLieu = htmlspecialchars($_POST['idLieu'] ?? '', ENT_QUOTES);
-                if (empty($idSpectacle) || empty($dateSoiree) || empty($idLieu)) {
-                    throw new ValidationException("Tous les champs obligatoires doivent être remplis.");
-                }
+                $soiree = htmlspecialchars($_POST['Soiree'] ?? '', ENT_QUOTES);
 
                 $spectacle = $this->spectacleRepository->obtenirSpectacleParId($idSpectacle);
                 if (!$spectacle) {
                     throw new ValidationException("spectacle invalide.");
                 }
 
+                // Diviser la valeur de 'soiree' pour obtenir idLieu et dateSoiree
+                $soireeParts = explode(',', $soiree);
+
+                // Pour déboguer et afficher le contenu de soireeParts
+                echo "<pre>";
+                var_dump($soireeParts);
+                echo "</pre>";
+
+                if (count($soireeParts) < 2) {
+                    throw new ValidationException("Format de soirée invalide.");
+                }
+
+                $idLieu = $soireeParts[0];
+                $dateSoiree = $soireeParts[1];
+
                 $soiree = $this->soireeRepository->getSoireeById($idLieu, $dateSoiree);
                 if (!$soiree) {
                     throw new ValidationException("Soiree invalide.");
                 }
-                $this->spectacleToSoireeRepository->ajouterSpectacleToSoiree($soiree,$spectacle);
+                $this->spectacleToSoireeRepository->ajouterSpectacleToSoiree($soiree, $spectacle);
 
                 header('Location: ?action=home');
                 exit;
@@ -69,6 +77,7 @@ class AddSpectacleToSoireeAction extends Action
 
         $lieux = $this->lieuRepository->getAllLieux();
         $spectacles = $this->spectacleRepository->getListeSpectacles();
-        return (new RendererAddSpectacleToSoiree())->render(['error' => $error, 'lieux' => $lieux, 'idSpectacle' => $spectacles]);
+        $soirees = $this->soireeRepository->getAllSoiree();
+        return (new RendererAddSpectacleToSoiree())->render(['error' => $error, 'idSpectacle' => $spectacles, 'soirees' => $soirees]);
     }
 }

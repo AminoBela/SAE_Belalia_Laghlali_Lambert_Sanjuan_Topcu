@@ -33,12 +33,32 @@ class SoireeRepository
         ]);
     }
 
+    public function getAllSoiree(): array
+    {
+        $query = "SELECT s.*, l.nomLieu FROM Soiree s INNER JOIN Lieu l ON s.idLieu = l.idLieu";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $data = $stmt->fetchAll();
+        $soirees = [];
+        foreach ($data as $row) {
+            $dateSoiree = (new \DateTime($row['dateSoiree']))->format('Y-m-d');
+            $soirees[] = ['id' => $row['idLieu'] . '-' . $row['dateSoiree'],
+                'dateSoiree' => $dateSoiree,
+                'idLieu' => $row['idLieu'],
+                'nomLieu' => $row['nomLieu'],
+                'nomSoiree' => $row['nomSoiree'],
+                'thematique' => $row['thematique'],
+                'horraireDebut' => $row['horraireDebut'],];
+        }
+        return $soirees;
+    }
+
     public function getSoireeById(int $idLieu, string $dateSoiree): ?Soiree
     {
         $query = "SELECT * FROM Soiree WHERE idLieu = :idLieu AND dateSoiree = :dateSoiree";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindValue(':idLieu', $idLieu, \PDO::PARAM_INT);
-        $stmt->bindValue(':dateSoiree', $dateSoiree, \PDO::PARAM_STR);
+        $stmt->bindValue(':dateSoiree', (new \DateTime($dateSoiree))->format('Y-m-d'), \PDO::PARAM_STR);
         $stmt->execute();
         $data = $stmt->fetch();
 
@@ -81,15 +101,13 @@ class SoireeRepository
                 $row['urlAudio'] ?? null,          // urlAudio (peut être null)
                 $row['horrairePrevuSpectacle'],    // horrairePrevuSpectacle
                 $row['genre'],                     // genre
-                (int) $row['dureeSpectacle'],      // dureeSpectacle
-                (bool) $row['estAnnule']           // estAnnule (converti en booléen)
+                (int)$row['dureeSpectacle'],      // dureeSpectacle
+                (bool)$row['estAnnule']           // estAnnule (converti en booléen)
             );
         }
 
         return $spectacles;
     }
-
-
 
 
     public function getLieuById(int $idLieu): Lieu
