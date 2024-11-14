@@ -4,6 +4,7 @@ namespace iutnc\nrv\dispatcher;
 
 use iutnc\nrv\action\AddSpectacleAction;
 use iutnc\nrv\action\AddSoireeAction;
+use iutnc\nrv\action\AddSpectacleToSoireeAction;
 use iutnc\nrv\action\HomeAction;
 use iutnc\nrv\action\LoginAction;
 use iutnc\nrv\action\RegisterAction;
@@ -56,6 +57,10 @@ class Dispatcher
                 break;
             case 'creerSoiree':
                 $action = new AddSoireeAction();
+                echo $action->execute();
+                break;
+            case 'ajouterSpectacleToSoiree':
+                $action = new AddSpectacleToSoireeAction();
                 echo $action->execute();
                 break;
             case 'spectacleDetails':

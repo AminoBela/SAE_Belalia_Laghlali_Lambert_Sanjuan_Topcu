@@ -11,6 +11,7 @@ abstract class Renderer
         $navLinks = Authentification::isLogged() ?
             '<a href="?action=creerSoiree">Créer une soirée</a>' .
             '<a href="?action=creerSpectacle">Créer un spectacle</a>' .
+            '<a href="?action=ajouterSpectacleToSoiree">Lier un spectacle et une soirée</a>' .
             '<a href="?action=logout">Déconnexion</a>' :
             '<a href="?action=login">Connexion</a>' .
             '<a href="?action=register">Inscription</a>';
