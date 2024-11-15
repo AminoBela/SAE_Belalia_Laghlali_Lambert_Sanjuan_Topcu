@@ -16,7 +16,6 @@ class LikeButton
     {
         $preferencesRepository = PreferencesRepository::getInstance();
 
-
         $estAjouterPref = $preferencesRepository->estAjouterPref($idSpectacle);
 
         $likeIconClassName = $estAjouterPref ? 'like-icon-liked' : 'like-icon';

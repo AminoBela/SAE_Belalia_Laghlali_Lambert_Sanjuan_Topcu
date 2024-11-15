@@ -4,6 +4,7 @@ namespace iutnc\nrv\renderer;
 
 use iutnc\nrv\models\Spectacle;
 use iutnc\nrv\auth\Autorisation;
+use iutnc\nrv\repository\PreferencesRepository;
 use iutnc\nrv\repository\SpectacleRepository;
 
 /**
@@ -110,6 +111,11 @@ class RendererDetailsSpectacle extends Renderer
         $date = $specRepo->getDateForSpectacleById($idSpectacle);
         $lieu = $specRepo->getLieuForSpectaclesById($idSpectacle);
         $artiste = $specRepo->getArtistesForSpectacleById($idSpectacle);
+
+        if (isset($_GET['ajouterPref']) && $_GET['ajouterPref'] == $idSpectacle) {
+            $preferencesRepository = PreferencesRepository::getInstance();
+            $preferencesRepository->togglePref($idSpectacle);
+        }
 
 
         return $this->renderHeader($this->spectacle->getTitre(), 'styles/spectacle-details.css') . <<<HTML
