@@ -3,32 +3,47 @@
 namespace iutnc\nrv\renderer;
 
 use iutnc\nrv\models\Spectacle;
+use iutnc\nrv\auth\Autorisation;
 
+/**
+ * Class RendererDetailsSpectacle
+ *
+ * Classe pour rendre les détails d'un spectacle.
+ *
+ * @package iutnc\nrv\renderer
+ */
 class RendererDetailsSpectacle extends Renderer
 {
+    /**
+     * @var Spectacle Instance du spectacle à rendre.
+     */
     private Spectacle $spectacle;
 
+    /**
+     * RendererDetailsSpectacle constructor.
+     *
+     * @param Spectacle $spectacle L'instance du spectacle à rendre.
+     */
     public function __construct(Spectacle $spectacle)
     {
         $this->spectacle = $spectacle;
     }
 
+    /**
+     * Rendu des détails d'un spectacle.
+     *
+     * @param array $contexte Le contexte pour le rendu.
+     * @return string Les détails du spectacle rendus sous forme de chaîne de caractères.
+     */
     public function render(array $contexte = []): string
     {
         $statusAnnulation = $this->spectacle->getEstAnnule()
             ? "<p class='status-annule'>⚠️ Ce spectacle est annulé</p>"
             : "";
 
-        $actionButton = $this->spectacle->getEstAnnule()
-            ? "<form method='post' action='/desannuler'>
-                    <input type='hidden' name='idSpectacle' value='" . htmlspecialchars($this->spectacle->getId()) . "'>
-                    <button type='submit' class='desannuler-btn'>Désannuler le spectacle</button>
-               </form>"
-            : "";
-
         $dureeSpectacle = $this->spectacle->getEstAnnule()
             ? "<span class='annule'>Spectacle annulé</span>"
-            : "Durée du spectacle : " . htmlspecialchars($this->spectacle->getDureeSpectacleText(), ENT_QUOTES, 'UTF-8');
+            : htmlspecialchars($this->spectacle->getDureeSpectacleText(), ENT_QUOTES, 'UTF-8');
 
         $audio = $this->spectacle->getUrlAudio();
         $audioElement = $audio ? "
@@ -69,6 +84,18 @@ class RendererDetailsSpectacle extends Renderer
             $imagesElement .= "</div>";
         }
 
+
+
+        $cancelButton = "";
+        if (Autorisation::isStaff() || Autorisation::isAdmin()) {
+            $cancelButton = "
+                <form action='?action=annulerSpectacle' method='post'>
+                    <input type='hidden' name='idSpectacle' value='" . htmlspecialchars($this->spectacle->getIdSpectacle(), ENT_QUOTES, 'UTF-8') . "'>
+                    <button type='submit' class='btn-annulation'>Annuler le spectacle</button>
+                </form>
+            ";
+        }
+
         return $this->renderHeader($this->spectacle->getTitre(), 'styles/spectacle-details.css') . <<<HTML
             <div class="details-header">
                 <div class="image-container">
@@ -78,18 +105,18 @@ class RendererDetailsSpectacle extends Renderer
                     </div>
                 </div>
                 {$statusAnnulation}
-                {$actionButton}
                 <p>{$this->spectacle->getDescription()}</p>
                 {$videoElement}
                 {$audioElement}
+                {$cancelButton}
             </div>
             <div class="details-body">
                 <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
-                <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacle()}</p>
+                <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacleText()}</p>
                 <p><span>Durée :</span> {$dureeSpectacle}</p>
                 <div class="image-final">{$imagesElement}</div>
             </div>
-            HTML
+HTML
             . $this->renderFooter();
     }
 }

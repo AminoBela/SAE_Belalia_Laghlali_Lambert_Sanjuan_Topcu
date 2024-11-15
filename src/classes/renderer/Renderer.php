@@ -4,8 +4,22 @@ namespace iutnc\nrv\renderer;
 
 use iutnc\nrv\auth\Authentification;
 
+/**
+ * Class Renderer
+ *
+ * Classe abstraite pour les renderers du système NRV Festival.
+ *
+ * @package iutnc\nrv\renderer
+ */
 abstract class Renderer
 {
+    /**
+     * Génère l'en-tête HTML pour la page.
+     *
+     * @param string $title Le titre de la page.
+     * @param string|null $stylesheet Le chemin vers la feuille de style CSS supplémentaire.
+     * @return string L'en-tête HTML généré.
+     */
     protected function renderHeader(string $title, ?string $stylesheet = null): string
     {
         $navLinks = Authentification::isLogged() ?
@@ -50,6 +64,11 @@ abstract class Renderer
         HTML;
     }
 
+    /**
+     * Génère le pied de page HTML pour la page.
+     *
+     * @return string Le pied de page HTML généré.
+     */
     protected function renderFooter(): string
     {
         return <<<HTML
@@ -62,5 +81,11 @@ abstract class Renderer
         HTML;
     }
 
+    /**
+     * Méthode abstraite pour le rendu du contenu.
+     *
+     * @param array $contexte Le contexte pour le rendu.
+     * @return string Le contenu rendu.
+     */
     abstract public function render(array $contexte = []): string;
 }

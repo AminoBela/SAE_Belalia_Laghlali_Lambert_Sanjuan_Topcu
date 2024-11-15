@@ -8,16 +8,33 @@ use iutnc\nrv\models\Spectacle;
 use PDO;
 use iutnc\nrv\bd\ConnectionBD;
 
+/**
+ * Class SoireeRepository
+ *
+ * Classe pour accéder aux soirées dans la base de données.
+ *
+ * @package iutnc\nrv\repository
+ */
 class SoireeRepository
 {
-
+    /**
+     * @var PDO Instance de la connexion à la base de données.
+     */
     private PDO $pdo;
 
+    /**
+     * SoireeRepository constructor.
+     */
     public function __construct()
     {
         $this->pdo = ConnectionBD::obtenirBD();
     }
 
+    /**
+     * Ajoute une nouvelle soirée dans la base de données.
+     *
+     * @param Soiree $soiree La soirée à ajouter.
+     */
     public function ajouterSoiree(Soiree $soiree): void
     {
         $query = "INSERT INTO Soiree (idLieu, dateSoiree, nomSoiree, thematique, horraireDebut, tarif)
@@ -34,7 +51,11 @@ class SoireeRepository
         ]);
     }
 
-
+    /**
+     * Récupère toutes les soirées.
+     *
+     * @return array La liste de toutes les soirées sous forme de tableau associatif.
+     */
     public function getAllSoiree(): array
     {
         $query = "SELECT s.*, l.nomLieu FROM Soiree s INNER JOIN Lieu l ON s.idLieu = l.idLieu";
@@ -44,18 +65,27 @@ class SoireeRepository
         $soirees = [];
         foreach ($data as $row) {
             $dateSoiree = (new \DateTime($row['dateSoiree']))->format('Y-m-d');
-            $soirees[] = ['id' => $row['idLieu'] . '-' . $row['dateSoiree'],
+            $soirees[] = [
+                'id' => $row['idLieu'] . '-' . $row['dateSoiree'],
                 'dateSoiree' => $dateSoiree,
                 'idLieu' => $row['idLieu'],
                 'nomLieu' => $row['nomLieu'],
                 'nomSoiree' => $row['nomSoiree'],
                 'thematique' => $row['thematique'],
                 'horraireDebut' => $row['horraireDebut'],
-                'tarif' => $row['tarif'],];
+                'tarif' => $row['tarif'],
+            ];
         }
         return $soirees;
     }
 
+    /**
+     * Récupère une soirée par son ID de lieu et sa date.
+     *
+     * @param int $idLieu L'ID du lieu.
+     * @param string $dateSoiree La date de la soirée.
+     * @return Soiree|null La soirée correspondante ou null si elle n'existe pas.
+     */
     public function getSoireeById(int $idLieu, string $dateSoiree): ?Soiree
     {
         $query = "SELECT nomSoiree, thematique, dateSoiree, DATE_FORMAT(horraireDebut, '%H:%i') as horraireDebut, idLieu, tarif FROM Soiree WHERE idLieu = :idLieu AND dateSoiree = :dateSoiree";
@@ -79,6 +109,11 @@ class SoireeRepository
         return null;
     }
 
+    /**
+     * Récupère la liste des soirées.
+     *
+     * @return array La liste des soirées sous forme de tableau d'objets Soiree.
+     */
     public function getListeSoirees(): array
     {
         $query = "SELECT nomSoiree, thematique, dateSoiree, DATE_FORMAT(horraireDebut, '%H:%i') as horraireDebut, idLieu, tarif FROM Soiree";
@@ -101,16 +136,21 @@ class SoireeRepository
         return $soirees;
     }
 
-
+    /**
+     * Récupère les spectacles associés à une soirée.
+     *
+     * @param int $idLieu L'ID du lieu.
+     * @param string $dateSoiree La date de la soirée.
+     * @return array La liste des spectacles associés à la soirée sous forme de tableau d'objets Spectacle.
+     */
     public function getSpectaclesForSoiree(int $idLieu, string $dateSoiree): array
     {
         $query = "
-        SELECT sp.* 
-        FROM Spectacle sp
-        INNER JOIN SoireeToSpectacle sts
-        ON sp.idSpectacle = sts.idSpectacle
-        WHERE sts.idLieu = :idLieu AND sts.dateSoiree = :dateSoiree
-    ";
+            SELECT sp.* 
+            FROM Spectacle sp
+            INNER JOIN SoireeToSpectacle sts ON sp.idSpectacle = sts.idSpectacle
+            WHERE sts.idLieu = :idLieu AND sts.dateSoiree = :dateSoiree
+        ";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindValue(':idLieu', $idLieu, \PDO::PARAM_INT);
         $stmt->bindValue(':dateSoiree', $dateSoiree, \PDO::PARAM_STR);
@@ -127,15 +167,21 @@ class SoireeRepository
                 $row['urlAudio'] ?? null,          // urlAudio (peut être null)
                 $row['horrairePrevuSpectacle'],    // horrairePrevuSpectacle
                 $row['genre'],                     // genre
-                (int)$row['dureeSpectacle'],      // dureeSpectacle
-                (bool)$row['estAnnule']           // estAnnule (converti en booléen)
+                (int)$row['dureeSpectacle'],       // dureeSpectacle
+                (bool)$row['estAnnule']            // estAnnule (converti en booléen)
             );
         }
 
         return $spectacles;
     }
 
-
+    /**
+     * Récupère un lieu par son ID.
+     *
+     * @param int $idLieu L'ID du lieu.
+     * @return Lieu Le lieu correspondant à l'ID fourni.
+     * @throws \Exception Si le lieu n'est pas trouvé.
+     */
     public function getLieuById(int $idLieu): Lieu
     {
         $query = "SELECT * FROM Lieu WHERE idLieu = :idLieu";
@@ -156,6 +202,4 @@ class SoireeRepository
 
         throw new \Exception("Lieu introuvable pour l'ID $idLieu");
     }
-
-
 }

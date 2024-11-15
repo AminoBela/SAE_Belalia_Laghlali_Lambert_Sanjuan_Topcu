@@ -2,8 +2,21 @@
 
 namespace iutnc\nrv\renderer;
 
+/**
+ * Class RendererAddSoiree
+ *
+ * Classe pour rendre le formulaire de création d'une soirée.
+ *
+ * @package iutnc\nrv\renderer
+ */
 class RendererAddSoiree extends Renderer
 {
+    /**
+     * Rendu du formulaire de création d'une soirée.
+     *
+     * @param array $data Le contexte contenant les données nécessaires pour le rendu.
+     * @return string Le formulaire de création de la soirée rendu sous forme de chaîne de caractères.
+     */
     public function render(array $data = []): string
     {
         $error = htmlspecialchars($data['error'] ?? '', ENT_QUOTES, 'UTF-8');

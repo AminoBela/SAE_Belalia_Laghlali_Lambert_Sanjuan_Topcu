@@ -2,8 +2,21 @@
 
 namespace iutnc\nrv\renderer;
 
+/**
+ * Class RendererLogin
+ *
+ * Classe pour rendre le formulaire de connexion.
+ *
+ * @package iutnc\nrv\renderer
+ */
 class RendererLogin extends Renderer
 {
+    /**
+     * Rendu du formulaire de connexion.
+     *
+     * @param array $data Le contexte contenant les données nécessaires pour le rendu.
+     * @return string Le formulaire de connexion rendu sous forme de chaîne de caractères.
+     */
     public function render(array $data = []): string
     {
         $error = htmlspecialchars($data['error'] ?? '', ENT_QUOTES, 'UTF-8');
@@ -31,7 +44,7 @@ class RendererLogin extends Renderer
                 {$error}
             </div>
         </div>
-        HTML;
+HTML;
 
         return $header . $body . $footer;
     }

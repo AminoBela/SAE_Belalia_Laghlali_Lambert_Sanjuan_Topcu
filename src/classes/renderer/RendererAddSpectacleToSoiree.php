@@ -2,8 +2,21 @@
 
 namespace iutnc\nrv\renderer;
 
+/**
+ * Class RendererAddSpectacleToSoiree
+ *
+ * Classe pour rendre le formulaire d'ajout d'un spectacle à une soirée.
+ *
+ * @package iutnc\nrv\renderer
+ */
 class RendererAddSpectacleToSoiree extends Renderer
 {
+    /**
+     * Rendu du formulaire d'ajout d'un spectacle à une soirée.
+     *
+     * @param array $data Le contexte contenant les données nécessaires pour le rendu.
+     * @return string Le formulaire d'ajout du spectacle à la soirée rendu sous forme de chaîne de caractères.
+     */
     public function render(array $data = []): string
     {
         $error = htmlspecialchars($data['error'] ?? '', ENT_QUOTES, 'UTF-8');
@@ -17,13 +30,11 @@ class RendererAddSpectacleToSoiree extends Renderer
         <div class="form-container">
             <h2>Ajouter un Spectacle à une Soirée</h2>
             <form action="?action=ajouterSpectacleToSoiree" method="post" enctype="multipart/form-data">
-            
-            
-            <div class="form-group">
-                    <label for="idLieu">Soiree :</label>
+                <div class="form-group">
+                    <label for="idLieu">Soirée :</label>
                     <select id="Soiree" name="Soiree" required>
-                        <option value="">Sélectionnez une soiree</option>
-        HTML;
+                        <option value="">Sélectionnez une soirée</option>
+HTML;
 
         foreach ($soirees as $soiree) {
             $idLieu = htmlspecialchars($soiree['idLieu'], ENT_QUOTES, 'UTF-8');
@@ -40,7 +51,8 @@ class RendererAddSpectacleToSoiree extends Renderer
                     <label for="idSpectacle">Spectacle :</label>
                     <select id="idSpectacle" name="idSpectacle" required>
                         <option value="">Sélectionnez un spectacle</option>
-        HTML;
+HTML;
+
         foreach ($spectacles as $spectacle) {
             $idSpectacle = htmlspecialchars($spectacle['idSpectacle'], ENT_QUOTES, 'UTF-8');
             $nomSpectacle = htmlspecialchars($spectacle['titre'], ENT_QUOTES, 'UTF-8');
@@ -52,19 +64,20 @@ class RendererAddSpectacleToSoiree extends Renderer
                 </div>
                 <button type="submit" class="form-submit">Ajouter</button>
             </form>
-        HTML;
+HTML;
 
         if (!empty($error)) {
             $body .= <<<HTML
             <div class="error-message">
                 {$error}
             </div>
-        HTML;
+HTML;
         }
 
         $body .= <<<HTML
         </div>
-        HTML;
+HTML;
+
         return $header . $body . $footer;
     }
 }
