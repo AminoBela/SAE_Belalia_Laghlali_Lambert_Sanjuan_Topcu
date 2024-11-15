@@ -89,7 +89,7 @@ class Dispatcher
                 echo $action->execute();
                 break;
             case 'afficherListeSoirees':
-                $action = new AfficherListeSpectaclesAction();
+                $action = new AfficherListeSoireesAction();
                 echo $action->execute();
                 break;
             default:
