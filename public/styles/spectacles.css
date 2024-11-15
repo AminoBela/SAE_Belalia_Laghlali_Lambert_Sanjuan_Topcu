@@ -139,3 +139,38 @@ header h1 {
     margin-top: 20px;
 }
 
+.titre-spectacle {
+    margin : 20px 0;
+    text-align: center;
+}
+
+.preferences-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.options-preferences {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.options-preferences a {
+    color: #4b6cb7;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px;
+    border: 1px solid #4b6cb7;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-align: center;
+}
+

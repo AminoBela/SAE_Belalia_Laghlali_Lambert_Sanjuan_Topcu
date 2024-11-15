@@ -23,6 +23,15 @@ class RendererListePreferences extends Renderer
             return $html;
         }
 
+        $html .= "<div class='preferences-container'>";
+        $html .= "<h1 class='titre-spectacle'>Liste des spectacles préférés</h1>";
+        $html .= "<img src='uploads/images/spectacle-icon.png' alt='Image du spectacle' class='image-spectacle-liste' width='100px' height='100px'>";
+        $html .= "</div>";
+
+        $html .= "<div class='options-preferences'>";
+        $html .= "<a href='?action=afficherListeSpectacles' class='home-button'>Voir les spectacles</a>";
+        $html .= "</div>";
+
         $html .= "<div class='spectacle-list'>";
 
         $spectaclePref = PreferencesRepository::getInstance();
