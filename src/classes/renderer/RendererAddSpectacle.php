@@ -24,11 +24,11 @@ class RendererAddSpectacle extends Renderer
             </div>
             <div class="form-group">
                 <label for="urlVideo">Vidéo :</label>
-                <input type="file" id="urlVideo" name="urlVideo" accept="video/*" required>
+                <input type="file" id="urlVideo" name="urlVideo" accept="video/*">
             </div>
             <div class="form-group">
                 <label for="urlAudio">Audio :</label>
-                <input type="file" id="urlAudio" name="urlAudio" accept="audio/*" required>
+                <input type="file" id="urlAudio" name="urlAudio" accept="audio/*">
             </div>
             <div class="form-group">
                 <label for="horairePrevuSpectacle">Horaire prévu :</label>
