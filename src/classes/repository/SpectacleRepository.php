@@ -28,31 +28,7 @@ class SpectacleRepository {
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $spectacles = [];
-        foreach ($results as $row) {
-            $idSpectacle = $row['idSpectacle'];
-            if (!isset($spectacles[$idSpectacle])) {
-                $spectacles[$idSpectacle] = [
-                    'idSpectacle' => $row['idSpectacle'],
-                    'titre' => $row['titre'],
-                    'description' => $row['description'],
-                    'horrairePrevuSpectacle' => $row['horrairePrevuSpectacle'],
-                    'genre' => $row['genre'],
-                    'dateSoiree' => $row['dateSoiree'],
-                    'horraireDebut' => $row['horraireDebut'],
-                    'nomLieu' => $row['nomLieu'],
-                    'adresse' => $row['adresse'],
-                    'images' => [],
-                ];
-            }
-            if ($row['urlImage']) {
-                $spectacles[$idSpectacle]['images'][] = $row['urlImage'];
-            }
-
-        }
-        return array_values($spectacles);
+        return  $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
 
