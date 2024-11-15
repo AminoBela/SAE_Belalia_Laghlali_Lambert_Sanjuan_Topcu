@@ -116,32 +116,22 @@ header h1 {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/**Media queries**/
-
-@media screen and (max-width: 600px) {
-    .spectacle-list {
-        grid-template-columns: 1fr;
-    }
-    /**div de filtre**/
-
-    .filtre-options {
-        flex-direction: column;
-        gap: 10px;
-    }
+.spectacle-item .like-icon-a {
+    border: none;
+    margin-top: 0;
 }
 
-/* Pour tablette */
-
-@media screen and (min-width: 601px) and (max-width: 1024px) {
-    .spectacle-list {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    /**div de filtre**/
-
-    .filtre-options {
-        flex-direction: column;
-        gap: 10px;
-    }
+.spectacle-item .like {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
 }
+
+.spectacle-item .like h2 {
+    margin-bottom: 0;
+}
+
+/**Bouton annulation en rouge**/
 

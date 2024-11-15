@@ -88,3 +88,25 @@
 .btn-annulation:hover {
     background-color: #cc0000;
 }
+
+.like-titre .like-icon {
+    position: absolute;
+    top: 100px;
+    left: 10px;
+    padding: 10px;
+}
+
+.body-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.body-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}

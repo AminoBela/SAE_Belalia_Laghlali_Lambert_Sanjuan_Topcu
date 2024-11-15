@@ -103,6 +103,8 @@ class RendererDetailsSpectacle extends Renderer
             }
         }
 
+        $idSpectacle = $this->spectacle->getIdSpectacle();
+
         return $this->renderHeader($this->spectacle->getTitre(), 'styles/spectacle-details.css') . <<<HTML
             <div class="details-header">
                 <div class="image-container">
@@ -118,12 +120,19 @@ class RendererDetailsSpectacle extends Renderer
                 {$actionButton}
             </div>
             <div class="details-body">
-                <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
-                <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacleText()}</p>
-                <p><span>Durée :</span> {$dureeSpectacle}</p>
-                <div class="image-final">{$imagesElement}</div>
-            </div>
-HTML
+                <div class="body-header">
+                        <div class="body-info">
+                            <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
+                            <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacle()}</p>
+                            <p><span>Durée :</span> {$dureeSpectacle}</p>
+                        </div>
+            HTML
+            . LikeButton::renderLikeButton($idSpectacle, 35, "spectacleDetails&idSpectacle=$idSpectacle") .
+            <<<HTML
+                </div>
+                        <div class="image-final">{$imagesElement}</div>
+                </div>
+            HTML
             . $this->renderFooter();
     }
 }

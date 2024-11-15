@@ -69,7 +69,10 @@ class RendererListeSpectacles extends Renderer
             $idSpectacle = htmlspecialchars($spectacle['idSpectacle'], ENT_QUOTES, 'UTF-8');
 
             $html .= "<div class='spectacle-item'>";
+            $html .= "<div class='like'>";
             $html .= "<h2>{$titre}</h2>";
+            $html .= LikeButton::renderLikeButton($idSpectacle, 25, "afficherListeSpectacles");
+            $html .= "</div>";
             $html .= "<p>Date : {$date}</p>";
             $html .= "<p>Horaire : {$horaire}</p>";
             $html .= "<p>Style de musique : {$style}</p>";
