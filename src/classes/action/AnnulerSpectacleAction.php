@@ -2,7 +2,6 @@
 
 namespace iutnc\nrv\action;
 
-use iutnc\nrv\auth\Authentification;
 use iutnc\nrv\auth\Autorisation;
 use iutnc\nrv\repository\SpectacleRepository;
 

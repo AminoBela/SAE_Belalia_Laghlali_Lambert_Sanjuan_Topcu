@@ -5,6 +5,7 @@ namespace iutnc\nrv\dispatcher;
 use iutnc\nrv\action\AddSpectacleAction;
 use iutnc\nrv\action\AddSoireeAction;
 use iutnc\nrv\action\AddSpectacleToSoireeAction;
+use iutnc\nrv\action\DesannulerSpectacleAction;
 use iutnc\nrv\action\HomeAction;
 use iutnc\nrv\action\LoginAction;
 use iutnc\nrv\action\RegisterAction;
@@ -13,6 +14,8 @@ use iutnc\nrv\action\SoireeDetailsAction;
 use iutnc\nrv\action\AfficherListeSpectaclesAction;
 use iutnc\nrv\action\AnnulerSpectacleAction;
 use iutnc\nrv\action\AfficherListeSoireesAction;
+
+
 
 /**
  * Dispatcher pour les actions.
@@ -81,8 +84,12 @@ class Dispatcher
                 $action = new AnnulerSpectacleAction();
                 echo $action->execute();
                 break;
+            case 'desannulerSpectacle':
+                $action = new DesannulerSpectacleAction();
+                echo $action->execute();
+                break;
             case 'afficherListeSoirees':
-                $action = new AfficherListeSoireesAction();
+                $action = new AfficherListeSpectaclesAction();
                 echo $action->execute();
                 break;
             default:
