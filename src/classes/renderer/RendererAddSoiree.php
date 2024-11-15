@@ -33,6 +33,10 @@ class RendererAddSoiree extends Renderer
                     <input type="time" id="horraireDebut" name="horraireDebut" required>
                 </div>
                 <div class="form-group">
+                <label for="tarif">Tarif (euro) :</label>
+                <input type="number" id="tarif" name="tarif" min="0" required>
+            </div>
+                <div class="form-group">
                     <label for="idLieu">Lieu :</label>
                     <select id="idLieu" name="idLieu" required>
                         <option value="">Sélectionnez un lieu</option>

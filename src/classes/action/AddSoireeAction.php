@@ -35,9 +35,10 @@ class AddSoireeAction extends Action
                 $thematique = htmlspecialchars($_POST['thematique'] ?? '', ENT_QUOTES,'UTF-8');
                 $dateSoiree = htmlspecialchars($_POST['dateSoiree'] ?? '', ENT_QUOTES,'UTF-8');
                 $horraireDebut = htmlspecialchars($_POST['horraireDebut'] ?? '', ENT_QUOTES,'UTF-8');
+                $tarif = intval(htmlspecialchars($_POST['tarif'] ?? '', ENT_QUOTES));
                 $idLieu = htmlspecialchars($_POST['idLieu'] ?? '', ENT_QUOTES);
 
-                if (empty($nomSoiree) || empty($thematique) || empty($dateSoiree) || empty($horraireDebut) || empty($idLieu)) {
+                if (empty($nomSoiree) || empty($thematique) || empty($dateSoiree) || empty($horraireDebut) || empty($idLieu) || empty($tarif)){
                     throw new ValidationException("Tous les champs obligatoires doivent être remplis.");
                 }
 
@@ -45,8 +46,8 @@ class AddSoireeAction extends Action
                 if (!$lieu) {
                     throw new ValidationException("Lieu invalide.");
                 }
-
-                $soiree = new Soiree($nomSoiree, $thematique, $dateSoiree, $horraireDebut, $lieu);
+                echo var_dump($tarif);
+                $soiree = new Soiree($nomSoiree, $thematique, $dateSoiree, $horraireDebut, $lieu, $tarif);
                 $this->soireeRepository->ajouterSoiree($soiree);
 
                 header('Location: ?action=home');
