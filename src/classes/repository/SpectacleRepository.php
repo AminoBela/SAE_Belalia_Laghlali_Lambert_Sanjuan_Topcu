@@ -301,10 +301,12 @@ class SpectacleRepository {
             return (string)$id;
         }, $idSpectacles);
 
+        // si le tableau est vide, retourner un tableau vide
         if (count($idSpectacles) === 0) {
             return [];
         }
 
+        // générer les placeholders pour la requête (ex: ?, ?, ?)
         $placeholders = implode(', ', array_fill(0, count($idSpectacles), '?'));
 
         $query = "
@@ -319,10 +321,12 @@ class SpectacleRepository {
             ORDER BY so.dateSoiree ASC;
         ";
 
+        // préparer la requête (si j'activais il m'arrivais d'avoir des bugs)
         $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $stmt = $this->pdo->prepare($query);
 
         $index = 0;
+        // Je suis obligé de faire comme ça car sinon la requête vers la base de données a une erreur
         foreach ($idSpectacles as $idSpectacle) {
             $stmt->bindValue($index + 1, $idSpectacle, PDO::PARAM_INT);
             $index++;
