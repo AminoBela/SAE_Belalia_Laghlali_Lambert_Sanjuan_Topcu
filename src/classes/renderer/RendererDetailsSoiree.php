@@ -4,13 +4,7 @@ namespace iutnc\nrv\renderer;
 
 use iutnc\nrv\models\Soiree;
 
-/**
- * Class RendererDetailsSoiree
- *
- * Classe pour rendre les détails d'une soirée.
- *
- * @package iutnc\nrv\renderer
- */
+
 class RendererDetailsSoiree extends Renderer
 {
     /**
@@ -18,11 +12,7 @@ class RendererDetailsSoiree extends Renderer
      */
     private Soiree $soiree;
 
-    /**
-     * RendererDetailsSoiree constructor.
-     *
-     * @param Soiree $soiree L'instance de la soirée à rendre.
-     */
+
     public function __construct(Soiree $soiree)
     {
         $this->soiree = $soiree;
