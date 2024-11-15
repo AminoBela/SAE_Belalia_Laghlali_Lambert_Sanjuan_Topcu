@@ -90,16 +90,6 @@ class Spectacle
         return $this->idSpectacle;
     }
 
-    /**
-     * Getter du nom du lieu du spectacle.
-     * @return string
-     */
-    public function getNomLieu(): string {
-        return $this->nomLieu;
-    }
-
-
-
     /***
      * Getter du titre du spectacle.
      * @return string
@@ -139,6 +129,14 @@ class Spectacle
 
     public function getHorairePrevuSpectacle(): string {
         return $this->horairePrevuSpectacle;
+    }
+
+    /**
+     * getHorairePrevuSpectacle en format HH:MM
+     */
+
+    public function getHorairePrevuSpectacleText(): string {
+        return substr($this->horairePrevuSpectacle, 0, 5);
     }
 
     /**

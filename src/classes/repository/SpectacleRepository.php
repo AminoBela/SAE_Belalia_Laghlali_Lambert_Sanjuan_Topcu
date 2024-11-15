@@ -17,22 +17,44 @@ class SpectacleRepository {
     public function getListeSpectacles(): array
     {
         $query = "
-            select s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, s.genre, so.dateSoiree, so.horraireDebut, l.nomLieu, l.adresse, i.urlImage, a.nomArtiste
-            from Spectacle s
-            left join SoireeToSpectacle sts ON s.idSpectacle = sts.idSpectacle
-            left join Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
-            left join Lieu l ON so.idLieu = l.idLieu
-            left join ImageToSpectacle its ON s.idSpectacle = its.idSpectacle
-            left join Image i ON its.idImage = i.idImage
-            left join ArtisteToSpectacle ats ON s.idSpectacle = ats.idSpectacle
-            left join Artiste a ON ats.idArtiste = a.idArtiste;
+            SELECT s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, s.genre, so.dateSoiree, so.horraireDebut, l.nomLieu, l.adresse, i.urlImage
+            FROM Spectacle s
+            LEFT JOIN SoireeToSpectacle sts ON s.idSpectacle = sts.idSpectacle
+            LEFT JOIN Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
+            LEFT JOIN Lieu l ON so.idLieu = l.idLieu
+            LEFT JOIN ImageToSpectacle its ON s.idSpectacle = its.idSpectacle
+            LEFT JOIN Image i ON its.idImage = i.idImage;
         ";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $spectacles = [];
+        foreach ($results as $row) {
+            $idSpectacle = $row['idSpectacle'];
+            if (!isset($spectacles[$idSpectacle])) {
+                $spectacles[$idSpectacle] = [
+                    'idSpectacle' => $row['idSpectacle'],
+                    'titre' => $row['titre'],
+                    'description' => $row['description'],
+                    'horrairePrevuSpectacle' => $row['horrairePrevuSpectacle'],
+                    'genre' => $row['genre'],
+                    'dateSoiree' => $row['dateSoiree'],
+                    'horraireDebut' => $row['horraireDebut'],
+                    'nomLieu' => $row['nomLieu'],
+                    'adresse' => $row['adresse'],
+                    'images' => [],
+                ];
+            }
+            if ($row['urlImage']) {
+                $spectacles[$idSpectacle]['images'][] = $row['urlImage'];
+            }
+
+        }
+        return array_values($spectacles);
     }
+
 
     public function ajouterSpectacle(Spectacle $spectacle): void
     {

@@ -43,7 +43,7 @@ class RendererDetailsSpectacle extends Renderer
 
         $dureeSpectacle = $this->spectacle->getEstAnnule()
             ? "<span class='annule'>Spectacle annulé</span>"
-            : "Durée du spectacle : " . htmlspecialchars($this->spectacle->getDureeSpectacleText(), ENT_QUOTES, 'UTF-8');
+            : htmlspecialchars($this->spectacle->getDureeSpectacleText(), ENT_QUOTES, 'UTF-8');
 
         $audio = $this->spectacle->getUrlAudio();
         $audioElement = $audio ? "
@@ -84,6 +84,8 @@ class RendererDetailsSpectacle extends Renderer
             $imagesElement .= "</div>";
         }
 
+
+
         $cancelButton = "";
         if (Autorisation::isStaff() || Autorisation::isAdmin()) {
             $cancelButton = "
@@ -110,7 +112,7 @@ class RendererDetailsSpectacle extends Renderer
             </div>
             <div class="details-body">
                 <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
-                <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacle()}</p>
+                <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacleText()}</p>
                 <p><span>Durée :</span> {$dureeSpectacle}</p>
                 <div class="image-final">{$imagesElement}</div>
             </div>
