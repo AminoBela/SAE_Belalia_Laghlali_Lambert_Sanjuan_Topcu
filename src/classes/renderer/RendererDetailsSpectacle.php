@@ -22,7 +22,7 @@ class RendererDetailsSpectacle extends Renderer
 
         $dureeSpectacle = $this->spectacle->getEstAnnule()
             ? "<span class='annule'>Spectacle annulé</span>"
-            : "Durée du spectacle : " . htmlspecialchars($this->spectacle->getDureeSpectacleText(), ENT_QUOTES, 'UTF-8');
+            : htmlspecialchars($this->spectacle->getDureeSpectacleText(), ENT_QUOTES, 'UTF-8');
 
         $audio = $this->spectacle->getUrlAudio();
         $audioElement = $audio ? "
@@ -63,6 +63,16 @@ class RendererDetailsSpectacle extends Renderer
             $imagesElement .= "</div>";
         }
 
+        $artistes = $this->spectacle->getArtistes();
+        $artistesElement = "";
+        if (!empty($artistes)) {
+            $artistesElement = "<p><span>Artistes :</span> ";
+            foreach ($artistes as $artiste) {
+                $artistesElement .= htmlspecialchars($artiste->getNomArtiste(), ENT_QUOTES, 'UTF-8') . ", ";
+            }
+            $artistesElement = rtrim($artistesElement, ', ') . "</p>";
+        }
+
         $cancelButton = "";
         if (Autorisation::isStaff() || Autorisation::isAdmin()) {
             $cancelButton = "
@@ -91,6 +101,7 @@ class RendererDetailsSpectacle extends Renderer
                 <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
                 <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacle()}</p>
                 <p><span>Durée :</span> {$dureeSpectacle}</p>
+                {$artistesElement}
                 <div class="image-final">{$imagesElement}</div>
             </div>
             HTML
