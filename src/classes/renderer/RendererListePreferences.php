@@ -24,12 +24,15 @@ class RendererListePreferences extends Renderer
 
         // Si l'utilisateur n'a pas de spectacles préférés
         if (empty($spectacles)) {
+            $html .= "<main>";
             // Afficher un message avec un lien pour retourner à la liste des spectacles
             $html .= "<div class='no-preferences'>";
             $html .= "<img src='uploads/images/spectacle-icon.png' alt='Image du spectacle' class='image-spectacle-liste' width='100px' height='100px'>";
             $html .= "<h3>Vous n'avez pas de spectacles préférés.</h3>";
             $html .= "<h5>Retourner à la <a href='?action=afficherListeSpectacles'>liste des spectacles</a></h5>";
             $html .= "</div>";
+            $html .= "</main>";
+            $html .= $this->renderFooter();
             return $html;
         }
 
@@ -63,6 +66,7 @@ class RendererListePreferences extends Renderer
         }
 
         $html .= "</div>";
+        $html .= $this->renderFooter();
 
         return $html;
     }

@@ -160,3 +160,10 @@ footer p {
         width: 100%;
     }
 }
+
+main {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
