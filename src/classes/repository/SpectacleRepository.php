@@ -289,4 +289,46 @@ class SpectacleRepository {
         return $result ? implode(', ', $result) : null;
     }
 
+    /**
+     * Récupère les preferences de l'utilisateur pour les spectacles.
+     *
+     * @return array La liste des spectacles préférés de l'utilisateur.
+     */
+    public function getPreferencesSpectacles(array $idSpectacles): array
+    {
+        // transforme le tableau d'id en une chaîne de caractères pour la requête
+        $idSpectacles = array_map(function ($id) {
+            return (string)$id;
+        }, $idSpectacles);
+
+        if (count($idSpectacles) === 0) {
+            return [];
+        }
+
+        $placeholders = implode(', ', array_fill(0, count($idSpectacles), '?'));
+
+        $query = "
+            SELECT s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, s.genre, so.dateSoiree, so.horraireDebut, l.nomLieu, l.adresse, i.urlImage
+            FROM Spectacle s
+            LEFT JOIN SoireeToSpectacle sts ON s.idSpectacle = sts.idSpectacle
+            LEFT JOIN Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
+            LEFT JOIN Lieu l ON so.idLieu = l.idLieu
+            LEFT JOIN ImageToSpectacle its ON s.idSpectacle = its.idSpectacle
+            LEFT JOIN Image i ON its.idImage = i.idImage
+            WHERE s.idSpectacle IN ( $placeholders )
+            ORDER BY so.dateSoiree ASC;
+        ";
+
+        $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $stmt = $this->pdo->prepare($query);
+
+        $index = 0;
+        foreach ($idSpectacles as $idSpectacle) {
+            $stmt->bindValue($index + 1, $idSpectacle, PDO::PARAM_INT);
+            $index++;
+        }
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
