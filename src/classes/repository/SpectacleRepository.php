@@ -177,6 +177,7 @@ class SpectacleRepository {
         $stmt->execute(['idSpectacle' => $idSpectacle]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // Vérifier que le lieu existe et la retourner
         return $result ? $result['nomLieu'] : null;
     }
 
@@ -196,6 +197,19 @@ class SpectacleRepository {
         return $result ? $result['dateSoiree'] : null;
     }
 
+    public function getArtistesForSpectacleById(int $idSpectacle): ?string {
+        $query = "
+        SELECT a.nomArtiste
+        FROM ArtisteToSpectacle ats
+        INNER JOIN Artiste a ON ats.idArtiste = a.idArtiste
+        WHERE ats.idSpectacle = :idSpectacle
+    ";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['idSpectacle' => $idSpectacle]);
+        $result = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
+        // Si des artistes sont trouvés, les concaténer dans une chaîne, sinon retourner null
+        return $result ? implode(', ', $result) : null;
+    }
 }
 

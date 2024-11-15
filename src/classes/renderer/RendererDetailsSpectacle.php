@@ -109,6 +109,7 @@ class RendererDetailsSpectacle extends Renderer
         $idSpectacle = $this->spectacle->getIdSpectacle();
         $date = $specRepo->getDateForSpectacleById($idSpectacle);
         $lieu = $specRepo->getLieuForSpectaclesById($idSpectacle);
+        $artiste = $specRepo->getArtistesForSpectacleById($idSpectacle);
 
 
         return $this->renderHeader($this->spectacle->getTitre(), 'styles/spectacle-details.css') . <<<HTML
@@ -146,6 +147,7 @@ class RendererDetailsSpectacle extends Renderer
             <div class="details-body">
                 <div class="body-header">
                         <div class="body-info">
+                            <p><span>Artiste :</span> {$artiste}</p>
                             <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
                             <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacleText()}</p>
                             <p><span>Durée :</span> {$dureeSpectacle}</p>
