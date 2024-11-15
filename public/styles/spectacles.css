@@ -14,7 +14,6 @@ body {
     color: #333;
 }
 
-/* Header */
 header {
     background-color: #4b6cb7;
     color: white;
@@ -178,3 +177,57 @@ header h1 {
     background-color: #395b99;
     color: white;
 }
+
+/** Media queries */
+
+@media screen and (max-width: 1010px) {
+    .spectacle-list {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .spectacle-item {
+        min-height: 350px;
+    }
+
+    .spectacle-item h2 {
+        font-size: 1.2rem;
+    }
+
+    .spectacle-item img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .spectacle-item a {
+        padding: 5px;
+    }
+
+    .filtre-options {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+
+}
+
+@media screen and (max-width: 600px) {
+    .spectacle-list {
+        grid-template-columns: 1fr;
+
+    }
+
+    .spectacle-item {
+        min-height: 300px;
+    }
+
+    .spectacle-item h2 {
+        font-size: 1rem;
+    }
+
+    .spectacle-item img {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+

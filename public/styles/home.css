@@ -33,8 +33,17 @@
     background-color: #395b99;
 }
 
-footer {
-    position: relative;
+/* position du footer en bas de page scrollable */
+
+.footer {
+    position: fixed;
+    left: 0;
     bottom: 0;
     width: 100%;
+    background-color: #4b6cb7;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
 }
+
+/* body prend toute la hauteur de la page */

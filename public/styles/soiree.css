@@ -2,6 +2,29 @@
  * Style pour les elements ayant a trait aux soirees
  */
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    background-color: #4b6cb7;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
 .soiree-details {
     max-width: 800px;
     margin: 50px auto;
@@ -128,9 +151,9 @@
     background-color: #395b99;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1050px) {
     .soiree-list {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: 1fr 1fr;
     }
 }
 

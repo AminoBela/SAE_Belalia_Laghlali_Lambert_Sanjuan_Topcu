@@ -76,7 +76,7 @@ abstract class Renderer
     protected function renderFooter(): string
     {
         return <<<HTML
-            <footer>
+            <footer class="footer-fixed">
                 <p>&copy; 2024 NRV Festival</p>
                 <p>Site réalisé par Amin, Noah, Valentino, Nicolas et Semih</p>
             </footer>
