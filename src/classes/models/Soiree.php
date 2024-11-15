@@ -24,6 +24,8 @@ class Soiree
     private Lieu $lieu;
     private array $spectacles;
 
+    private int $tarif;
+
     /**
      * Constructeur de la classe.
      * @param string $nomSoiree Nom de la soirée.
@@ -39,6 +41,7 @@ class Soiree
         string $dateSoiree,
         string $horaireDebut,
         Lieu $lieu,
+        int $tarif,
         array $spectacles = []
     ) {
         $this->nomSoiree = $nomSoiree;
@@ -47,6 +50,7 @@ class Soiree
         $this->horaireDebut = $horaireDebut;
         $this->lieu = $lieu;
         $this->spectacles = $spectacles;
+        $this->tarif = $tarif;
     }
 
     /**
@@ -101,6 +105,14 @@ class Soiree
     public function getSpectacles(): array
     {
         return $this->spectacles;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTarif(): int
+    {
+        return $this->tarif;
     }
 
     /**

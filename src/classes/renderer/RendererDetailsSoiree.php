@@ -22,6 +22,7 @@ class RendererDetailsSoiree extends Renderer
         $html .= "<p><strong>Thématique :</strong> " . htmlspecialchars($this->soiree->getThematique(), ENT_QUOTES, 'UTF-8') . "</p>";
         $html .= "<p><strong>Date :</strong> " . htmlspecialchars($this->soiree->getDateSoiree(), ENT_QUOTES, 'UTF-8') . " à " . htmlspecialchars($this->soiree->getHoraireDebut(), ENT_QUOTES, 'UTF-8') . "</p>";
         $html .= "<p><strong>Lieu :</strong> " . htmlspecialchars($this->soiree->getLieu(), ENT_QUOTES, 'UTF-8') . "</p>";
+        $html .= "<p><strong>Tarif :</strong> " . htmlspecialchars($this->soiree->getTarif(), ENT_QUOTES, 'UTF-8') . "</p>";
 
         $spectacles = $this->soiree->getSpectacles();
         if (!empty($spectacles)) {
