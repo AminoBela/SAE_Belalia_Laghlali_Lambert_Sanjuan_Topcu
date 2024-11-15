@@ -63,15 +63,7 @@ class RendererDetailsSpectacle extends Renderer
             $imagesElement .= "</div>";
         }
 
-        $artistes = $this->spectacle->getArtistes();
-        $artistesElement = "";
-        if (!empty($artistes)) {
-            $artistesElement = "<p><span>Artistes :</span> ";
-            foreach ($artistes as $artiste) {
-                $artistesElement .= htmlspecialchars($artiste->getNomArtiste(), ENT_QUOTES, 'UTF-8') . ", ";
-            }
-            $artistesElement = rtrim($artistesElement, ', ') . "</p>";
-        }
+
 
         $cancelButton = "";
         if (Autorisation::isStaff() || Autorisation::isAdmin()) {
@@ -99,9 +91,8 @@ class RendererDetailsSpectacle extends Renderer
             </div>
             <div class="details-body">
                 <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
-                <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacle()}</p>
+                <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacleText()}</p>
                 <p><span>Durée :</span> {$dureeSpectacle}</p>
-                {$artistesElement}
                 <div class="image-final">{$imagesElement}</div>
             </div>
             HTML

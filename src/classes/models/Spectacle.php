@@ -31,7 +31,6 @@ class Spectacle
     private int $dureeSpectacle;
     private int $estAnnule;
     private array $images;
-    private array $artistes;
 
 
     /**
@@ -47,7 +46,7 @@ class Spectacle
      * @param int $estAnnule
      * @param array $images
      */
-    public function __construct(?int $idSpectacle, string $titre, string $description, ?string $urlVideo, ?string $urlAudio, string $horairePrevuSpectacle, string $genre, int $dureeSpectacle, int $estAnnule, array $images = [], array $artistes = []) {
+    public function __construct(?int $idSpectacle, string $titre, string $description, ?string $urlVideo, ?string $urlAudio, string $horairePrevuSpectacle, string $genre, int $dureeSpectacle, int $estAnnule, array $images = []) {
         $this->idSpectacle = $idSpectacle;
         $this->titre = $titre;
         $this->description = $description;
@@ -58,7 +57,6 @@ class Spectacle
         $this->dureeSpectacle = $dureeSpectacle;
         $this->estAnnule = $estAnnule;
         $this->images = $images;
-        $this->artistes = $artistes;
     }
 
     /**
@@ -68,7 +66,6 @@ class Spectacle
      */
     public static function fromArray($result) : Spectacle
     {
-        $artistes = $result['nomArtiste'] ?? [];
         $images = $result['images'] ?? [];
         return new Spectacle(
             $result['idSpectacle'],
@@ -81,7 +78,6 @@ class Spectacle
             $result['dureeSpectacle'],
             $result['estAnnule'],
             $images,
-            $artistes,
             $result['nomLieu'] ?? 'N/A',
         );
     }
@@ -93,16 +89,6 @@ class Spectacle
     public function getIdSpectacle(): int {
         return $this->idSpectacle;
     }
-
-    /**
-     * Getter du nom du lieu du spectacle.
-     * @return string
-     */
-    public function getNomLieu(): string {
-        return $this->nomLieu;
-    }
-
-
 
     /***
      * Getter du titre du spectacle.
@@ -143,6 +129,14 @@ class Spectacle
 
     public function getHorairePrevuSpectacle(): string {
         return $this->horairePrevuSpectacle;
+    }
+
+    /**
+     * getHorairePrevuSpectacle en format HH:MM
+     */
+
+    public function getHorairePrevuSpectacleText(): string {
+        return substr($this->horairePrevuSpectacle, 0, 5);
     }
 
     /**
@@ -214,8 +208,5 @@ class Spectacle
         return $this->images[0] ?? 'default.jpg';
     }
 
-    public function getArtistes(): array {
-        return $this->artistes;
-    }
 
 }

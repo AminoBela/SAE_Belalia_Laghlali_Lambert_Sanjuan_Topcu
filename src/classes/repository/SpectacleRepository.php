@@ -17,15 +17,13 @@ class SpectacleRepository {
     public function getListeSpectacles(): array
     {
         $query = "
-            SELECT s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, s.genre, so.dateSoiree, so.horraireDebut, l.nomLieu, l.adresse, i.urlImage, a.nomArtiste
+            SELECT s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, s.genre, so.dateSoiree, so.horraireDebut, l.nomLieu, l.adresse, i.urlImage
             FROM Spectacle s
             LEFT JOIN SoireeToSpectacle sts ON s.idSpectacle = sts.idSpectacle
             LEFT JOIN Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
             LEFT JOIN Lieu l ON so.idLieu = l.idLieu
             LEFT JOIN ImageToSpectacle its ON s.idSpectacle = its.idSpectacle
-            LEFT JOIN Image i ON its.idImage = i.idImage
-            LEFT JOIN ArtisteToSpectacle ats ON s.idSpectacle = ats.idSpectacle
-            LEFT JOIN Artiste a ON ats.idArtiste = a.idArtiste;
+            LEFT JOIN Image i ON its.idImage = i.idImage;
         ";
 
         $stmt = $this->pdo->prepare($query);
@@ -47,15 +45,12 @@ class SpectacleRepository {
                     'nomLieu' => $row['nomLieu'],
                     'adresse' => $row['adresse'],
                     'images' => [],
-                    'artistes' => []
                 ];
             }
             if ($row['urlImage']) {
                 $spectacles[$idSpectacle]['images'][] = $row['urlImage'];
             }
-            if ($row['nomArtiste']) {
-                $spectacles[$idSpectacle]['artistes'][] = $row['nomArtiste'];
-            }
+
         }
         return array_values($spectacles);
     }
