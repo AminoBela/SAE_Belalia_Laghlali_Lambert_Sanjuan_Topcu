@@ -84,16 +84,23 @@ class RendererDetailsSpectacle extends Renderer
             $imagesElement .= "</div>";
         }
 
-
-
-        $cancelButton = "";
+        $actionButton = "";
         if (Autorisation::isStaff() || Autorisation::isAdmin()) {
-            $cancelButton = "
-                <form action='?action=annulerSpectacle' method='post'>
-                    <input type='hidden' name='idSpectacle' value='" . htmlspecialchars($this->spectacle->getIdSpectacle(), ENT_QUOTES, 'UTF-8') . "'>
-                    <button type='submit' class='btn-annulation'>Annuler le spectacle</button>
-                </form>
-            ";
+            if ($this->spectacle->getEstAnnule()) {
+                $actionButton = "
+                    <form action='?action=desannulerSpectacle' method='post'>
+                        <input type='hidden' name='idSpectacle' value='" . htmlspecialchars($this->spectacle->getIdSpectacle(), ENT_QUOTES, 'UTF-8') . "'>
+                        <button type='submit' class='btn-desannulation'>Désannuler le spectacle</button>
+                    </form>
+                ";
+            } else {
+                $actionButton = "
+                    <form action='?action=annulerSpectacle' method='post'>
+                        <input type='hidden' name='idSpectacle' value='" . htmlspecialchars($this->spectacle->getIdSpectacle(), ENT_QUOTES, 'UTF-8') . "'>
+                        <button type='submit' class='btn-annulation'>Annuler le spectacle</button>
+                    </form>
+                ";
+            }
         }
 
         return $this->renderHeader($this->spectacle->getTitre(), 'styles/spectacle-details.css') . <<<HTML
@@ -108,7 +115,7 @@ class RendererDetailsSpectacle extends Renderer
                 <p>{$this->spectacle->getDescription()}</p>
                 {$videoElement}
                 {$audioElement}
-                {$cancelButton}
+                {$actionButton}
             </div>
             <div class="details-body">
                 <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
