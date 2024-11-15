@@ -46,7 +46,7 @@ class RendererDetailsSoiree extends Renderer
                     . htmlspecialchars($spectacle->getTitre(), ENT_QUOTES, 'UTF-8') . "</a></h3>";
                 $html .= "<p>" . htmlspecialchars($spectacle->getDescription(), ENT_QUOTES, 'UTF-8') . "</p>";
                 $html .= "<p><strong>Genre :</strong> " . htmlspecialchars($spectacle->getGenre(), ENT_QUOTES, 'UTF-8') . "</p>";
-                $html .= "<p><strong>Horaire :</strong> " . htmlspecialchars($spectacle->getHorairePrevuSpectacle(), ENT_QUOTES, 'UTF-8') . "</p>";
+                $html .= "<p><strong>Horaire :</strong> " . htmlspecialchars($spectacle->getHorairePrevuSpectacleText(), ENT_QUOTES, 'UTF-8') . "</p>";
                 $html .= "</li>";
             }
 
