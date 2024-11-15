@@ -42,7 +42,11 @@ class DesannulerSpectacleAction {
         }
 
         $success = $this->spectacleRepository->desannulerSpectacle($idSpectacle);
-        return $success ? "Spectacle désannulé avec succès." : "Erreur lors de la désannulation du spectacle.";
-
+        if ($success) {
+            header('Location: ?action=afficherListeSpectacles');
+            exit();
+        } else {
+            return "Impossible d'annuler le spectacle.";
+        }
     }
 }

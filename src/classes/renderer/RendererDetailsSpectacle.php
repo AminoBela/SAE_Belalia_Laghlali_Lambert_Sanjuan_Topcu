@@ -123,7 +123,7 @@ class RendererDetailsSpectacle extends Renderer
                 <div class="body-header">
                         <div class="body-info">
                             <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
-                            <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacle()}</p>
+                            <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacleText()}</p>
                             <p><span>Durée :</span> {$dureeSpectacle}</p>
                         </div>
             HTML

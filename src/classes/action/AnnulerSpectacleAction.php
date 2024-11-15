@@ -44,6 +44,12 @@ class AnnulerSpectacleAction {
 
         // Annule le spectacle en utilisant le dépôt.
         $success = $this->spectacleRepository->annulerSpectacle($idSpectacle);
-        return $success ? "Spectacle annulé avec succès." : "Erreur lors de l'annulation du spectacle.";
+        // si soucces on refresh la page
+        if ($success) {
+            header('Location: ?action=afficherListeSpectacles');
+            exit();
+        } else {
+            return "Impossible d'annuler le spectacle.";
+        }
     }
 }

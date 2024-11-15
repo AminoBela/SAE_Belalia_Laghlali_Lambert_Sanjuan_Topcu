@@ -1,4 +1,13 @@
 /* Container pour le formulaire de connexion */
+
+body {
+    font-family: 'Trebuchet MS', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+}
 .login-container {
     max-width: 400px;
     margin: 50px auto;
@@ -8,7 +17,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-}
+    }
 
 .login-container h2 {
     font-size: 1.8rem;
@@ -64,7 +73,6 @@
     text-decoration: underline;
 }
 
-/* Message d'erreur */
 .login-container .error-message {
     color: red;
     font-weight: bold;
