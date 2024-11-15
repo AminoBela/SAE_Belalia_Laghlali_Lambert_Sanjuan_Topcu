@@ -7,7 +7,8 @@ namespace iutnc\nrv\action;
  *
  * Cette classe abstraite définit les propriétés et méthodes communes à toutes les actions.
  */
-abstract class Action  {
+abstract class Action
+{
 
     /**
      * Attributs
@@ -23,7 +24,8 @@ abstract class Action  {
      * Constructeur
      * Ce constructeur initialise les attributs de la classe Action.
      */
-    public function __construct(){
+    public function __construct()
+    {
 
         $this->http_method = $_SERVER['REQUEST_METHOD'];
         $this->hostname = $_SERVER['HTTP_HOST'];
@@ -34,6 +36,6 @@ abstract class Action  {
      * Méthode abstraite execute
      * @return string Retourne le résultat de l'action
      */
-    abstract public function execute() : string;
+    abstract public function execute(): string;
 
 }

@@ -5,15 +5,36 @@ namespace iutnc\nrv\renderer;
 use iutnc\nrv\models\Spectacle;
 use iutnc\nrv\auth\Autorisation;
 
+/**
+ * Class RendererDetailsSpectacle
+ *
+ * Classe pour rendre les détails d'un spectacle.
+ *
+ * @package iutnc\nrv\renderer
+ */
 class RendererDetailsSpectacle extends Renderer
 {
+    /**
+     * @var Spectacle Instance du spectacle à rendre.
+     */
     private Spectacle $spectacle;
 
+    /**
+     * RendererDetailsSpectacle constructor.
+     *
+     * @param Spectacle $spectacle L'instance du spectacle à rendre.
+     */
     public function __construct(Spectacle $spectacle)
     {
         $this->spectacle = $spectacle;
     }
 
+    /**
+     * Rendu des détails d'un spectacle.
+     *
+     * @param array $contexte Le contexte pour le rendu.
+     * @return string Les détails du spectacle rendus sous forme de chaîne de caractères.
+     */
     public function render(array $contexte = []): string
     {
         $statusAnnulation = $this->spectacle->getEstAnnule()
@@ -67,7 +88,7 @@ class RendererDetailsSpectacle extends Renderer
         if (Autorisation::isStaff() || Autorisation::isAdmin()) {
             $cancelButton = "
                 <form action='?action=annulerSpectacle' method='post'>
-                    <input type='hidden' name='idSpectacle' value='{$this->spectacle->getIdSpectacle()}'>
+                    <input type='hidden' name='idSpectacle' value='" . htmlspecialchars($this->spectacle->getIdSpectacle(), ENT_QUOTES, 'UTF-8') . "'>
                     <button type='submit' class='btn-annulation'>Annuler le spectacle</button>
                 </form>
             ";
@@ -93,7 +114,7 @@ class RendererDetailsSpectacle extends Renderer
                 <p><span>Durée :</span> {$dureeSpectacle}</p>
                 <div class="image-final">{$imagesElement}</div>
             </div>
-            HTML
+HTML
             . $this->renderFooter();
     }
 }

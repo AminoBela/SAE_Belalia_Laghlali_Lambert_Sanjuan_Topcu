@@ -4,8 +4,21 @@ namespace iutnc\nrv\renderer;
 
 use iutnc\nrv\models\Soiree;
 
+/**
+ * Class RendererListeSoirees
+ *
+ * Classe pour rendre la liste des soirées.
+ *
+ * @package iutnc\nrv\renderer
+ */
 class RendererListeSoirees extends Renderer
 {
+    /**
+     * Rendu de la liste des soirées.
+     *
+     * @param array $contexte Le contexte contenant les données nécessaires pour le rendu.
+     * @return string La liste des soirées rendue sous forme de chaîne de caractères.
+     */
     public function render(array $contexte = []): string
     {
         $soirees = $contexte['soirees'];
@@ -18,7 +31,7 @@ class RendererListeSoirees extends Renderer
             $html .= '<p>' . htmlspecialchars($soiree->getThematique(), ENT_QUOTES, 'UTF-8') . '</p>';
             $html .= '<p>Date: ' . htmlspecialchars($soiree->getDateSoiree(), ENT_QUOTES, 'UTF-8') . '</p>';
             $html .= '<p>Lieu: ' . htmlspecialchars($soiree->getLieu()->getNomLieu(), ENT_QUOTES, 'UTF-8') . '</p>';
-            $html .= '<a class="voir-plus-button" href="?action=soireeDetails&idLieu=' . $soiree->getLieu()->getIdLieu() . '&dateSoiree=' . $soiree->getDateSoiree() . '">Voir plus</a>';
+            $html .= '<a class="voir-plus-button" href="?action=soireeDetails&idLieu=' . htmlspecialchars($soiree->getLieu()->getIdLieu(), ENT_QUOTES, 'UTF-8') . '&dateSoiree=' . htmlspecialchars($soiree->getDateSoiree(), ENT_QUOTES, 'UTF-8') . '">Voir plus</a>';
             $html .= '</div>';
         }
         $html .= '</div>';

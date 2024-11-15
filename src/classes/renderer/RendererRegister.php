@@ -2,8 +2,21 @@
 
 namespace iutnc\nrv\renderer;
 
+/**
+ * Class RendererRegister
+ *
+ * Classe pour rendre le formulaire d'inscription.
+ *
+ * @package iutnc\nrv\renderer
+ */
 class RendererRegister extends Renderer
 {
+    /**
+     * Rendu du formulaire d'inscription.
+     *
+     * @param array $data Le contexte contenant les données nécessaires pour le rendu.
+     * @return string Le formulaire d'inscription rendu sous forme de chaîne de caractères.
+     */
     public function render(array $data = []): string
     {
         $error = htmlspecialchars($data['error'] ?? '', ENT_QUOTES, 'UTF-8');
@@ -36,7 +49,7 @@ class RendererRegister extends Renderer
                 {$error}
             </div>
         </div>
-        HTML;
+HTML;
 
         return $header . $body . $footer;
     }

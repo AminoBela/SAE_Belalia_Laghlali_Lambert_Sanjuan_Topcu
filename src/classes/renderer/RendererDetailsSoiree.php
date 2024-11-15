@@ -4,15 +4,36 @@ namespace iutnc\nrv\renderer;
 
 use iutnc\nrv\models\Soiree;
 
+/**
+ * Class RendererDetailsSoiree
+ *
+ * Classe pour rendre les détails d'une soirée.
+ *
+ * @package iutnc\nrv\renderer
+ */
 class RendererDetailsSoiree extends Renderer
 {
+    /**
+     * @var Soiree Instance de la soirée à rendre.
+     */
     private Soiree $soiree;
 
+    /**
+     * RendererDetailsSoiree constructor.
+     *
+     * @param Soiree $soiree L'instance de la soirée à rendre.
+     */
     public function __construct(Soiree $soiree)
     {
         $this->soiree = $soiree;
     }
 
+    /**
+     * Rendu des détails d'une soirée.
+     *
+     * @param array $contexte Le contexte pour le rendu.
+     * @return string Les détails de la soirée rendus sous forme de chaîne de caractères.
+     */
     public function render(array $contexte = []): string
     {
         $html = $this->renderHeader("Détails de la Soirée", "styles/soiree.css");
@@ -35,8 +56,8 @@ class RendererDetailsSoiree extends Renderer
                     . htmlspecialchars($spectacle->getTitre(), ENT_QUOTES, 'UTF-8') . "</a></h3>";
                 $html .= "<p>" . htmlspecialchars($spectacle->getDescription(), ENT_QUOTES, 'UTF-8') . "</p>";
                 $html .= "<p><strong>Genre :</strong> " . htmlspecialchars($spectacle->getGenre(), ENT_QUOTES, 'UTF-8') . "</p>";
-
-                $html .= "<p><strong>Horaire :</strong> " . htmlspecialchars($spectacle->getHorairePrevuSpectacle(), ENT_QUOTES, 'UTF-8') . "</p>";                $html .= "</li>";
+                $html .= "<p><strong>Horaire :</strong> " . htmlspecialchars($spectacle->getHorairePrevuSpectacle(), ENT_QUOTES, 'UTF-8') . "</p>";
+                $html .= "</li>";
             }
 
             $html .= "</ul>";

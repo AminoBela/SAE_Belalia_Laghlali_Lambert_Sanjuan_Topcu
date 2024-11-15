@@ -1,8 +1,27 @@
 <?php
+
 namespace iutnc\nrv\renderer;
 
+/**
+ * Class RendererListeSpectacles
+ *
+ * Classe pour rendre la liste des spectacles.
+ *
+ * @package iutnc\nrv\renderer
+ */
 class RendererListeSpectacles extends Renderer
 {
+    /**
+     * Rendu de la liste des spectacles.
+     *
+     * @param array $spectacles La liste des spectacles à rendre.
+     * @param array $jours La liste des jours disponibles pour le filtrage.
+     * @param array $lieux La liste des lieux disponibles pour le filtrage.
+     * @param array $styles La liste des styles disponibles pour le filtrage.
+     * @param string $critereSelec Le critère de filtrage sélectionné.
+     * @param string $selectedOption L'option sélectionnée pour le critère de filtrage.
+     * @return string La liste des spectacles rendue sous forme de chaîne de caractères.
+     */
     public function renderListeSpectacles(array $spectacles, array $jours, array $lieux, array $styles, string $critereSelec = '', string $selectedOption = ''): string {
         $header = $this->renderHeader('Liste des spectacles - NRV Festival', 'styles/spectacles.css');
         $footer = $this->renderFooter();
@@ -75,6 +94,12 @@ class RendererListeSpectacles extends Renderer
         return $header . $html . $footer;
     }
 
+    /**
+     * Rendu du contexte donné.
+     *
+     * @param array $contexte Le contexte pour le rendu.
+     * @return string Le contenu rendu sous forme de chaîne de caractères.
+     */
     public function render(array $contexte = []): string
     {
         return $this->renderListeSpectacles(
