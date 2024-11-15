@@ -48,11 +48,6 @@ class AddSpectacleToSoireeAction extends Action
                 // Diviser la valeur de 'soiree' pour obtenir idLieu et dateSoiree
                 $soireeParts = explode(',', $soiree);
 
-                // Pour déboguer et afficher le contenu de soireeParts
-                echo "<pre>";
-                var_dump($soireeParts);
-                echo "</pre>";
-
                 if (count($soireeParts) < 2) {
                     throw new ValidationException("Format de soirée invalide.");
                 }
