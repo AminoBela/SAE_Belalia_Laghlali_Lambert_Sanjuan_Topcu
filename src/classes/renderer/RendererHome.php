@@ -18,6 +18,7 @@ class RendererHome extends Renderer
                 <h1>Bienvenue au NRV Festival</h1>
                 <p>Découvrez les meilleurs spectacles et soirées musicales de Nancy Rock Vibration.</p>
                 <a href='?action=afficherListeSpectacles' class='home-button'>Voir les spectacles</a>
+                <a href='?action=afficherPreferences' class='home-button'>Voir mes préférences</a>
             </div>
         ";
         $html .= $this->renderFooter();

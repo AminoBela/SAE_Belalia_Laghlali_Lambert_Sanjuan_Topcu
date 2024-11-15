@@ -2,6 +2,8 @@
 
 namespace iutnc\nrv\renderer;
 
+use iutnc\nrv\repository\PreferencesRepository;
+
 class LikeButton
 {
     /**
@@ -12,22 +14,10 @@ class LikeButton
      */
     public static function renderLikeButton(string $idSpectacle, int $size, string $chemin): string
     {
-        $estAjouterPref = false;
+        $preferencesRepository = PreferencesRepository::getInstance();
 
-        // vérifie si le spectacle est ajouté aux préférences
-        if (isset($_GET['ajouterPref']) && $_GET['ajouterPref'] == $idSpectacle) {
-            // mettre estAjoute pref a false s'il n'est pas dans le cookie ou s'il y est le mettre par rapport à sa valeur actuelle
-            $estAjouterPref = !isset($_COOKIE["spectaclePref"][$idSpectacle]) || !$_COOKIE["spectaclePref"][$idSpectacle];
 
-            setcookie("spectaclePref[$idSpectacle]", $estAjouterPref, time() + 60 * 60 * 24 * 5);
-            // ajoute pour 5 jours
-        }
-        else {
-            // vérifie si le spectacle est ajouté aux préférences
-            if (isset($_COOKIE["spectaclePref"][$idSpectacle])) {
-                $estAjouterPref = $_COOKIE["spectaclePref"][$idSpectacle];
-            }
-        }
+        $estAjouterPref = $preferencesRepository->estAjouterPref($idSpectacle);
 
         $likeIconClassName = $estAjouterPref ? 'like-icon-liked' : 'like-icon';
         $estAjouterPrefClassName = $estAjouterPref ? 'inner-fill-liked' : 'inner-fill';
