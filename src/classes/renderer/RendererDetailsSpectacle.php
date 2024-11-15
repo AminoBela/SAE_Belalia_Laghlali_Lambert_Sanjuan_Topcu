@@ -3,7 +3,6 @@
 namespace iutnc\nrv\renderer;
 
 use iutnc\nrv\models\Spectacle;
-use iutnc\nrv\auth\Autorisation;
 
 class RendererDetailsSpectacle extends Renderer
 {
@@ -20,9 +19,16 @@ class RendererDetailsSpectacle extends Renderer
             ? "<p class='status-annule'>⚠️ Ce spectacle est annulé</p>"
             : "";
 
+        $actionButton = $this->spectacle->getEstAnnule()
+            ? "<form method='post' action='/desannuler'>
+                    <input type='hidden' name='idSpectacle' value='" . htmlspecialchars($this->spectacle->getId()) . "'>
+                    <button type='submit' class='desannuler-btn'>Désannuler le spectacle</button>
+               </form>"
+            : "";
+
         $dureeSpectacle = $this->spectacle->getEstAnnule()
             ? "<span class='annule'>Spectacle annulé</span>"
-            : htmlspecialchars($this->spectacle->getDureeSpectacleText(), ENT_QUOTES, 'UTF-8');
+            : "Durée du spectacle : " . htmlspecialchars($this->spectacle->getDureeSpectacleText(), ENT_QUOTES, 'UTF-8');
 
         $audio = $this->spectacle->getUrlAudio();
         $audioElement = $audio ? "
@@ -63,18 +69,6 @@ class RendererDetailsSpectacle extends Renderer
             $imagesElement .= "</div>";
         }
 
-
-
-        $cancelButton = "";
-        if (Autorisation::isStaff() || Autorisation::isAdmin()) {
-            $cancelButton = "
-                <form action='?action=annulerSpectacle' method='post'>
-                    <input type='hidden' name='idSpectacle' value='{$this->spectacle->getIdSpectacle()}'>
-                    <button type='submit' class='btn-annulation'>Annuler le spectacle</button>
-                </form>
-            ";
-        }
-
         return $this->renderHeader($this->spectacle->getTitre(), 'styles/spectacle-details.css') . <<<HTML
             <div class="details-header">
                 <div class="image-container">
@@ -84,14 +78,14 @@ class RendererDetailsSpectacle extends Renderer
                     </div>
                 </div>
                 {$statusAnnulation}
+                {$actionButton}
                 <p>{$this->spectacle->getDescription()}</p>
                 {$videoElement}
                 {$audioElement}
-                {$cancelButton}
             </div>
             <div class="details-body">
                 <p><span>Genre :</span> {$this->spectacle->getGenre()}</p>
-                <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacleText()}</p>
+                <p><span>Horaire prévu :</span> {$this->spectacle->getHorairePrevuSpectacle()}</p>
                 <p><span>Durée :</span> {$dureeSpectacle}</p>
                 <div class="image-final">{$imagesElement}</div>
             </div>
