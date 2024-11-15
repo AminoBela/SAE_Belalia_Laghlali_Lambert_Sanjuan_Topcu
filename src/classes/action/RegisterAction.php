@@ -7,12 +7,12 @@ use iutnc\nrv\renderer\RendererRegister;
 use iutnc\nrv\repository\UserRepository;
 use iutnc\nrv\exception\AuthException;
 use Exception;
+use iutnc\nrv\auth\Autorisation;
 
 /**
  * Action pour la page d'inscription. Fonctionnalite 14.
  */
 
-// TODO Donner les droits de creer des utilisateurs a l'utilisateur admin
 
 class RegisterAction extends Action
 {
@@ -31,10 +31,7 @@ class RegisterAction extends Action
         parent::__construct();
         $repository = new UserRepository();
         $this->auth = new Authentification($repository);
-        if ($this->auth->isLogged()) {
-            header('Location: ?action=home');
-            exit();
-        }
+
     }
 
     /**
@@ -43,6 +40,11 @@ class RegisterAction extends Action
      */
     public function execute(): string
     {
+        //acces qu'aux admin
+
+        if (!Autorisation::isAdmin()) {
+            return "<div style='color:red;'>Permission refusée : vous devez être admin.</div>";
+        }
         $error = '';
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nomUtilisateur = htmlspecialchars($_POST['nomUtilisateur'], ENT_QUOTES,'UTF-8');

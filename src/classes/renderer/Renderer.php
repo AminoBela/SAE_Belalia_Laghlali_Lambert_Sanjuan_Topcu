@@ -3,6 +3,7 @@
 namespace iutnc\nrv\renderer;
 
 use iutnc\nrv\auth\Authentification;
+use iutnc\nrv\auth\Autorisation;
 
 /**
  * Class Renderer
@@ -22,6 +23,10 @@ abstract class Renderer
      */
     protected function renderHeader(string $title, ?string $stylesheet = null): string
     {
+        //bouton inscription juste pour les admins
+        $navLinksAdmin = Autorisation::isAdmin() ?
+            '<a href="?action=register">Inscription</a>' : '';
+
         $navLinks = Authentification::isLogged() ?
             '<div class="dropdown">
                 <button class="dropbtn">Administration</button>
@@ -31,10 +36,9 @@ abstract class Renderer
                     <a href="?action=ajouterSpectacleToSoiree">Lier un spectacle et une soirée</a>
                 </div>
             </div>' .
+            $navLinksAdmin .
             '<a href="?action=logout">Déconnexion</a>' :
-            '<a href="?action=login">Connexion</a>' .
-            '<a href="?action=register">Inscription</a>';
-
+            '<a href="?action=login">Connexion</a>';
         $autreStyle = htmlspecialchars($stylesheet ?? '', ENT_QUOTES, 'UTF-8');
 
         return <<<HTML

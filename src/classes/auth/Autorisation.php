@@ -36,7 +36,7 @@ class Autorisation
      */
     public static function isAdmin(): bool
     {
-        return self::verifRole('Admin');
+        return self::verifRole('admin');
     }
 
 }
