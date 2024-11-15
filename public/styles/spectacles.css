@@ -174,3 +174,7 @@ header h1 {
     text-align: center;
 }
 
+.home-button:hover {
+    background-color: #395b99;
+    color: white;
+}
