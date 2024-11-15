@@ -156,5 +156,46 @@ class SpectacleRepository {
         return $stmt->execute([':idSpectacle' => $idSpectacle]);
     }
 
+    public function getLieuForSpectaclesById(int $idSpectacle): ?string {
+        $query = "
+        SELECT s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
+        FROM SoireeToSpectacle sts
+        LEFT JOIN Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
+        LEFT JOIN Spectacle s ON sts.idSpectacle = s.idSpectacle
+        LEFT JOIN ImageToSpectacle its ON s.idSpectacle = its.idSpectacle
+        LEFT JOIN Image i ON its.idImage = i.idImage
+        LEFT JOIN Lieu l ON so.idLieu = l.idLieu
+        WHERE l.idLieu = (
+            SELECT so.idLieu
+            FROM SoireeToSpectacle sts
+            LEFT JOIN Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
+            WHERE sts.idSpectacle = :idSpectacle
+            LIMIT 1
+        )
+    ";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['idSpectacle' => $idSpectacle]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result ? $result['nomLieu'] : null;
+    }
+
+    public function getDateForSpectacleById(int $idSpectacle): ?string {
+        $query = "
+        SELECT so.dateSoiree
+        FROM SoireeToSpectacle sts
+        INNER JOIN Soiree so ON sts.idLieu = so.idLieu AND sts.dateSoiree = so.dateSoiree
+        WHERE sts.idSpectacle = :idSpectacle
+        LIMIT 1;
+    ";
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['idSpectacle' => $idSpectacle]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Vérifier que la date existe et la retourner
+        return $result ? $result['dateSoiree'] : null;
+    }
+
+
 }
 

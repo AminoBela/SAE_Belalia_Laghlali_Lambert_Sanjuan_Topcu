@@ -4,6 +4,7 @@ namespace iutnc\nrv\renderer;
 
 use iutnc\nrv\models\Spectacle;
 use iutnc\nrv\auth\Autorisation;
+use iutnc\nrv\repository\SpectacleRepository;
 
 /**
  * Class RendererDetailsSpectacle
@@ -104,6 +105,11 @@ class RendererDetailsSpectacle extends Renderer
         }
 
         $idSpectacle = $this->spectacle->getIdSpectacle();
+        $specRepo = new SpectacleRepository();
+        $idSpectacle = $this->spectacle->getIdSpectacle();
+        $date = $specRepo->getDateForSpectacleById($idSpectacle);
+        $lieu = $specRepo->getLieuForSpectaclesById($idSpectacle);
+
 
         return $this->renderHeader($this->spectacle->getTitre(), 'styles/spectacle-details.css') . <<<HTML
             <div class="details-header">
@@ -118,6 +124,24 @@ class RendererDetailsSpectacle extends Renderer
                 {$videoElement}
                 {$audioElement}
                 {$actionButton}
+            </div>
+            <div class="spectacle_similaire">
+                <div class="container">
+                    <button class="similar-btn">
+                        <a href='?action=afficherListeSpectacles&filter-criteria=style&filter-options={$this->spectacle->getGenre()}' class="btn-link">
+                            Voir les spectacles du même style
+                        </a>
+                    <button class='similar-btn'>
+                        <a href='?action=afficherListeSpectacles&filter-criteria=jour&filter-options={$date}' class='btn-link'>
+                            Voir les spectacles à la même date
+                        </a>
+                    </button><br>
+                    <button class='similar-btn'>
+                        <a href='?action=afficherListeSpectacles&filter-criteria=lieu&filter-options={$lieu}' class='btn-link'>
+                            Voir les spectacles dans le même lieu
+                        </a>
+                    </button><br>
+                </div>
             </div>
             <div class="details-body">
                 <div class="body-header">
