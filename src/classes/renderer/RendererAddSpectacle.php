@@ -60,19 +60,19 @@ class RendererAddSpectacle extends Renderer
                     <button type="submit" class="form-submit">Créer</button>
                 </div>
             </form>
-HTML;
+        HTML;
 
         if (!empty($error)) {
             $body .= <<<HTML
             <div class="form-error">
                 {$error}
             </div>
-HTML;
+        HTML;
         }
 
         $body .= <<<HTML
         </div>
-HTML;
+        HTML;
 
         return $header . $body . $footer;
     }

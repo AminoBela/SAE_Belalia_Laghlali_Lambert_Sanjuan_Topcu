@@ -44,7 +44,7 @@ class RendererLogin extends Renderer
                 {$error}
             </div>
         </div>
-HTML;
+        HTML;
 
         return $header . $body . $footer;
     }

@@ -15,8 +15,6 @@ use iutnc\nrv\action\AfficherListeSpectaclesAction;
 use iutnc\nrv\action\AnnulerSpectacleAction;
 use iutnc\nrv\action\AfficherListeSoireesAction;
 
-
-
 /**
  * Dispatcher pour les actions.
  */

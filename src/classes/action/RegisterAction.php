@@ -53,6 +53,7 @@ class RegisterAction extends Action
             $passwordConfirm = htmlspecialchars($_POST['passwordConfirm'], ENT_QUOTES,'UTF-8');
 
             try {
+                // si le register réussit, on redirige vers la page de login
                 $auth = new Authentification(new UserRepository());
                 $auth->register($nomUtilisateur, $email, $password, $passwordConfirm);
                 header('Location: ?action=login');

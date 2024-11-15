@@ -27,6 +27,13 @@ abstract class Action
     public function __construct()
     {
 
+        /**
+         * Initialisation des attributs
+         *
+         * @var string $http_method Attribut qui contient la méthode HTTP utilisée
+         * @var string $hostname Attribut qui contient le nom de domaine
+         * @var string $script_name Attribut qui contient le chemin du script
+         */
         $this->http_method = $_SERVER['REQUEST_METHOD'];
         $this->hostname = $_SERVER['HTTP_HOST'];
         $this->script_name = $_SERVER['SCRIPT_NAME'];

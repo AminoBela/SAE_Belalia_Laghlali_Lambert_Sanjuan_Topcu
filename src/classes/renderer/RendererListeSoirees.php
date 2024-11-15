@@ -2,8 +2,6 @@
 
 namespace iutnc\nrv\renderer;
 
-use iutnc\nrv\models\Soiree;
-
 /**
  * Class RendererListeSoirees
  *

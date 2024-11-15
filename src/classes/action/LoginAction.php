@@ -47,6 +47,7 @@ class LoginAction extends Action
             $password = htmlspecialchars($_POST['password'], ENT_QUOTES,'UTF-8');
 
             try {
+                // si l'authentification réussit, on redirige vers la page d'accueil
                 if ($this->auth->login($email, $password)) {
                     $_SESSION['email'] = $email;
                     $_SESSION['role'] = $this->auth->getRole($email);

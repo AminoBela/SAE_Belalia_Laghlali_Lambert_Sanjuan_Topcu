@@ -51,7 +51,7 @@ HTML;
                     <label for="idSpectacle">Spectacle :</label>
                     <select id="idSpectacle" name="idSpectacle" required>
                         <option value="">Sélectionnez un spectacle</option>
-HTML;
+        HTML;
 
         foreach ($spectacles as $spectacle) {
             $idSpectacle = htmlspecialchars($spectacle['idSpectacle'], ENT_QUOTES, 'UTF-8');
@@ -62,21 +62,21 @@ HTML;
         $body .= <<<HTML
                     </select>
                 </div>
-                <button type="submit" class="form-submit">Ajouter</button>
+                <button type="submit" class="btn-creer-soiree">Ajouter</button>
             </form>
-HTML;
+        HTML;
 
         if (!empty($error)) {
             $body .= <<<HTML
             <div class="error-message">
                 {$error}
             </div>
-HTML;
+        HTML;
         }
 
         $body .= <<<HTML
         </div>
-HTML;
+        HTML;
 
         return $header . $body . $footer;
     }

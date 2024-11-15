@@ -53,7 +53,7 @@ class RendererAddSoiree extends Renderer
                     <label for="idLieu">Lieu :</label>
                     <select id="idLieu" name="idLieu" required>
                         <option value="">Sélectionnez un lieu</option>
-HTML;
+        HTML;
 
         foreach ($lieux as $lieu) {
             $idLieu = htmlspecialchars($lieu['idLieu'], ENT_QUOTES, 'UTF-8');
@@ -68,19 +68,19 @@ HTML;
                     <button type="submit" class="form-submit">Créer</button>
                 </div>
             </form>
-HTML;
+        HTML;
 
         if (!empty($error)) {
             $body .= <<<HTML
             <div class="error-message">
                 {$error}
             </div>
-HTML;
+        HTML;
         }
 
         $body .= <<<HTML
         </div>
-HTML;
+        HTML;
 
         return $header . $body . $footer;
     }

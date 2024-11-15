@@ -1,3 +1,7 @@
+/**
+    * Fichier de style pour la page de détails d'un spectacle
+ */
+
 .details-header {
     padding: 20px;
     background-color: #f4f4f4;
@@ -35,7 +39,6 @@
     margin-top: 15px;
 }
 
-/* Vidéo et audio */
 .details-header video,
 .details-header iframe,
 .details-header audio {
@@ -73,7 +76,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Bouton annulation en rouge */
 .btn-annulation {
     background-color: #ff0000;
     color: white;
@@ -124,4 +126,27 @@
     display: flex;
     flex-direction: column;
     justify-content: stretch;
+}
+
+.similar-btn {
+    background-color: #4b6cb7;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    margin: 10px;
+    text-align: center;
+}
+
+.similar-btn:hover {
+    background-color: #395b99;
+}
+
+.similar-btn a {
+    color: white;
+    text-decoration: none;
+    display: block;
 }

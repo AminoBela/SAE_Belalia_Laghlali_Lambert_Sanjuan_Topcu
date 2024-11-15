@@ -7,13 +7,32 @@ use iutnc\nrv\bd\ConnectionBD;
 use iutnc\nrv\models\Spectacle;
 use PDO;
 
+/**
+ * Class SpectacleRepository
+ *
+ * Classe pour accéder aux spectacles dans la base de données.
+ *
+ * @package iutnc\nrv\repository
+ */
 class SpectacleRepository {
+
+    /**
+     * Attribute pdo
+     * @var PDO|null Instance de la connexion à la base de données.
+     */
     private PDO $pdo;
 
+    /**
+     * SpectacleRepository constructor.
+     */
     public function __construct() {
         $this->pdo = ConnectionBD::obtenirBD();
     }
 
+    /**
+     * Récupère tous les spectacles.
+     * @return array La liste de tous les spectacles sous forme de tableau
+     */
     public function getListeSpectacles(): array
     {
         $query = "
@@ -31,7 +50,10 @@ class SpectacleRepository {
         return  $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
+    /**
+     * Ajoute un nouveau spectacle dans la base de données.
+     * @param Spectacle $spectacle Le spectacle à ajouter.
+     */
     public function ajouterSpectacle(Spectacle $spectacle): void
     {
         $query = "insert into Spectacle (titre, description, urlVideo, urlAudio, horrairePrevuSpectacle, genre, dureeSpectacle, estAnnule) 
@@ -49,6 +71,11 @@ class SpectacleRepository {
         ]);
     }
 
+    /**
+     * avoir un spectacle par son id
+     * @param string $idSpectacle
+     * @return Spectacle|null
+     */
     public function obtenirSpectacleParId(string $idSpectacle) : ?Spectacle
     {
         $query = "select s.*, i.urlImage
@@ -71,6 +98,11 @@ class SpectacleRepository {
         return null;
     }
 
+    /**
+     * avoir la liste des spectacles par date
+     * @param string $date
+     * @return array
+     */
     public function getListeSpectaclesByDate(string $date): array {
         $query = "
         SELECT s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
@@ -88,6 +120,11 @@ class SpectacleRepository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * avoir la liste des spectacles par genre
+     * @param string $genre
+     * @return array
+     */
     public function getListeSpectaclesByGenre(string $genre): array {
         $query = "
         SELECT s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
@@ -105,6 +142,11 @@ class SpectacleRepository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * avoir la liste des spectacles par lieu
+     * @param string $lieu
+     * @return array
+     */
     public function getListeSpectaclesByLieu(string $lieu): array {
         $query = "
         SELECT s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
@@ -122,6 +164,10 @@ class SpectacleRepository {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * avoir la date soirée
+     * @return array
+     */
     public function getDistinctJours(): array {
         $query = "SELECT DISTINCT dateSoiree FROM Soiree ORDER BY dateSoiree ASC";
         $stmt = $this->pdo->prepare($query);
@@ -129,6 +175,10 @@ class SpectacleRepository {
         return $stmt->fetchAll(\PDO::FETCH_COLUMN);
     }
 
+    /**
+     * avoir la liste des lieux
+     * @return array
+     */
     public function getDistinctLieux(): array {
         $query = "SELECT DISTINCT nomLieu FROM Lieu ORDER BY nomLieu ASC";
         $stmt = $this->pdo->prepare($query);
@@ -136,6 +186,10 @@ class SpectacleRepository {
         return $stmt->fetchAll(\PDO::FETCH_COLUMN);
     }
 
+    /**
+     * avoir la liste des styles
+     * @return array
+     */
     public function getDistinctStyles(): array {
         $query = "SELECT DISTINCT genre FROM Spectacle ORDER BY genre ASC";
         $stmt = $this->pdo->prepare($query);
@@ -143,19 +197,33 @@ class SpectacleRepository {
         return $stmt->fetchAll(\PDO::FETCH_COLUMN);
     }
 
-
+    /**
+     * annuler un spectacle en fonction de son id
+     * @param int $idSpectacle
+     * @return bool
+     */
     public function annulerSpectacle(int $idSpectacle): bool {
         $sql = "UPDATE Spectacle SET estAnnule = 1 WHERE idSpectacle = :idSpectacle";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([':idSpectacle' => $idSpectacle]);
     }
 
+    /**
+     * desannuler un spectacle en fonction de son id
+     * @param int $idSpectacle
+     * @return bool
+     */
     public function desannulerSpectacle(int $idSpectacle): bool {
         $sql = "UPDATE Spectacle SET estAnnule = 0 WHERE idSpectacle = :idSpectacle";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([':idSpectacle' => $idSpectacle]);
     }
 
+    /**
+     * avoir le lieu d'un spectacle en fonction de son id
+     * @param int $idSpectacle
+     * @return string|null
+     */
     public function getLieuForSpectaclesById(int $idSpectacle): ?string {
         $query = "
         SELECT s.idSpectacle, s.titre, s.description, DATE_FORMAT(s.horrairePrevuSpectacle, '%H:%i') AS horrairePrevuSpectacle, so.dateSoiree, i.urlImage, s.genre, l.nomLieu
@@ -177,10 +245,14 @@ class SpectacleRepository {
         $stmt->execute(['idSpectacle' => $idSpectacle]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Vérifier que le lieu existe et la retourner
         return $result ? $result['nomLieu'] : null;
     }
 
+    /**
+     * avoir la date d'un spectacle en fonction de son id
+     * @param int $idSpectacle
+     * @return string|null
+     */
     public function getDateForSpectacleById(int $idSpectacle): ?string {
         $query = "
         SELECT so.dateSoiree
@@ -197,6 +269,11 @@ class SpectacleRepository {
         return $result ? $result['dateSoiree'] : null;
     }
 
+    /**
+     * avoir les artistes d'un spectacle en fonction de son id
+     * @param int $idSpectacle
+     * @return string|null
+     */
     public function getArtistesForSpectacleById(int $idSpectacle): ?string {
         $query = "
         SELECT a.nomArtiste
@@ -211,5 +288,5 @@ class SpectacleRepository {
         // Si des artistes sont trouvés, les concaténer dans une chaîne, sinon retourner null
         return $result ? implode(', ', $result) : null;
     }
-}
 
+}

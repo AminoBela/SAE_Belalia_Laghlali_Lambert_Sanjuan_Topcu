@@ -134,7 +134,6 @@ class Spectacle
     /**
      * getHorairePrevuSpectacle en format HH:MM
      */
-
     public function getHorairePrevuSpectacleText(): string {
         return substr($this->horairePrevuSpectacle, 0, 5);
     }
@@ -203,6 +202,11 @@ class Spectacle
         $this->images = $images;
     }
 
+    /**
+     * Getter de l'image principale du spectacle, si elle existe.
+     * @return string
+     *
+     */
     public function getImagePrincipale() : string
     {
         return $this->images[0] ?? 'default.jpg';

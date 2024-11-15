@@ -16,6 +16,7 @@ class Soiree
      * @var string $horaireDebut Horaire de début de la soirée.
      * @var Lieu $lieu Lieu de la soirée.
      * @var array $spectacles Spectacles de la soirée.
+     * @var int $tarif Tarif de la soirée.
      */
     private string $nomSoiree;
     private string $thematique;
@@ -34,6 +35,7 @@ class Soiree
      * @param string $horaireDebut Horaire de début de la soirée.
      * @param Lieu $lieu Lieu de la soirée.
      * @param array $spectacles Spectacles de la soirée.
+     * @param int $tarif Tarif de la soirée.
      */
     public function __construct(
         string $nomSoiree,

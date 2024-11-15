@@ -1,4 +1,7 @@
-/* Global reset */
+/**
+    * Styles pour la page de la liste des spectacles
+ */
+
 * {
     margin: 0;
     padding: 0;
@@ -24,7 +27,6 @@ header h1 {
     font-size: 2rem;
 }
 
-/* Formulaire de filtrage */
 .filtre-options {
     display: flex;
     justify-content: center;
@@ -61,7 +63,6 @@ header h1 {
     background-color: #395b99;
 }
 
-/* Liste des spectacles */
 .spectacle-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -132,6 +133,4 @@ header h1 {
 .spectacle-item .like h2 {
     margin-bottom: 0;
 }
-
-/**Bouton annulation en rouge**/
 

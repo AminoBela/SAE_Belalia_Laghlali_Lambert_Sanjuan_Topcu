@@ -15,6 +15,7 @@ class Lieu
      * @var string $adresse Adresse du lieu.
      * @var int $nombrePlacesAssises Nombre de places assises.
      * @var int $nombrePlacesDebout Nombre de places debout.
+     *
      */
     private int $idLieu;
     private string $nomLieu;

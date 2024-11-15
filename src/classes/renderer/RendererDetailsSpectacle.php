@@ -127,7 +127,7 @@ class RendererDetailsSpectacle extends Renderer
                 {$actionButton}
             </div>
             <div class="spectacle_similaire">
-                <div class="container">
+                <div class="container" style="text-align: center">
                     <button class="similar-btn">
                         <a href='?action=afficherListeSpectacles&filter-criteria=style&filter-options={$this->spectacle->getGenre()}' class="btn-link">
                             Voir les spectacles du même style
