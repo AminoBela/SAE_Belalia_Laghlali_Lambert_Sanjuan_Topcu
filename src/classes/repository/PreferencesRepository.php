@@ -18,7 +18,12 @@ class PreferencesRepository
 
     private function __construct()
     {
-        $this->spectaclePref = json_decode($_COOKIE['spectaclePref'] ?? '{}', true);
+        // récupérer les cookies
+        $cookie = $_COOKIE['spectaclePref'] ?? '{}';
+        if (is_array($cookie)) {
+            $cookie = '{}';
+        }
+        $this->spectaclePref = json_decode($cookie, true);
     }
 
     public function estAjouterPref(string $idSpectacle)
